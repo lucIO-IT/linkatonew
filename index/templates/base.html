@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  {% load static %}
+
+  <head>
+    <meta charset="utf-8">
+	<title>{% block head_title %}LINKaTO{% endblock head_title %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<link href="{% static 'style.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'basic-class.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'media-queries.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'social.css' %}" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+  	<div id="container"> <!-- ************************ START CONTAINER -->
+
+		<header> <!-- ************************ START-HEADER-DIV -->
+			<div id="banner" class="floatting">
+				<div>
+					<a title="Pagina Facebook Linkato" href="https://www.facebook.com/Linkato-216821719030758/?ref=settings" target="_blank">
+						<img alt="Logo Facebook" src="https://png.icons8.com/material/32/000000/facebook.png">
+					</a>
+					<a title="Pagina Twitter Linkato" href="https://twitter.com/Linkato4" target="_blank">
+						<img alt="Logo Twitter" src="https://png.icons8.com/material/32/000000/twitter.png">
+					</a>
+					<img alt="Logo LinkedIn" src="https://png.icons8.com/material/32/000000/linkedin.png">
+				</div>
+				<form action="{% url 'risultati_ricerca_home' %}" method="get" id="searchContainer" autocomplete="off">
+					<input type="search" name="q" placeholder="Cerca"/>
+					<button type="submit" value="CERCA">
+						<img alt="Trova" src="https://png.icons8.com/material-outlined/24/000000/search.png">
+					</button>
+				</form>
+			</div>
+			<div id="top" class="widthDiv100 floatting">
+				<a href="{% url 'homepage' %}">
+					<h1>LINK<img src="{% static 'img/logo.png' %}" alt="LINKaTO Logo" width="50" height="65"/>TO</h1>
+					<span > Un lavoro da ragazzi</span>
+				</a>
+				<img src="{% static 'img/wordcloud.png' %}" alt="LINKaTO Wordcloud" width="300px" height="200px" id="poster"/>
+			</div>
+			<nav>
+				<label for="showMenu" id="hiddenButton"> <img alt="bottone" src="https://png.icons8.com/material/24/000000/menu.png"> </label>
+				<input type="checkbox" id="showMenu" role="button">
+				<div id="menu">
+					<a href="{% url 'homepage' %}">HOME</a>
+					<a href="{% url 'chi_siamo' %}">CHI SIAMO</a>
+					<!-- <a href="{% url 'articolo_list' %}">BLOG</a> -->
+					<a href="{% url 'aziende' %}">PER LE AZIENDE</a>
+					<a href="{% url 'mail_form' %}">CONTATTACI</a>
+				</div>
+			</nav>
+		</header> <!-- ************************ END-HEADER-DIV -->
+
+		<main> <!-- ************************ START MAIN-DIV -->
+			  {% block content %}
+
+			  {% endblock content %}
+		</main> <!-- ************************ END-MAIN DIV -->
+
+		<footer> <!-- ************************ START FOOTER-DIV -->
+			<div class="floatting widthDiv50">
+				<p>Associazione Ateena</p>
+				<p>linkato.project@gmail.com</p>
+			</div>
+			<div class="floatting widthDiv50">
+				<a title="Pagina Facebook Linkato" href="https://www.facebook.com/Linkato-216821719030758/?ref=settings" target="_blank">
+					<img alt="Logo Facebook" src="https://png.icons8.com/material/48/000000/facebook.png">
+				</a>
+				<a title="Pagina Twitter Linkato" href="https://twitter.com/Linkato4" target="_blank">
+					<img alt="Logo Twitter" src="https://png.icons8.com/material/48/000000/twitter.png">
+				</a>
+				<img alt="Logo LinkedIn" src="https://png.icons8.com/material/48/000000/linkedin.png">
+			</div>
+		</footer> <!-- ************************ END FOOTER-DIV -->
+
+	</div>  <!-- ************************ END CONTAINER -->
+
+	<a href="https://icons8.com" style="display:none;">Icon pack by Icons8</a>
+
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+  </body>
+</html>

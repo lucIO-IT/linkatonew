@@ -1,0 +1,50 @@
+<!--
+********************************* TEMPLATE LEZIONE
+-->
+
+
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | {{ corso_lezione.nome_corso }} {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+    <!-- ************************************************
+         aggiungere ai link opacity:0.2;
+         visibilità piena quando hanno il cursore sopra
+         margine rispetto all'iframe
+    ************************************************* -->
+
+    {% for lezione in lessons_list %}
+        <div id="lessonDiv">
+            <h1 class="widthDiv100 centerAllignment">Corso: "{{ corso_lezione }}"</h1>
+            <div>
+                {% if lessons_list and lessons_list.has_previous %}
+                    <a title="Lezione precedente" href="?page={{ lessons_list.previous_page_number }}" class="lessonNextPrevButton">
+                        <img alt="Lezione precedente" src="https://png.icons8.com/flat_round/100/000000/wide-left-arrow.png">
+                    </a>
+                    {% else %}
+                        <img alt="hidden" src="https://png.icons8.com/flat_round/100/000000/wide-left-arrow.png" class="hiddenElement">
+                {% endif %}
+                {{ lezione.link_lezione|safe }}
+                {% if lessons_list and lessons_list.has_next %}
+                    <a title="Lezione successiva" href="?page={{ lessons_list.next_page_number }}" class="lessonNextPrevButton">
+                        <img alt="Lezione successiva" src="https://png.icons8.com/flat_round/100/000000/wide-right-arrow.png">
+                    </a>
+                    {% else %}
+                        <img alt="hidden" src="https://png.icons8.com/flat_round/100/000000/wide-left-arrow.png" class="hiddenElement">
+                {% endif %}
+            </div>
+            <h5 class="widthDiv100 lessonDiv">Lezione: "{{ lezione.nome_lezione }}"</h5>
+            <a href="{% url 'corsi_list' %}" class="button buttonColorDarkBlue widthDiv25"> Torna ai corsi</a>
+            {% if lezione.allegato_lezione %}
+                <a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato">
+                    <img alt="Scarica Allegato" src="https://png.icons8.com/material/18/000000/attach.png" class="button buttonColorRed play">
+                </a>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+
+
+
+{% endblock content %}

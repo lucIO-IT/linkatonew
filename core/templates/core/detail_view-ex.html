@@ -1,0 +1,47 @@
+<!--
+********************************* PAGINA DEL CORSO
+-->
+
+
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | {{ corso.nome_corso }} {{ lezione.nome_lezione }} {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+        <aside class="floatting">
+			<div id="aside_button" class="button goldDiv floatting widthDiv25">
+				<img src="https://png.icons8.com/material/50/000000/more.png">
+			</div>
+			<div class="floatting widthDiv100">
+				<h4 class="">Lezioni</h4>
+				<hr/>
+                {% for lezione in lista_lezioni %}
+                    <a href="{{ lezione.get_absolute_url }}">{{ lezione.nome_lezione }}</a>
+                    <hr/>
+                {% endfor %}
+			</div>
+		</aside>
+
+		<div id="corso_view" class="floatting">
+            {% include "core/include/corso_view.html" %}
+		</div>
+
+		<div id="rightList" class="floatting">
+			<div class="widthDiv100 floatting">
+				<h4 class="rightAllignment">Allegati</h4>
+				<hr/>
+			</div>
+			<div class="widthDiv100 floatting rightAllignment">
+				{% if corso.allegati_corso %}
+					<p>Programma</p><a href="{{ corso.allegati_corso.url }}" download="Programma" class="redDiv pdf">PDF <img src="https://png.icons8.com/material/18/000000/download.png"></a>
+					<hr/>
+				{% endif %}
+				{% if lezione.allegato_lezione %}
+					<p>Allegato</p><a href="{{ lezione.allegato_lezione.url }}" download="Allegato" class="redDiv pdf">PDF <img src="https://png.icons8.com/material/18/000000/download.png"></a>
+					<hr/>
+				{% endif %}
+			</div>
+		</div>
+
+
+{% endblock content %}

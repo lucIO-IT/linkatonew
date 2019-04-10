@@ -1,0 +1,469 @@
+       body{
+       font-family:Arial;
+       font-size:16px;
+       margin: 0;
+       padding: 0;
+       border: 0;
+
+       }
+
+       body a:hover, a:active, a:link {
+       text-decoration:none;
+       }
+       
+
+	   /* ------------------------------------------- Container */
+	   #container {
+       width:1200px;
+       margin-left:auto;
+       margin-right:auto;
+       }	   
+
+	   .textInputColor {
+       color:#808080;  /*aggiunge colore gigrio ai suggerimenti contenuti nelle caselle di testo */
+       }
+       
+       .rightAllignment { 
+       text-align:right;
+       }
+
+       .centerAllignment {
+       text-align:center;
+       }
+       
+       .cardTop {
+       height:70%;
+       margin-bottom:0.5%;
+       }
+       .cardBottom {
+       height:30%;
+       margin-bottom:0.5%;
+       }
+       
+       .widthDiv100 { 
+       width:100%;
+       }
+
+       .widthDiv75 {
+       width:75%;
+       }
+       
+       .widthDiv50 { 
+       width:50%;
+       }
+       
+       .widthDiv25 { 
+       width:25%;
+       }
+       
+       .floatting { 
+       float:left;
+       }
+
+       .button { 
+       display:block;
+       border:0.5px solid transparent;
+       border-radius:10px;
+       padding: 8px 8px;
+       text-align:center;
+       font-size:186;
+       text-decoration:none;
+       }
+
+       .buttonColorBlue:hover, .buttonColorRed:hover, .goldLinkatoColor:hover {
+       text-decoration:none;
+       }
+       
+       .button:active { 
+       border-radius:100px;
+       color: #fff;
+       background-color: rgb(0, 148, 250);
+       text-decoration:none;
+       }
+
+       .buttonColorBlue {
+       color: rgb(255,255,255);
+       background-color: rgb(0, 148, 250);
+       border-color: #007bff;
+       }
+
+       .buttonColorRed {
+       color: rgb(255,255,255);
+       background-color: rgb(220,50,70);
+       border-color: rgb(180,25,35);
+       }
+
+       .goldLinkatoColor {
+       color:rgb(20,20,20);
+       background-color:rgb(245, 205, 5);
+       border-color:rgb(155, 105, 25);
+       }
+
+       .buttonColorBlue:hover {
+       color: #fff;
+       background-color: rgb(50, 138, 250);
+       }
+
+       .buttonColorRed:hover {
+       color: #fff;
+       background-color: rgb(240,60,90);
+       }
+
+       .goldLinkatoColor:hover {
+       color: rgb(20,20,20);
+       background-color:rgb(235, 235, 25);
+       }
+      
+	   #topStyle {
+       width:100%;
+       margin-top: 30px;
+       float:left;
+       color:rgb(20, 20, 20);
+       text-decoration:none;
+       }
+       
+       #topStyle h1 { 
+       margin:0px;
+	   font-family:Calibri;
+       font-size:78px;
+       letter-spacing:2px;
+       
+	   }
+       #topStyle span {
+       font-family:Calibri;
+       font-size:36px;
+       letter-spacing:2px;
+       }
+       
+       #topStyle header a:link, #topStyle header a:hover, #topStyle header a:active, #topStyle header a:visited,
+       #topStyle #banner a:link, #topStyle #banner a:hover, #topStyle #banner a:active, #topStyle #banner a:visited
+       {
+       color:rgb(20, 20, 20);
+       text-decoration:none;
+       }
+       
+	   #topStyle #banner {
+       width:100%;
+	   background-color:rgb(245,205,5);
+       height:30%;
+	   padding: 5px;
+	   margin-bottom:5px;
+       border-top:3px solid rgb(20,20,20);
+       display:flex;
+       flex-wrap:none;
+       justify-content: space-between;
+       }
+       
+       #topStyle #banner #social {
+       margin-right:0px;
+       position:relative;
+       }
+       
+       #topStyle #banner #logo { 
+       background-color:white;
+       padding: 5px;
+       margin-bottom:5px;
+       margin-right:3%;
+       font-family:Calibri;
+       font-size:21px;
+       border-radius:20px;
+       text-align:center;
+       visibility:hidden;
+       }
+
+	   /* ------------------------------------------- menuStyle  */
+	   #menuContainer{
+       width:100%;
+       float:left;
+       padding:5px;
+       }
+       /*
+       #menuContainer a:link, #menuContainer a:visited { 
+       color:rgb(20,20,20);
+       text-decoration:none;
+       }
+       */
+       
+       #searchContainer { 
+       width:100%;
+       padding:5px;
+       margin-bottom:50px;
+       }
+       
+	   #menuStyle {
+       list-style-type:none;
+       margin-left:-20px;
+       display:flex;
+       flex-wrap:wrap;
+       }
+
+	   #menuStyle li a:link, #menuStyle li a:visited{
+       display:block;
+       margin-right:5px;
+       width:200px;
+	   padding:5px;
+       font-weight:bold;
+       border-bottom:2px solid rgb(20,20,20);
+       text-decoration:none;
+       text-align:center;
+       text-transform:uppercase;
+       float:left;
+       margin-bottom:10px;
+       }
+       
+       #menuContainer div {
+       width:100%;
+       margin:auto;
+       }
+       
+       #hiddenMenu {
+       display:none;
+       width:100%;
+       float:left;
+	   padding:5px;
+       font-weight:bold;
+       margin-left:2;
+       list-style-type:none;
+       /*
+       color:rgb(20,20,20);
+       border-bottom:2px solid rgb(20,20,20);
+       */
+       }
+
+       #hiddenMenu ul {
+       list-style-type:none;
+       text-decoration:none;
+       text-align:center;
+       text-transform:uppercase;
+       }
+
+       .hiddenMenuKey {
+       margin-left:-20px;
+       margin-top:3px;
+       margin-bottom:0px;
+       }
+
+       div#hiddenMenu li ul {
+       display:none;
+       }
+
+       div#hiddenMenu li:hover ul {
+       display:block;
+       margin-left:-20px;
+       width:100%;
+       float:left;
+       }
+       div#hiddenMenu li:hover ul li {
+       margin-left:-20px;
+       width:100%;
+       }
+
+	   /* ------------------------------------------- bodyStyle  */
+	   #bodyDiv{
+       width:100%;
+       float:left;
+       margin-top:15px;
+       margin-bottom:30px;
+       display:flex;
+       flex-wrap:wrap;
+       }
+
+       /* 2] ----- CCBox  */
+	   #ccDiv{
+       width:70%;
+       height:30%;
+       float:left;
+       flex:2,5;
+       }
+
+       .topNew {
+       background-color:rgb(225, 225, 225);
+       padding:20px;
+       }
+
+       .classetNew {
+       background-color:rgb(0, 225, 0);
+       padding:20px;
+       }
+
+       #ccDiv div {
+       margin-bottom:0.5%;
+       }
+       
+       #ccDiv h1 {
+       margin:0px;
+	   font-family:Calibri;
+       font-size:48px;
+       text-align:right;
+       margin-bottom:10px;
+       }
+       
+       #ccDiv p {
+       text-align:justify;
+       }
+       
+       #ccDivText {
+       width:90%;
+       float:left;
+       background-color:rgb(225, 225, 225);
+       padding:20px;
+
+       }
+       
+       #ccDivText h3 {
+       margin:0px;
+	   font-family:Calibri;
+       font-size:36px;
+       margin-bottom:10px;
+       }
+       
+       #ccDivText p {
+       text-align:justify;
+       }
+       
+       #mailArea {
+       width:50%;
+       margin-bottom:30px;
+       margin-left:auto;
+       margin-right:auto;
+       padding-left:15px;
+       padding-right:18px;
+       padding-top:5px;
+       padding-bottom:10px;
+       }
+
+       #mailArea div { 
+       margin-top:3px;
+       margin-bottom:3px;
+       }
+
+       #mailArea div input { 
+       padding-top:0.5%;
+       padding-bottom:0.5%;
+       width:100%;
+       }
+
+       #mailArea span {
+       font-size:11px;
+       }
+
+       .labelStyle{
+       font-style:italic;
+       font-size:18px;
+       padding:0.5% 0.5%;
+       margin-right:0.5%;
+       }
+
+	   /* 3] ----- DXBox  */
+	   #dxDiv{
+       float:left;
+       margin-left:5%;
+       width:25%;
+       height:30%;
+       background-color:rgb(85, 85, 85);
+       color:white;
+       padding:15px;
+       padding-bottom:0px;
+       flex:1;
+       }
+
+       .didascalie {
+       font-size:12px;
+       text-align:justify;
+       }
+
+	   #dxDiv a{
+       text-decoration:none;
+       color:white;
+       }
+       #dxDiv a:hover{
+       color:rgb(235, 235, 25);
+       }
+       #dxDiv a:active{
+       color:#E3FBE9;
+       }
+       
+	   #dxDiv h3{
+       text-align:center;
+       font-size:25px;
+       margin-bottom:10px;
+       font-weight:bold;
+       }
+       
+	   .textInputStyle{
+       width:66%;
+       margin-left:2%;
+       margin-bottom:3px;
+       margin-top:5px;
+       margin-right:5px;
+       height:30px;
+       float:left;
+       }
+       
+       #dxDiv #passwordRecover{
+       width:100%;
+       margin-bottom:3px;
+       float:left;
+       text-align:center;
+       }
+       
+       #dxDiv #passwordRecover hr, #passwordRecover p {
+       margin:5px;
+       }
+       
+       #dxDiv #passwordRecover hr { 
+       background-color:rgb(245, 205, 5);
+       }
+       
+       #recDiv { 
+       width:50%;
+       margin-left:auto;
+       margin-right:auto;
+       }
+       
+       #cardBoxContainer { 
+       float:left; 
+       margin-top:30px; 
+       margin-bottom:30px; 
+       padding:10px;
+       width:100%;
+       display:flex;
+       flex-wrap:wrap;
+       justify-content:center;
+       }
+       
+       .cardWindowBox { 
+       border:1px solid rgb(120, 120, 120);
+       margin:10px;
+       padding:10px;
+       width:100%;
+       flex:2;
+       }
+       
+       #cardBox #cardContainer { 
+       
+       float:left;
+       /*
+       display: -ms-flexbox;
+       
+       -ms-flex-wrap: wrap;
+       
+       */
+       display: flex;
+       flex-wrap: wrap;
+       margin-right: -15px;
+       margin-left: -15px;
+ 
+       }
+       
+       
+
+	   /* ------------------------------------------- bottomStyle  */
+	   #bottomStyle {
+       width:100%;
+       background-color:rgb(85, 85, 85);
+       padding:20px 0px;
+       float:left;
+       text-align:center;
+       color:white;
+       }

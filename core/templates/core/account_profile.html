@@ -1,0 +1,126 @@
+<!--
+********************************* PAGINA DEL PROFILO UTENTE
+-->
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | Dashboard {% endblock head_title %}
+{% block content %}
+{% load static %}
+		<aside class="floatting">
+			<h6> Ciao {{ user.first_name }} </h6>
+			<p>Scegli uno dei corsi in evidenza, oppure avvia una ricerca</p>
+			<form action="{% url 'risultati_ricerca' %}" method="get" id="searchContainer">
+				<input type="search" name="q" placeholder="Cerca" autocomplete="off"/>
+				<button type="submit" value="CERCA">
+					<img alt="Trova" src="https://png.icons8.com/material-outlined/24/000000/search.png">
+				</button>
+			</form>
+		</aside>
+		<div id="list" class="floatting"> <!-- STARTLIST -->
+			{% if preferiti_prev %}
+			<div class="widthDiv100 floatting"> <!-- ************************ Preferiti -->
+				<h3>I Miei Preferiti</h3>
+				<hr/>
+			</div>
+			<div class="widthDiv100 floatting">
+				{% for corso in preferiti_prev %}
+					<div class="flexBoxColumn floatting shadow">
+						{% if corso.img_corso %}
+							<img src="{{ corso.img_corso.url }}" alt="Logo del corso" width="220" height="130" class="img">
+						{% endif %}
+						<h6>
+							<a href="{{ corso.get_absolute_url }}">{{ corso.nome_corso }}</a>
+						</h6>
+						<p>
+							<span class="didascalie">
+								di {{ corso.docente_corso.first_name }} {{ corso.docente_corso.last_name }}
+							</span>
+							<span class="buttonColorBlue like_follLabel">
+								{{ corso.followers.count }} Followers
+								<img alt="Followers" src="https://png.icons8.com/material/18/000000/two-hearts.png">
+							</span>
+							<span></span>
+						</p>
+					</div>
+				{% endfor %}
+				{% if not preferiti_prev %}
+					<p>Non sono ancora presenti corsi</p>
+				{% endif %}
+			</div>
+			<div class="widthDiv100 rightAllignment floatting">
+				{% if preferiti_prev %}
+					<a title="Mostra Tutti" href="{% url 'corsi_preferiti' %}">Mostra tutti...</a>
+				{% endif %}
+			</div>
+			{% endif %}
+			<div class="widthDiv100 floatting"> <!-- ************************ Popolari -->
+				<h3>Popolari</h3>
+				<hr/>
+			</div>
+			<div class="widthDiv100 floatting">
+				{% for corso in popolari %}
+					<div class="flexBoxColumn floatting shadow">
+						{% if corso.img_corso %}
+							<img src="{{ corso.img_corso.url }}" alt="Logo del corso" width="220" height="130" class="img">
+						{% endif %}
+						<h6>
+							<a href="{{ corso.get_absolute_url }}">{{ corso.nome_corso }}</a>
+						</h6>
+						<p>
+							<span class="didascalie">
+								di {{ corso.docente_corso.first_name }} {{ corso.docente_corso.last_name }}
+							</span>
+							<span class="buttonColorBlue like_follLabel">
+								{{ corso.followers.count }} Followers
+								<img alt="Followers" src="https://png.icons8.com/material/18/000000/two-hearts.png">
+							</span>
+							<span></span>
+						</p>
+					</div>
+				{% endfor %}
+				{% if not popolari %}
+					<p>Non sono ancora presenti corsi</p>
+				{% endif %}
+			</div>
+			<div class="widthDiv100 rightAllignment floatting">
+				<a title="Mostra Tutti" href="{% url 'corsi_list' %}">Mostra tutti...</a>
+			</div>
+			<div class="widthDiv100 floatting"> <!-- ************************ Miei corsi -->
+				<h3>I Miei Corsi</h3>
+				<hr/>
+			</div>
+			<div class="widthDiv100 floatting">
+				{% for corso in miei_corsi_prev %}
+					<div class="flexBoxColumn floatting shadow">
+						{% if corso.img_corso %}
+							<img src="{{ corso.img_corso.url }}" alt="Logo del corso" width="220" height="130" class="img">
+						{% endif %}
+						<h6>
+							<a href="{{ corso.get_absolute_url }}">{{ corso.nome_corso }}</a>
+						</h6>
+						<p>
+							<a title="Modifica Corso" href="{% url 'preview_corso' pk=corso.pk %}">
+								<img alt="Modifica Corso" src="https://png.icons8.com/material/18/000000/maintenance.png">
+							</a>
+							<a title="Elimina Corso" href="{% url 'cancella_corso' pk=corso.pk %}" onclick="return confirm('Eliminare il contenuto?')">
+								<img alt="Elimina Corso" src="https://png.icons8.com/metro/18/000000/trash.png">
+							</a>
+							<span class="buttonColorBlue like_follLabel">
+								{{ corso.followers.count }} Followers
+								<img alt="Followers" src="https://png.icons8.com/material/18/000000/two-hearts.png">
+							</span>
+							<span></span>
+						</p>
+					</div>
+
+				{% endfor %}
+				{% if not miei_corsi_prev %}
+					<p>Non sono ancora presenti corsi</p>
+				{% endif %}
+			</div>
+			<div class="widthDiv100 rightAllignment floatting">
+				<a title="Mostra Tutti" href="{% url 'miei_mooc' %}" class="button buttonColorRed widthDiv25 floatRight">Vai alla Sezione</a>
+			</div>
+
+		</div> <!-- ENDLIST -->
+
+{% endblock content %}

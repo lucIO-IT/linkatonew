@@ -1,0 +1,91 @@
+<!--
+********************************* TEMPLATE PRESENTAZIONE CORSO
+-->
+
+
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | {{ corso.nome_corso }} {{ lezione.nome_lezione }} {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+<div id="detailImg" class="widthDiv100 floatting">
+  {% if corso.img_corso %}
+     <img src="{{ corso.img_corso.url }}" alt="Logo del corso" width="100%" height="300">
+     {% else %}
+  {% endif %}
+</div>
+
+<div id="detail">
+    {% if corso and prima_lezione %}
+        <div class="widthDiv75 floatting">
+            <h1>{{ corso.nome_corso }}</h1>
+            <h4>di {{ corso.docente_corso.first_name }} {{ corso.docente_corso.last_name }}</h4>
+            <hr/>
+        </div>
+
+        <div id="rightList" class="rightAllignment floatting">
+            <div class="widthDiv100 flexBoxSpaceBetween">
+                <a href="{% url 'corsi_list' %}" class="button buttonColorBlue">Torna ai Corsi</a>
+                <a href="{% url 'finestra_lezione' pk=prima_lezione.pk %}" class="button goldLinkatoColor">Vai alle lezioni</a>
+            </div>
+            <div class="widthDiv100">
+                <h4 class="rightAllignment">Programma</h4>
+                <hr/>
+                {% for lezione in lista_lezioni %}
+                    <a title="Video" href="{{ lezione.get_absolute_url }}?page={{ forloop.counter }}" class="rightAllignment">
+                        {{ lezione.nome_lezione }}
+                        <img alt="Riproduci" src="https://png.icons8.com/material/18/000000/play.png" class="button goldLinkatoColor">
+                    </a>
+                    {% if lezione.allegato_lezione %}
+                        <a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato">
+                            <img alt="Scarica Allegato" src="https://png.icons8.com/material/18/000000/attach.png" class="button buttonColorRed play">
+                        </a>
+                    {% endif %}
+                    <hr/>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="widthDiv75 floatting">
+            <h4>Descrizione</h4>
+            <p>{{ corso.descrizione_corso|linebreaks }}</p>
+            <h4>Obiettivi</h4>
+            <p>{{ corso.obiettivi_corso|linenumbers|linebreaks }}</p>
+            <p class="didascalie rightAllignment">Ultimo aggiornamento: {{ corso.data_corso|date:'d/m/Y' }}</p>
+            <hr/>
+            <div class="widthDiv100 flexBoxSpaceBetween">
+            {% if is_liked %}
+                <div>
+                    <p class="didascalie">Il corso è nella tua lista dei preferiti</p>
+                    <a title="Rimuovi dai preferiti" href="{% url 'salva_preferiti' pk=corso.pk %}" class="button buttonColorRed">
+                        Rimuovi dai preferiti
+                    </a>
+                </div>
+                    {% else %}
+                        <div>
+                         <p class="didascalie">Puoi salvare il corso nella tua lista dei preferiti</p>
+                         <a title="Salva tra i preferiti" href="{% url 'salva_preferiti' pk=corso.pk %}" class="button buttonColorBlue">
+                            Salva tra i preferiti
+                         </a>
+                        </div>
+            {% endif %}
+                {% if corso.allegati_corso %}
+                <div>
+                    <a href="{{ corso.allegati_corso.url }}" download="Programma" class="redDiv pdf">
+                        Scheda PDF
+                        <img src="https://png.icons8.com/material/18/000000/download.png">
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+        {% else %}
+            <div class="widthDiv100">
+                <p>Il corso non è presente</p>
+            </div>
+    {% endif %}
+
+    </div>
+
+{% endblock content %}

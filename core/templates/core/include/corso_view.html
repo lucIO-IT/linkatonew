@@ -1,0 +1,39 @@
+	<h1 class=" blackGround widthDiv100">{{ corso.nome_corso }} </h1>
+{% if corso.img_corso %}
+	<img src="{{ corso.img_corso.url }}" alt="Logo del corso" width="750px" height="390px">
+{% endif %}
+	<h4 class="blackGround widthDiv100">Descrizione</h4>
+	<p> {{ corso.descrizione_corso }} </p>
+	<h4 class="blackGround widthDiv100">Obiettivi</h4>
+	<p>{{ corso.obiettivi_corso|linebreaks }}</p>
+	<span class="blackGround widthDiv100">
+		Docente: {{ corso.docente_corso }} | Ultimo Aggiornamento: {{ corso.data_corso|date:'d/m/Y' }}
+	</span>
+
+	{% if prima_lezione %} <!-- **************** CONTROLLA SE E' UN CORSO DELLA LISTA GLOBALE -->
+	<div class="flexBoxSpaceBetween widthDiv100">
+        <a href="{% url 'finestra_lezione' pk=prima_lezione.pk %}" class="button buttonColorBlue"> Vai alle lezioni</a>
+        <a href="{% url 'corsi_list' %}" class="button buttonColorBlue">Torna ai Corsi</a>
+	</div>
+	{% if is_liked %}
+		<div class="flexBoxColumn">
+			<p class="centerAllignment"><strong>Questo corso è nella tua lista dei preferiti</strong></p>
+			<a title="Rimuovi dai preferiti" href="{% url 'salva_preferiti' pk=corso.pk %}" class="button buttonColorRed">
+				Rimuovi dai preferiti
+			</a>
+		</div>
+	{% else %}
+		<div class="flexBoxColumn">
+			<p class="centerAllignment"><strong>Puoi salvare questo corso nella tua lista dei preferiti</strong></p>
+			<a title="Salva tra i preferiti" href="{% url 'salva_preferiti' pk=corso.pk %}" class="button buttonColorBlue">
+				Salva tra i preferiti
+			</a>
+		</div>
+	{% endif %}
+
+		{% else %} <!-- **************** CONTROLLA SE E' UNA PREVIEW -->
+		<div class="flexBoxSpaceBetween widthDiv100">
+			<a href="{% url 'cancella_corso' pk=corso.pk %}" title="Cancella Corso" onclick="return confirm('Eliminare il contenuto?')" class="button buttonColorBlue">Elimina il Corso</a>
+			<a href="{% url 'miei_mooc' %}" class="button buttonColorBlue">Salva e continua</a>
+        </div>
+	{% endif %}

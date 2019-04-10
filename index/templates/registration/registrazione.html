@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block head_title %}{{ block.super }} | Registrazione Utente {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+<div id=mailArea>
+
+    <div class="blackGround">
+        <h1 class="centerAllignment">REGISTRAZIONE UTENTE</h1>
+    </div>
+    <div class="topNew floatting">
+        <form method="post" autocomplete="off" novalidate>
+
+        {% csrf_token %}
+
+		<div class="floatting widthDiv100">
+
+         <div class="floatting widthDiv100 floatting textColorRed">
+             {{ user_esiste }}
+         </div>
+
+        {% for field in form %}
+			<div class="labelStyle widthDiv100 floatting">
+				{{ field.label_tag }}
+			</div>
+			<div class="floatting widthDiv100 floatting">
+				{{ field }}
+			</div>
+			<div class="floatting widthDiv100 floatting">
+				{{ field.errors }}
+			</div>
+        {% endfor %}
+        {% for field in form_utente %}
+			<div class="labelStyle widthDiv100 floatting">
+				{{ field.label_tag }}
+			</div>
+			<div class="floatting widthDiv100 floatting">
+				{{ field }}
+			</div>
+			<div class="floatting widthDiv100 floatting">
+				{{ field.errors }}
+			</div>
+        {% endfor %}
+            {% for field in form_scuola %}
+			<div class="labelStyle widthDiv100 floatting">
+				{{ field.label_tag }}
+			</div>
+			<div class="floatting widthDiv100 floatting">
+				{{ field }}
+			</div>
+			<div class="floatting widthDiv100 floatting">
+				{{ field.errors }}
+			</div>
+        {% endfor %}
+
+        <!-- Da implementare registrandosi al sito: https://www.google.com/recaptcha/admin -->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <div class="g-recaptcha widthDiv100 floatRight" data-sitekey="6LdRSRYUAAAAAFCqQ1aZnYfRGJIlAUMX3qkUWlcF"></div>
+
+		</div>
+            <div class="floatting widthDiv100">
+                <hr/>
+                <span class="centerAllignment">Registrandoti accetti i nostri <a href="#">Termini di utilizzo</a> e la <a href="#">Politica sulla Privacy</a></span>
+            </div>
+            <div class="floatting widthDiv100">
+                <button type="submit" class="button buttonColorBlue widthDiv100">ACCETTA E REGISTRATI</button>
+            </div>
+        </form>
+
+	</div>
+</div>
+
+{% endblock content %}

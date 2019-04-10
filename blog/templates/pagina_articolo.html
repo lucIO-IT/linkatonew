@@ -1,0 +1,161 @@
+<!--
+********************************* TEMPLATE BASE PER GLI ARTICOLI PUBBLICATI NELLA SEZIONE BLOG
+                                    NB: il box per il login è incluso in tutte queste finestre
+-->
+
+
+{% extends 'base.html' %}
+{% block head_title %}{{ block.super }} | {{ articolo }} {% for articolo in sezione %} {{ articolo.title }} {% endfor %} {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+<div id="fb-root"></div>
+					<script>(function(d, s, id) {
+					  var js, fjs = d.getElementsByTagName(s)[0];
+					  if (d.getElementById(id)) return;
+					  js = d.createElement(s); js.id = id;
+					  js.src = 'https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v3.1';
+					  fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));</script>
+
+
+	<div id="ccDiv"> <!-- ************************ START cc-DIV -->
+		<div id="topNew" class="floatting widthDiv100" >
+		{% if sezione %}
+			{% for articolo in sezione %}
+			<div>
+				<h1>{{ articolo.title }}</h1>
+				{{ articolo.text|safe }}
+				<hr/>
+				{% if object_list %}
+					{% for corso in object_list %}
+
+						<div class="widthDiv100 flexBoxSpaceBetween">
+							<h4 class="widthDiv75">{{ corso.nome_corso }}</h4>
+							<button title="Mostra" id="btn-corso-{{corso.pk}}" class="button buttonColorBlue" onclick="displayElement{{corso.pk}}()"><img alt="Espandi" src="https://png.icons8.com/material/24/000000/expand-arrow.png"></button>
+							<button title="Nascondi" id="btn-none-{{corso.pk}}" class="button buttonColorBlue" onclick="hideElement{{corso.pk}}()" style="display: none;"><img alt="Comprimi" src="https://png.icons8.com/material/24/000000/collapse-arrow.png"></button>
+						</div>
+						<div id="id-corso-{{corso.pk}}" style="display: none;">
+							<p>{{ corso.descrizione_corso|truncatechars:150 }}</p>
+							{% if corso.allegati_corso %}
+								<a title="Scheda Tecnica" href="{{ corso.allegati_corso.url }}" download="Programma" class="rightAllignment widthDiv100">Scarica il programma
+								<img alt="Programma PDF" src="https://png.icons8.com/material/50/000000/pdf.png">
+								</a>
+							{% endif %}
+						</div>
+						<div>
+							<hr/>
+						</div>
+						<script>
+							function displayElement{{corso.pk}}(){
+							document.getElementById("id-corso-{{corso.pk}}").style.display = "block";
+							document.getElementById("btn-none-{{corso.pk}}").style.display = "block";
+							document.getElementById("btn-corso-{{corso.pk}}").style.display = "none";
+							}
+
+							function hideElement{{corso.pk}}(){
+							document.getElementById("id-corso-{{corso.pk}}").style.display = "none";
+							document.getElementById("btn-none-{{corso.pk}}").style.display = "none";
+							document.getElementById("btn-corso-{{corso.pk}}").style.display = "block";
+							}
+						</script>
+					{% endfor %}
+				{% endif %}
+				{% if object_list.has_previous or object_list.has_next %} <!-- ************************ START PAGINATOR -->
+                <div class="paginator widthDiv100 centerAllignment">
+                    {% if object_list.has_previous %}
+                        <a href="?page={{ object_list.previous_page_number }}" class="">Indietro</a>
+                        <!--<a href="?page=1" class="">1</a>-->
+                    {% endif %}
+                    {% for num in object_list.paginator.page_range %}
+                        {% if object_list.number == num %}
+                        <span>{{ num }}</span>
+                            {% else %}
+                                <a href="?page={{ num }}" class="">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if object_list.has_next %}
+                        <a href="?page={{ object_list.next_page_number }}" class="">Avanti</a>
+                        <!--<a href="?page={{ object_list.paginator.num_pages }}" class="">Fine</a>-->
+                    {% endif %}
+                </div>
+            {% endif %} <!-- ************************ END PAGINATOR -->
+			</div>
+
+			<div style="position: relative; width: 180px;">
+				<!-- Facebook -->
+				<div style="position: absolute; top:0; left: 0; margin: 0;" class="fb-share-button" data-href="{{ request.path }}" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2Fblog%2Farticoli%2FIl%2520progetto%2520LINKaTO&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Condividi</a></div>
+				<!-- LinkedIn -->
+				<div style="position: absolute; top:0; right: 0;">
+					<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: it_IT</script>
+					<script type="IN/Share" data-url="{{ request.path }}"></script>
+				</div>
+			</div>
+			<div class="rightAllignment">
+				<span class="didascalie">Ultimo aggiornamento {{ articolo.published_date|date:'d/m/y' }}</span>
+			</div>
+			{% endfor %}
+			{% else %}
+				{% if articolo %}
+					<div>
+						<h1>{{ articolo.title }}</h1>
+						<p> {{ articolo.text|safe }}</p>
+						<hr/>
+						{% if object_list %}
+							{% for corso in object_list %}
+								<h4>{{ corso.nome_corso }}</h4>
+								<p>{{ corso.descrizione_corso|truncatechars:150 }}</p>
+								{% if corso.allegati_corso %}
+									<a title="Scheda Tecnica" href="{{ corso.allegati_corso.url }}" download="Programma">Scarica il programma</a>
+								{% endif %}
+								<hr/>
+							{% endfor %}
+						{% endif %}
+					</div>
+
+					<div id="socialButton">
+						<!-- Facebook -->
+						<div class="fb-share-button" data-href="{{ request.path }}" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2Fblog%2Farticoli%2FIl%2520progetto%2520LINKaTO&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Condividi</a></div>
+						<!-- LinkedIn -->
+						<div>
+							<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: it_IT</script>
+							<script type="IN/Share" data-url="{{ request.path }}"></script>
+						</div>
+					</div>
+					<div class="rightAllignment">
+						<span class="didascalie">Ultimo aggiornamento {{ articolo.published_date|date:'d/m/y' }}</span>
+					</div>
+				{% else %}
+                    <p>Nessun articolo presente</p>
+				{% endif %}
+		{% endif %}
+        </div>
+	</div> <!-- ************************ END CC-DIV -->
+        <div id="dxDiv"> <!-- ************************ START-DXDIV -->
+	<div class="floatting widthDiv100">
+		<h3>AREA DIDATTICA</h3>
+		<hr/>
+		{% if user.is_authenticated %}
+			<p class="centerAllignment">Benvenuto {{ user }}</p>
+			<a href="{% url 'account_profile' %}" class="button goldLinkatoColor">ACCEDI</a>
+			<hr/>
+			<a href="{% url 'logout' %}" class="button buttonColorBlue">LOGOUT</a>
+			<hr/>
+		{% else %}
+			<p class="didascalie">
+				Per accedere al materiale contenuto nel sito è necessario autenticarsi.
+				Effettua il login per accedere all'area riservata oppure,
+				se non sei ancora in possesso di un account, registrati.
+			</p>
+			<hr/>
+			<a href="{% url 'login' %}" class="button buttonColorBlue">LOGIN</a>
+			<hr/>
+			<a href="{% url 'registrazione' %}" class="button buttonColorRed">REGISTRATI</a>
+			<hr/>
+		{% endif %}
+	</div>
+</div> <!-- ************************ END-DXDIV -->
+
+
+
+{% endblock content %}

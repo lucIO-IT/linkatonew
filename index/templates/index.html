@@ -1,0 +1,42 @@
+<!--
+********************************* HOMEPAGE
+-->
+{% extends 'base.html' %}
+{% block head_title %}{{ block.super }} | Homepage {% endblock head_title %}
+{% block content %}
+{% load static %}
+<div id="ccDiv"> <!-- ************************ START cc-DIV -->
+	<div id="topNew" class="floatting widthDiv100">
+		<p style="font-size: 24px; text-align: left; min-height: 240px;">
+			Linkato è la piattaforma web dedicata all'Alternanza Scuola-Lavoro.
+			Accedi all'area riservata per consultare il database di corsi su Cittadinanza Digitale,
+			Orientamento ed Educazione all'imprenditorialità
+		</p>
+	</div>
+</div> <!-- ************************ END cc-DIV -->
+
+<div id="dxDiv"> <!-- ************************ START-DXDIV -->
+	<div class="floatting widthDiv100">
+		<h3>AREA DIDATTICA</h3>
+		<hr/>
+		{% if user.is_authenticated %}
+			<p class="centerAllignment">Benvenuto {{ user }}</p>
+			<a href="{% url 'account_profile' %}" class="button goldLinkatoColor">ACCEDI</a>
+			<hr/>
+			<a href="{% url 'logout' %}" class="button buttonColorBlue">LOGOUT</a>
+			<hr/>
+		{% else %}
+			<p class="didascalie">
+				Per accedere al materiale contenuto nel sito è necessario autenticarsi.
+				Effettua il login per accedere all'area riservata oppure,
+				se non sei ancora in possesso di un account, registrati.
+			</p>
+			<hr/>
+			<a href="{% url 'login' %}" class="button buttonColorBlue">LOGIN</a>
+			<hr/>
+			<a href="{% url 'registrazione' %}" class="button buttonColorRed">REGISTRATI</a>
+			<hr/>
+		{% endif %}
+	</div>
+</div> <!-- ************************ END-DXDIV -->
+{% endblock content %}

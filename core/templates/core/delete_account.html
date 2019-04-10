@@ -1,0 +1,31 @@
+<!--
+********************************* CANCELLA PROFILO UTENTE
+-->
+
+
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | Cancella Account {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+		<div id="mailArea">
+			<div class="blackGround widthDiv100 floatting">
+				<h1 class="centerAllignment">
+					ELIMINA ACCOUNT
+				</h1>
+			</div>
+
+			<div class="topNew floatting widthDiv100">
+				<form method="post" enctype="multipart/form-data" novalidate>
+					{% csrf_token %}
+                    <p>Procedendo con l'operazione il profilo di {{ user.first_name }} verrà eliminato e con esso tutti i dati salvati nella piattaforma.</p>
+					<p>Desideri eliminare il tuo account?</p>
+                    <div class="centerAllignment flexBoxSpaceBetween">
+						<input type="submit" class="button buttonColorRed widthDiv25" value="Conferma" onclick="return confirm('Eliminare il contenuto?')">
+                        <a href="{% url 'account_profile' %}" class="button buttonColorBlue widthDiv25">Annulla</a>
+					</div>
+				</form>
+			</div>
+		</div>
+
+{% endblock content %}

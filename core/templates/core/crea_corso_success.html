@@ -1,0 +1,50 @@
+<!--
+********************************* PAGINA DEL PROFILO UTENTE
+-->
+
+
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | Nuovo Corso {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+	<div id="user_title" class="floatting widthDiv100 classetNew">
+
+		<div class="user_view">
+			<h5>Benvenuto {{ user }}</h5>
+			<p>Sei iscritto dal {{ user.date_joined|date}}</p>
+			<a href="{% url 'logout' %}" class="button buttonColorRed" style="color:white;">LOGOUT</a>
+    	</div>
+
+	</div>
+
+	<div class="widthDiv50" style="background:white; margin:auto; border:0.5px solid gray; position:relative; top:-119px; display:flex; flex-wrap:wrap; z-index:1;">
+		<div class="widthDiv100 floatting centerAllignment">
+			<h1 class=" blackGround widthDiv100 ">OPERAZIONE CONCLUSA CON SUCCESSO</h1>
+
+		</div>
+		<!--
+		<div class="widthDiv100" style="display:flex; justify-content: space-around; padding:10px;">
+			<a href="#"><img src="https://png.icons8.com/flat_round/50/000000/back.png"></a>
+			<a href="#"><img src="https://png.icons8.com/flat_round/50/000000/circled-chevron-right.png"></a>
+		</div>
+		-->
+	</div>
+
+
+	<div id="user_container" class="floatting">
+
+		<div class="classetNew user_container_bar"></div>
+
+		<div id="user_content" class="floatting topNew">
+
+			<div class="floatting widthDiv100">
+                <p>La risorsa didattica è ora presente nell'elenco dei corsi</p>
+			</div>
+		</div>
+
+		<div class="classetNew user_container_bar"></div>
+
+	</div>
+
+{% endblock content %}

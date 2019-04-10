@@ -1,0 +1,37 @@
+<!--
+********************************* RISULTATI RICERCA
+-->
+
+
+{% extends 'base.html' %}
+{% block head_title %}{{ block.super }} | Risultati Ricerca {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+		<div class="floatting widthDiv100 centerAllignment" > <!-- ************************ START cc-DIV -->
+			<hr/>
+			<h1>Risultati Ricerca</h1>
+			<hr/>
+		</div> <!-- ************************ END CC-DIV -->
+
+		<div class="cardBoxContainer">
+            {% if articoli %}
+                {% for articolo in articoli%}
+                    <div class="cardWindowBox">
+                        <div><p><a href="{% url 'articolo_view' title=articolo.title %}">{{ articolo.title }}</a></p></div>
+                    </div>
+                    {% if forloop.counter|divisibleby:"3" or forloop.last %} <!-- Se si tratta di un divisibile di 4 o dell'ultimo articolo inserito, chiudo la fila -->
+                        </div>
+                    {% endif %}
+
+                    {% if forloop.counter|divisibleby:"3" and not forloop.last %} <!-- Se si tratta di un divisibile di 4 e non è l'ultimo articolo inserito, apro una nuova fila -->
+                        <div class="cardBoxContainer" >
+                    {% endif %}
+                {% endfor %}
+                {% else %}
+                    <p>Nessun risultato trovato</p>
+            {% endif %}
+
+
+
+{% endblock content %}

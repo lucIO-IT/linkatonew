@@ -1,0 +1,130 @@
+<!--
+********************************* TEMPLATE PER LA PREVIEW DEL CORSO PRIMA DI ESSERE VALIDATO DAL DOCENTE
+-->
+
+
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | Preview {{ corso.nome_corso }} {% endblock head_title %}
+{% block content %}
+{% load static %}
+		{% if form.errors or form_lezione.errors %}
+			<div id="formError" class="widthDiv100">
+				<h4>Attenzione, ci sono degli errori:</h4>
+				{{ form.errors }}
+				{{ form_lezione.errors }}
+			</div>
+		{% endif %}
+		<aside class="floatting">
+			<div id="aside_button" class="button goldDiv floatting widthDiv25">
+
+			</div>
+			<div class="floatting widthDiv100">
+				<h4 class="floatting widthDiv75">
+                    Lezioni
+                </h4>
+                <button title="Nuova Lezione" type="button" class="lightness button buttonColorBlue floatting widthDiv25" data-toggle="modal" data-target="#exampleModal">
+					<img src="https://png.icons8.com/material/24/000000/plus-math.png">
+				</button>
+				<hr class="floatting"/>
+				{% for lezione in lista_lezioni %}
+                    <a href="{{ lezione.get_absolute_url }}">{{ lezione.nome_lezione }}</a>
+					<a href="{% url 'elimina_lezione' pk=lezione.pk %}"
+					   title="Cancella Lezione"
+					   onclick="return confirm('Eliminare il contenuto?')">
+					   <img alt="Elimina Lezione" src="https://png.icons8.com/material/24/000000/trash.png">
+					</a>
+                    <hr/>
+                {% endfor %}
+			</div>
+		</aside>
+
+		<div id="corso_view" class="floatting">
+            {% include "core/include/corso_view.html" %}
+		</div>
+
+		<div id="rightList" class="floatting">
+			<div class="widthDiv100 floatting">
+				<button title="Modifica Corso" type="button" class="lightness button buttonColorRed floatting widthDiv25" data-toggle="modal" data-target="#exampleModal2">
+					<img src="https://png.icons8.com/material/24/000000/maintenance.png" alt="Modifica Corso">
+				</button>
+				<h4 class="rightAllignment floatting widthDiv75">Allegati</h4>
+				<hr class="floatting widthDiv100"/>
+			</div>
+			<div class="widthDiv100 floatting rightAllignment">
+				{% if corso.allegati_corso %}
+					<p>Programma</p><a href="{{ corso.allegati_corso.url }}" download="Programma" class="redDiv pdf">PDF <img src="https://png.icons8.com/material/18/000000/download.png"></a>
+					<hr/>
+				{% endif %}
+				{% if lezione.allegato_lezione %}
+					<p>Allegato</p><a href="{{ lezione.allegato_lezione.url }}" download="Allegato" class="redDiv pdf">PDF <img src="https://png.icons8.com/material/18/000000/download.png"></a>
+					<hr/>
+				{% endif %}
+			</div>
+		</div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+			  <div class="modal-header goldLinkatoColor">
+				  <h5 class="modal-title centerAllignment">Aggiungi Lezione</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				  <div>
+					  <form method="post" enctype="multipart/form-data" novalidate>
+						{% csrf_token %}
+						  {% for field in form_lezione %}
+							  <div class="labelStyle floatting">
+								  {{ field.label_tag }}
+							  </div>
+							  <div class="floatting floatting">
+								  {{ field }}
+							  </div>
+						  {% endfor %}
+						<input name="form_lezione" type="submit" value="Salva Lezione" class="button buttonColorBlue widthDiv75">
+					  </form>
+				  </div>
+
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+		<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+			  <div class="modal-header goldLinkatoColor">
+				  <h5 class="modal-title centerAllignment">Modifica Corso</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				  <div>
+					  <form method="post" enctype="multipart/form-data" novalidate>
+						{% csrf_token %}
+						  {% for field in form %}
+							<div class="labelStyle widthDiv100 floatting">
+								{{ field.label_tag }}
+							</div>
+							<div class="floatting widthDiv100 floatting">
+								{{ field }}
+							</div>
+							<div class="floatting widthDiv100 floatting">
+								{{ field.errors }}
+							</div>
+						{% endfor %}
+
+						<input name="form_modifica_corso" type="submit" value="Salva Modifiche" class="button buttonColorBlue widthDiv75">
+					  </form>
+				  </div>
+
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+
+{% endblock content %}

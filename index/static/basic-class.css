@@ -1,0 +1,421 @@
+/* ------------------------------------------- Generic-Class */
+
+       .widthDiv100 {
+       width:100%;
+       }
+
+       .widthDiv75 {
+       width:75%;
+       }
+
+       .widthDiv50 {
+       width:50%;
+       }
+
+       .widthDiv25 {
+       width:25%;
+       }
+
+       .floatting {
+       float:left;
+       }
+
+       .floatRight {
+       float: right;
+       }
+
+       .hidden {
+       display: none;
+       }
+
+       .hiddenElement {
+       visibility: hidden;
+       }
+
+       /* ------------------------------------------- Text-Class */
+
+	   .textInputColor {
+       color:#808080;  /*aggiunge colore gigrio ai suggerimenti contenuti nelle caselle di testo */
+       }
+
+       .textColorRed {
+       color:rgb(220,50,70);
+       }
+
+       .rightAllignment {
+       text-align:right;
+       }
+
+       .centerAllignment {
+       text-align:center;
+       }
+
+        .labelStyle{
+       font-style:italic;
+       font-size:18px;
+       padding:0.5% 0.5%;
+       margin-right:0.5%;
+       }
+
+       .didascalie {
+       font-size:12px;
+       }
+
+       .textInputStyle{
+       width:66%;
+       margin-left:2%;
+       margin-bottom:3px;
+       margin-top:5px;
+       margin-right:5px;
+       height:30px;
+       float:left;
+       }
+
+       /* ------------------------------------------- Color-Class */
+
+       .topNew {
+       background-color:rgb(245, 245, 235);
+       padding:20px;
+       text-align:justify;
+       }
+
+       .topNew span {
+       font-size:13px;
+       text-align:right;
+       }
+
+       .classetNew {
+       color:white;
+       background-color:rgb(60, 90, 150);
+       padding:2px 15px;
+       }
+
+       .classetNew a:link, .classetNew a:hover, .classetNew a:visited  {
+       color:rgb(165,165,55);
+       }
+
+       .redDiv {
+       background-color:rgb(180,40,99);
+       color:white;
+       }
+
+       .greenDiv {
+       background-color:rgb(40,120,60);
+       color:white;
+       }
+
+       .blueDiv {
+       background-color:rgb(50,70,120);
+       color:white;
+       }
+
+       .goldDiv {
+       color:rgb(30,30,30);
+       background-color:rgb(245, 205, 5);
+       }
+
+       .grayDiv {
+       background-color: rgb(190,190,190);
+       }
+
+       .blackGround {
+       background:rgb(85,85,85);
+       color:white;
+       }
+
+       /* ------------------------------------------- Button-Class */
+
+       .like_follLabel {
+       padding: 7.5px;
+       border-radius:10px;
+       margin-right: 1.5px;
+       font-size: 11px;
+       }
+
+       .lightness {
+       box-shadow: 0 4.5px #999;
+       }
+
+       .button, .buttonLight {
+       display:block;
+       border:0.5px solid transparent;
+       border-radius:10px;
+       padding: 8px 8px;
+       text-align:center;
+       text-decoration:none;
+       }
+
+       .buttonLight {
+       padding: 6px 6px;
+       font-weight:bold;
+       }
+
+       a.button:hover, button.button:hover {
+       text-decoration:none;
+       }
+
+       a.button:active, button.button:active, .buttonLight:active {
+       border-radius:100px;
+       color: #fff;
+       background-color: rgb(0, 148, 250);
+       text-decoration:none;
+       }
+
+       .buttonColorDarkBlue {
+       color: rgb(255,255,255);
+       background-color:rgb(50,70,120);
+       border-color: rgb(40, 60, 100);
+       transition-property: background-color;
+       transition-delay: 20s;
+       }
+
+       .buttonColorBlue {
+       color: rgb(255,255,255);
+       background-color: rgb(80, 105, 205);
+       border-color: rgb(70, 95, 185);
+       transition-property: background-color;
+       transition-delay: 20s;
+       }
+
+       .buttonColorLightBlue {
+       color: rgb(80, 105, 205);
+       border: 3px solid rgb(80, 105, 205);
+       transition-property: background-color;
+       outline: none;
+       transition-delay: 20s;
+       }
+
+       a.buttonColorBlue:hover, a.buttonColorLightBlue:hover, a.buttonColorDarkBlue:hover, button.buttonColorBlue:hover {
+       color: #fff;
+       background-color: rgb(80, 105, 245);
+       transition-property: background-color;
+       transition-delay: 20s;
+       }
+
+       .buttonColorRed {
+       color: rgb(255,255,255);
+       background-color: rgb(220,50,70);
+       border-color: rgb(180,25,35);
+       transition-property: background-color;
+       transition-delay: 20s;
+       }
+
+       .buttonColorLightRed {
+       color: rgb(220,50,70);
+       border: 3px solid rgb(220,50,70);
+       transition-property: background-color;
+       outline: none;
+       transition-delay: 20s;
+       }
+
+       a.buttonColorRed:hover, a.buttonColorLightRed:hover, button.buttonColorRed:hover {
+       color: #fff;
+       background-color: rgb(240,60,90);
+       }
+
+       .goldLinkatoColor {
+       color:rgb(30,30,30);
+       background-color:rgb(245, 205, 5);
+       border-color:rgb(255, 225, 25);
+       transition-property: background-color;
+       transition-delay: 20s;
+       }
+
+       .buttonColorLightGold {
+       color: rgb(0,0,0);
+       border: 3px solid rgb(245, 205, 5);
+       transition-property: background-color;
+       outline: none;
+       transition-delay: 20s;
+       }
+
+       a.goldLinkatoColor:hover, a.buttonColorLightGold:hover, button.goldLinkatoColor:hover {
+       color: rgb(20,20,20);
+       background-color:rgb(235, 235, 25);
+       }
+
+       .buttonColorGray {
+       color: rgb(255,255,255);
+       background-color: rgb(85, 85, 85);
+       border-color: rgb(100, 100, 100);
+       transition-property: background-color;
+       transition-delay: 20s;
+       }
+
+       a.buttonColorGray:hover, button.buttonColorGray:hover {
+       color: #fff;
+       background-color: rgb(100, 100, 100);
+       transition-property: background-color;
+       transition-delay: 20s;
+       }
+
+       /* ------------------------------------------- flexbox */
+
+       .flexBox, .flexBoxCenter, .flexBoxSpaceBetween, .flexBoxColumn, .flexBoxRight, .flexBoxRightColumn {
+       display: flex;
+       align-items: center;
+       }
+
+       .flexBoxCenter {
+       flex-direction: row;
+       justify-content: center;
+       }
+
+       .flexBoxSpaceBetween {
+       flex-direction: row;
+       justify-content: space-between;
+       }
+
+       .flexBoxColumn {
+       flex-direction: column;
+       justify-content: center;
+       }
+
+       .flexBoxRight {
+       justify-content: flex-end;
+       }
+
+       .flexBoxRightColumn {
+       flex-direction: column;
+       align-items: flex-end;
+       }
+
+       /* ------------------------------------------- card */
+
+       /* radius and shadow */
+
+       /*.cardBox, */.shadow {
+       border:0.5px solid rgb(185,185,185);
+       box-shadow: 1px 1px 1px 1px rgb(200,200,200);
+       border-radius:10px;
+       }
+
+       .cardWindowBox {
+       border:0px 0.5px 0.5px 0.5px solid rgb(185,185,185);
+       box-shadow: 0px 2.5px 5px 2.5px rgb(200,200,200);
+       border-radius:10px;
+       }
+
+       /* Card per un elenco a colonna */
+       .cardBox {
+       padding: 0px;
+       background-color: white;
+       margin:3%;
+       }
+
+       .cardBox div {
+       float:left;
+       padding:10px;
+       align:justify;
+       }
+
+       /* CardBox Container*/
+
+       .cardBoxContainer {
+       float:left;
+       margin-top:2.5%;
+       width:100%;
+       display:flex;
+       flex-wrap:wrap;
+       padding: 0px 20px;
+       }
+
+       .cardWindowBox {
+       float:left;
+       display:flex;
+       flex-wrap:wrap;
+       width:31.25%;
+       margin: 0.75%;
+       margin-bottom: 10px;
+       }
+
+       .cardWindowBox div {
+       width:100%;
+       float:left;
+       padding-bottom: 5px;
+       }
+
+       .cardWindowBox h5 {
+       border:0.5px solid rgb(185,185,185);
+       border-radius:10px 10px 0px 0px;
+       }
+
+       .cardWindowBox h5, .cardWindowBox p {
+       padding:5px;
+       }
+
+       .cardWindowBox .button {
+       width:60px;
+       margin-left:auto;
+       margin-right:auto;
+       }
+
+       /* ------------------------------------------- modal */
+
+       .modal-body div {
+       margin-bottom:7px;
+       width:100%;
+       }
+
+       .modal-body div input {
+       width:100%;
+       }
+
+       /* ------------------------------------------- paginator */
+
+       .paginator {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       border-collapse: collapse;
+       }
+
+       .paginator a {
+       padding: 5px;
+       border: 0.5px solid rgb(85, 85, 85);
+       margin: 2.5px;
+       border-radius:2px;
+       font-size: 11px;
+       color:rgb(85,85,85);
+       background-color: white;
+       }
+
+       .paginator a:hover {
+       color: white;
+       background-color: rgb(85,85,85);
+       }
+
+       /* ------------------------------------------- other */
+
+       .lessonDiv {
+       display:flex;
+       flex-wrap:nowrap;
+       justify-content:space-around;
+       align-items:center;
+       padding:5px;
+       }
+
+       .positionLabel {
+       position: absolute;
+       top: -50px;
+       margin:0px;
+       padding: 0px;
+       }
+
+       .hBox {
+       padding: 5px;
+       width: 150px;
+       margin: 5px;
+       border: 0.5px solid black;
+       text-align: center;
+       }
+
+       .hBox h6 {
+       margin: 0px;
+       }
+
+       .inline {
+       display: inline;
+       }
+
+

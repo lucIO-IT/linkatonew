@@ -1,0 +1,226 @@
+<!--
+********************************* ELENCO DEI CORSI
+-->
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | Corsi {% endblock head_title %}
+{% block content %}
+{% load static %}
+{% load miei_filtri %}
+		<div id="schermata_caricamento"> <!-- Start Loading Animation -->
+            <p>Caricamento</p>
+            <img alt="Loading" src="{% static 'img/preloading.gif' %}">
+        </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">$("#schermata_caricamento").fadeOut(3000);</script> <!-- End Loading Animation -->
+		<div class="listSide floatting"> <!-- ******************************************************** Start listSide -->
+			<div id="aside_button" class="button goldDiv floatting widthDiv25">
+				<img alt="Espandi" src="https://png.icons8.com/material/32/000000/more.png">
+			</div>
+			<div class="floatting widthDiv100">
+				<h4 class="">Sezioni</h4>
+				<hr/>
+				<a href="#" onclick="filtroSezione('orientamento')">#Orientamento</a>
+				<hr/>
+				<a href="#" onclick="filtroSezione('impresa')">#Cultura d'impresa</a>
+				<hr/>
+				<a href="#" onclick="filtroSezione('digitale')">#Cittadinanza digitale</a>
+				<hr/>
+			</div>
+		</div> <!-- ************************************************************************ End listSide -->
+		<div id="list" class="floatting">
+			<div class="widthDiv100">
+				<h4 class="centerAllignment">Elenco Corsi</h4>
+				<hr/>
+			</div>
+			<div id="listTopMenu">
+				{% if mooc_key %}
+					<a href="{% url 'crea_corso' %}" class="button goldLinkatoColor widthDiv25">Crea Corso</a>
+					{% else %}
+					<button onclick="filtro('all')" class="styleButton">Mostra Tutti</button>
+					<button onclick="filtro('preferiti')" class="button buttonColorRed widthDiv25">Preferiti</button>
+				{% endif %}
+				<form action="{% url 'risultati_ricerca' %}" method="get" id="searchContainer">
+					<input type="search" name="q" placeholder="Cerca" autocomplete="off"/>
+					<button type="submit" value="CERCA">
+						<img alt="Trova" src="https://png.icons8.com/material-outlined/24/000000/search.png">
+					</button>
+				</form>
+				<a href="{% url 'account_profile' %}" class="button buttonColorGray floatRight">Dashboard</a>
+			</div>
+			<div class="cardBoxContainer">
+			{% if mooc_key %}
+				{% for corso in object_list %}
+					<div class="cardBox widthDiv100 flexBox">
+                        <div class="floatting">
+                            {% if corso.img_corso %}
+                                <img class="imgImg" src="{{ corso.img_corso.url }}" alt="Logo del corso" width="220" height="130">
+                            {% endif %}
+                        </div>
+                        <div class="floatting widthDiv75">
+							<h5><a href="{{ corso.get_absolute_url }}">{{ corso.nome_corso }}</a></h5>
+							<p > {{ corso.descrizione_corso|truncatechars:90 }} </p>
+							<p class="rightAllignment">
+								Ultima modifica: {{ corso.data_corso|date:'d/m/y' }} -
+								<a title="Modifica Corso" href="{% url 'preview_corso' pk=corso.pk %}">
+									<img alt="Modifica Corso" src="https://png.icons8.com/material/18/000000/maintenance.png">
+								</a>
+								<a title="Elimina Corso" href="{% url 'cancella_corso' pk=corso.pk %}" onclick="return confirm('Eliminare il contenuto?')">
+									<img alt="Elimina Corso" src="https://png.icons8.com/metro/18/000000/trash.png">
+								</a>
+							</p>
+						</div>
+					</div>
+                    {% endfor %}
+            {% else %}{% for corso in object_list %}
+					<div class="cardBox widthDiv100 flexBox">
+                        <div class="floatting">
+                            {% if corso.img_corso %}
+                                <img class="imgImg" src="{{ corso.img_corso.url }}" alt="Logo del corso" width="220" height="130">
+                            {% endif %}
+                        </div>
+                        <div class="floatting widthDiv75">
+							<h5><a href="{{ corso.get_absolute_url }}">{{ corso.nome_corso }}</a></h5>
+							<p > {{ corso.descrizione_corso|truncatechars:90 }} </p>
+							<div class="rightAllignment">
+								<span>Ultima modifica: {{ corso.data_corso|date:'d/m/y' }} -</span>
+								<span class="didascalie rightAllignment widthDiv100">
+									di {{ corso.docente_corso.first_name }} {{ corso.docente_corso.last_name }}
+								</span>
+								<div style="display: block;">
+									<span class="buttonColorBlue like_follLabel">
+										{{ corso.followers.count }} Followers
+										<img alt="Followers" src="https://png.icons8.com/material/18/000000/two-hearts.png">
+									</span>
+									{% if user not in corso|followers %}
+										<span class="buttonColorRed like_follLabel">
+											<a title="Salva tra i preferiti" href="{% url 'salva_preferiti' pk=corso.pk %}">
+												<img alt="Like" src="https://png.icons8.com/metro/18/000000/like.png">
+											</a>
+										</span>
+										{% else %}
+											<span class="buttonColorRed " style="border.radius: 50%;">
+												<a title="Elimina dai preferiti" href="{% url 'salva_preferiti' pk=corso.pk %}">
+													<img alt="Delete" src="https://png.icons8.com/metro/18/000000/trash.png">
+												</a>
+											</span>
+									{% endif %}
+								</div>
+
+							</div>
+						</div>
+					</div>
+			{% endfor %}
+			</div>
+			{% endif %}
+			{% if mooc_key and not object_list %}
+				<div class="floatting widthDiv100">
+					<p>
+						In questo momento non hai ancora creato dei corsi.
+						Ti suggeriamo, prima di iniziare, di dare un'occhiata ai tutorial relativi alla sezione,
+						che ti accompagneranno passo dopo passo nella creazione dei tuoi contenuti.
+					</p>
+				</div>
+			{% endif %}
+			{% if object_list.has_previous or object_list.has_next %} <!-- ************************ START PAGINATOR -->
+                <div class="paginator widthDiv100 floatting centerAllignment">
+                    {% if object_list.has_previous %}
+                        <a href="?page={{ object_list.previous_page_number }}" class="">Indietro</a>
+                        <!--<a href="?page=1" class="">1</a>-->
+                    {% endif %}
+                    {% for num in object_list.paginator.page_range %}
+                        {% if object_list.number == num %}
+                        <span>{{ num }}</span>
+                            {% else %}
+                                <a href="?page={{ num }}" class="">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if object_list.has_next %}
+                        <a href="?page={{ object_list.next_page_number }}" class="">Avanti</a>
+                        <!--<a href="?page={{ object_list.paginator.num_pages }}" class="">Fine</a>-->
+                    {% endif %}
+                </div>
+            {% endif %} <!-- ************************ END PAGINATOR -->
+		</div>
+		 <!-- ******************************************************** Start listSide -->
+		<!--<div class="listSide floatting">
+			<div class="widthDiv100">
+				<h4 class="rightAllignment">Popolari</h4>
+				<hr/>
+			</div>
+			{% for corso in popolari %}
+				<div class="widthDiv100 flexBoxRight">
+					<div class="widthDiv75 flexBoxRightColumn">
+						{% if corso.img_corso %}
+							<img class="imgImg" src="{{ corso.img_corso.url }}" alt="Logo del corso" width="150" height="75">
+						{% endif %}
+						<a href="{{ corso.get_absolute_url }}">{{corso.nome_corso}}</a>
+						<div>
+							{% if user in corso|followers %}
+								<span class="buttonColorRed like_follLabel">
+									<img alt="Like" src="https://png.icons8.com/metro/18/000000/like.png">
+								</span>
+							{% endif %}
+							<span class="buttonColorBlue like_follLabel">
+								{{ corso.followers.count }} Followers
+								<img alt="Followers" src="https://png.icons8.com/material/18/000000/two-hearts.png">
+							</span>
+						</div>
+					</div>
+				</div>
+				<hr/>
+			{% endfor %}
+		</div> --> <!-- ************************************************************************ End listSide -->
+		<script>
+			filtro('all');
+			function filtro(x) {
+				if (x == 'all') {
+					var elem = document.querySelectorAll('.corsi, .preferiti');
+					var i;
+					for (var i = 0; i < elem.length; i ++) {
+						elem[i].style.display = null;
+					}
+				}
+				else {
+					var elem = document.getElementsByClassName('corsi'), i;
+					for (var i = 0; i < elem.length; i ++) {
+						elem[i].style.display = 'none';
+					}
+				}
+			}
+			function filtroSezione(c){
+				if (c == 'orientamento') {
+					var elem = document.querySelectorAll('.sezione_2, .sezione_3');
+					var open = document.querySelectorAll('.sezione_1');
+					var i;
+					for (var i = 0; i < elem.length; i ++) {
+						elem[i].style.display = 'none';
+					}
+					for (var i = 0; i < open.length; i ++) {
+						open[i].style.display = null;
+					}
+				}
+				if (c == 'impresa') {
+					var elem = document.querySelectorAll('.sezione_1, .sezione_3');
+					var open = document.querySelectorAll('.sezione_2');
+					var i;
+					for (var i = 0; i < elem.length; i ++) {
+						elem[i].style.display = 'none';
+					}
+					for (var i = 0; i < open.length; i ++) {
+						open[i].style.display = null;
+					}
+				}
+				if (c == 'digitale') {
+					var elem = document.querySelectorAll('.sezione_2, .sezione_1');
+					var open = document.querySelectorAll('.sezione_3');
+					var i;
+					for (var i = 0; i < elem.length; i ++) {
+						elem[i].style.display = 'none';
+					}
+					for (var i = 0; i < open.length; i ++) {
+						open[i].style.display = null;
+					}
+				}
+			}
+		</script>
+{% endblock content %}

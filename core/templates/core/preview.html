@@ -1,0 +1,156 @@
+<!--
+********************************* PAGINA DEL CORSO
+-->
+
+
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | Preview {{ corso.nome_corso }} {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+<div id="detailImg" class="widthDiv100 floatting">
+  {% if corso.img_corso %}
+     <img src="{{ corso.img_corso.url }}" alt="Logo del corso" width="100%" height="300">
+     {% else %}
+  {% endif %}
+</div>
+
+<div id="detail">
+        <div class="widthDiv75 floatting">
+            <h1>
+                {{ corso.nome_corso }}
+                <button id="btnCorso" title="Modifica Corso" type="button" data-toggle="modal" data-target="#exampleModal2" class="lightness"></button>
+            </h1>
+            <h4>di {{ corso.docente_corso }}</h4>
+            <hr/>
+        </div>
+
+        <div id="rightList" class="rightAllignment floatting">
+            <div class="widthDiv100 flexBoxSpaceBetween">
+                <a href="{% url 'cancella_corso' pk=corso.pk %}" title="Cancella Corso" onclick="return confirm('Eliminare il contenuto?')" class="button buttonColorRed">Elimina</a>
+			    <a href="{% url 'miei_mooc' %}" class="button goldLinkatoColor">Continua</a>
+            </div>
+            <div class="widthDiv100">
+                <h4 class="rightAllignment" >
+                    <button id="btnLezione" title="Nuova Lezione" type="button" data-toggle="modal" data-target="#exampleModal" class="lightness"></button>
+                    Programma
+                </h4>
+                <hr/>
+                {% for lezione in lista_lezioni %}
+                    <a title="Video" href="{{ lezione.get_absolute_url }}" class="rightAllignment">
+                        <a title="Elimina Lezione" href="{% url 'elimina_lezione' pk=lezione.pk %}" onclick="return confirm('Eliminare il contenuto?')">
+                            <img alt="Elimina Lezione" src="https://png.icons8.com/metro/24/000000/trash.png">
+                        </a>
+                        {{ lezione.nome_lezione }}
+                        <img alt="Riproduci" src="https://png.icons8.com/material/18/000000/play.png" class="button goldLinkatoColor">
+                    </a>
+                    {% if lezione.allegato_lezione %}
+                        <a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato">
+                            <img alt="Scarica Allegato" src="https://png.icons8.com/material/18/000000/attach.png" class="button buttonColorRed play">
+                        </a>
+                    {% endif %}
+                    <hr/>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="widthDiv75 floatting">
+            <h4>Descrizione</h4>
+            <p>{{ corso.descrizione_corso|linebreaks }}</p>
+            <h4>Obiettivi</h4>
+            <p>{{ corso.obiettivi_corso|linenumbers|linebreaks }}</p>
+            <p class="didascalie rightAllignment">Ultimo aggiornamento: {{ corso.data_corso|date:'d/m/Y' }}</p>
+            <hr/>
+            <div class="widthDiv100 flexBoxSpaceBetween">
+            {% if is_liked %}
+                <div>
+                    <p class="didascalie">Il corso è nella tua lista dei preferiti</p>
+                    <a title="Rimuovi dai preferiti" href="{% url 'salva_preferiti' pk=corso.pk %}" class="button buttonColorRed">
+                        Rimuovi dai preferiti
+                    </a>
+                </div>
+                    {% else %}
+                        <div>
+                         <p class="didascalie">Puoi salvare il corso nella tua lista dei preferiti</p>
+                         <a title="Salva tra i preferiti" href="{% url 'salva_preferiti' pk=corso.pk %}" class="button buttonColorBlue">
+                            Salva tra i preferiti
+                         </a>
+                        </div>
+            {% endif %}
+                {% if corso.allegati_corso %}
+                <div>
+                    <a href="{{ corso.allegati_corso.url }}" download="Programma" class="redDiv pdf">
+                        Scheda PDF
+                        <img src="https://png.icons8.com/material/18/000000/download.png">
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+			  <div class="modal-header goldLinkatoColor">
+				  <h5 class="modal-title centerAllignment">Aggiungi Lezione</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				  <div>
+					  <form method="post" enctype="multipart/form-data" novalidate>
+						{% csrf_token %}
+						  {% for field in form_lezione %}
+							  <div class="labelStyle floatting">
+								  {{ field.label_tag }}
+							  </div>
+							  <div class="floatting floatting">
+								  {{ field }}
+							  </div>
+						  {% endfor %}
+						<input name="form_lezione" type="submit" value="Salva Lezione" class="button buttonColorBlue widthDiv75">
+					  </form>
+				  </div>
+
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+		<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+			  <div class="modal-header goldLinkatoColor">
+				  <h5 class="modal-title centerAllignment">Modifica Corso</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				  <div>
+					  <form method="post" enctype="multipart/form-data" novalidate>
+						{% csrf_token %}
+						  {% for field in form %}
+							<div class="labelStyle widthDiv100 floatting">
+								{{ field.label_tag }}
+							</div>
+							<div class="floatting widthDiv100 floatting">
+								{{ field }}
+							</div>
+							<div class="floatting widthDiv100 floatting">
+								{{ field.errors }}
+							</div>
+						{% endfor %}
+
+						<input name="form_modifica_corso" type="submit" value="Salva Modifiche" class="button buttonColorBlue widthDiv75">
+					  </form>
+				  </div>
+
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+
+{% endblock content %}

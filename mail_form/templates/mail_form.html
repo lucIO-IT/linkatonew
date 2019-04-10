@@ -1,0 +1,48 @@
+<!--
+
+*********************************************** FORM DI CONTATTO VIA MAIL
+
+-->
+
+
+{% extends 'base.html' %}
+{% block head_title %}{{ block.super }} | Contattaci {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+<div id="mailArea">
+    <div class="blackGround">
+        <h1 class="centerAllignment">CONTATTACI</h1>
+    </div>
+    <div class="topNew floatting">
+
+        <form action="{% url 'homepage' %}" method="post">
+
+            {% csrf_token %}
+
+            <div class="floatting widthDiv100">
+
+            {% for field in form %}
+
+                    <div class="labelStyle widthDiv100 floatting">
+                       {{ field.label_tag }}
+                    </div>
+                    <div class="floatting widthDiv100 floatting">
+                       {{ field }}
+                    </div>
+
+            {% endfor %}
+
+		    </div>
+
+            <div class="floatting widthDiv100">
+                <input type="submit" class="button buttonColorBlue widthDiv100" value="INVIA"/>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock content %}

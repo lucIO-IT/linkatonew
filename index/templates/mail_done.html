@@ -1,0 +1,28 @@
+<!--
+
+*********************************************** MAIL INVIATA CON SUCCESSO
+
+-->
+
+
+{% extends 'base.html' %}
+{% block head_title %}{{ block.super }} | Mail Inviata {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+<div id="mailArea">
+
+    <div class="blackGround">
+        <h1 class="centerAllignment">MAIL INVIATA</h1>
+    </div>
+
+    <div class="topNew floatting widthDiv100">
+
+        <p>Il messaggio è stato inviato con successo</p>
+        <p>Clicca sul pulsante per tornare alla home page:</p>
+        <a href="{% url 'homepage' %}" class="button buttonColorBlue">HOME</a>
+    </div>
+
+</div>
+
+{% endblock content %}

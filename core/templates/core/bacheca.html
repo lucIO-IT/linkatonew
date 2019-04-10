@@ -1,0 +1,80 @@
+<!--
+********************************* PAGINA CONTENENTE I CORSI DELL'UTENTE DOVE E' POSSIBILE EFFETTUARE LE MODIFICHE DEI CONTENUTI
+-->
+
+
+{% extends 'core_user.html' %}
+{% block head_title %}{{ block.super }} | Miei Corsi {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+        <!-- Box relativo alla schermata di caricamento -->
+        <div id="schermata_caricamento">
+            <p>Caricamento</p>
+            <img src="{% static 'img/preloading.gif' %}">
+        </div>
+
+        <!-- Il resto della vostra pagina... -->
+
+        <!-- Librerie JavaScript incluse -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">$("#schermata_caricamento").fadeOut(3000);</script>
+
+		<aside class="floatting">
+			<div id="aside_button" class="button goldDiv floatting widthDiv25">
+				<img src="https://png.icons8.com/material/50/000000/more.png">
+			</div>
+			<div class="floatting widthDiv100">
+                <a href="{% url 'crea_corso' %}" class="button buttonColorRed buttonMarginWidth47 floatting">Crea corso</a>
+			</div>
+		</aside>
+
+        <div id="list" class="floatting">
+			<div class="floatting widthDiv100">
+				<h4 class="centerAllignment">MIEI CORSI</h4>
+				<hr/>
+			</div>
+            {% if list %}
+                {% for corso in list %}
+
+                    <div class="floatting widthDiv100">
+					<div class="imgDiv">
+						{% if corso.img_corso %}
+							<img src="{{ corso.img_corso.url }}" alt="Logo del corso" width="220px" height="130px">
+						{% endif %}
+					</div>
+					<div class="descDiv">
+						<h5>
+							<a href="{{ corso.get_absolute_url }}">{{ corso.nome_corso }}</a>
+							{% if corso.is_liked %}
+								<span>| Ti piace</span>
+								<img alt="Like" src="https://png.icons8.com/metro/24/000000/like.png">
+							{% endif %}
+						</h5>
+						<p> {{ corso.descrizione_corso|truncatechars:90 }} </p>
+						<p class="didascalie">
+							<span class="didascalie">
+                                Ultima modifica: {{ corso.data_corso|date:'d/m/y' }}
+                                <a href="{% url 'preview_corso' corso.pk %}" title="Modifica Corso"><img alt="Modifica Corso" src="https://png.icons8.com/material/24/000000/edit-property.png"></a>
+                                <a href="{% url 'cancella_corso' corso.pk %}" title="Cancella Corso" onclick="return confirm('Eliminare il contenuto?')"><img alt="Elimina Corso" src="https://png.icons8.com/material/24/000000/trash.png"></a>
+                            </span>
+						</p>
+						<hr/>
+					</div>
+				</div>
+                {% endfor %}
+                {% else %}
+                    <div class="widthDiv100">
+                        <div><p class="centerAllignment">Non hai ancora creato nessun corso</p></div>
+                    </div>
+            {% endif %}
+
+        </div>
+
+        <div id="rightList" class="floatting widthDiv100">
+            <div class="widthDiv100 rightAllignment">
+                <a href="{% url 'account_profile' %}" class="button buttonColorGray buttonMarginWidth47 floatting" style="float:right;">Dashboard</a>
+            </div>
+        </div>
+
+{% endblock content %}

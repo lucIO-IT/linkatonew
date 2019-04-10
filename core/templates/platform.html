@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>{% load static %}{% load miei_filtri %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/colors.css' %}" />
+    <title>Prova</title>	
+  </head>
+  <body>
+   <div class="container">
+    <div class="nav">
+	   <div>
+	     <div class="flDiv100">
+			 <div class="flexBox">
+				 <button title="Apri Menu" onclick="javascript:displayMenu()" class="circle">
+					 <i class="fas fa-caret-down"></i>
+				 </button>
+			 	<h2 class="">Nome Account</h2>
+			 </div>
+		 </div>
+		 <div class="flDiv100 color-black">
+			 <input type="text" id="myInput" onkeyup="searchFilerElements()" placeholder="Cerca" title="Type in a name">
+		    <a href="{% url 'crea_corso' %}" class="nuBtnYellow">Nuovo Corso</a>
+		 </div>
+		 <div id="responsiveMenu">
+			 <hr />
+			 <h3>Menu</h3>
+			 <hr />
+    		  <ul class="menu">
+    		    <!--<li>
+    			  <a href="#">Notifiche</a>
+    			</li>-->
+    			<li>
+    			  <a href="{% url 'password_change' %}">Modifica Password</a>
+    			</li>
+    			<li>
+    			  <a href="{% url 'elimina_account' pk=request.user.pk %}">Elimina Account</a>
+    			</li>
+    			<li>
+    			  <a href="{% url 'logout' %}">Logout</a>
+    			</li>
+    		  </ul>
+		 </div>
+	   </div>
+	</div>
+	<div class="main">
+	<div class="top">
+
+	    <div >
+			<h4 class="logo">Linkato</h4>
+        </div>
+	</div>
+	<div id="list" class="list">
+		<h1>Risorse Didattiche</h1>
+		{% for corso in object_list %}
+	   <div id="post{{ corso.pk }}" class="card sezione1">
+	      <div class="close"><a href="javascript:closeWin()" title="Chiudi Finestra"><i class="fa fa-window-close" aria-hidden="true"></i></a></div>	   	  
+
+		  <div>
+		      <h3>{{ corso.nome_corso }}</h3>
+		      <img alt="Img" src="{{ corso.img_corso.url }}" class="img"/>
+    		  <br />
+			  <br />
+			  <div class="flexBox">
+				  <div>{% if request.user in corso.followers.all %}
+					  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti">
+						  <i class="fas fa-heart"></i>
+					  </a>
+					  {% else %}
+					  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Rimuovi dai preferiti">
+						  <i class="fas fa-user-slash"></i>
+					  </a>
+					  {% endif %}
+				  </div>
+				  <div><span>{{ corso.followers.count }} Followers</span> <i class="fa fas fa-user-friends"></i></div>
+    		  </div>
+    		  <hr />
+			  <a href="javascript:displayWindow('post{{ corso.pk }}')" class="nuBtnYellow">Mostra</a>
+		  </div>
+		  <div class="contentList">
+		    <div>
+			 <h3>Descrizione</h3>
+			 {{ corso.descrizione_corso|linebreaks }}
+			</div>
+			<div>
+			 <h3>Obiettivi</h3>
+			 {{ corso.obiettivi_corso|linebreaks }}
+			</div>
+			<div>
+			  <h3>Contenuti</h3>
+			  <ol>{% for lezione in corso.get_lessons %}
+			    <li>
+					<a href="{{ lezione.get_absolute_url }}?page={{ forloop.counter }}">
+						{{ lezione.nome_lezione }}</a>
+				</li>{% endfor %}
+			  </ol>
+			</div>
+			{% if corso.allegati_corso %}<div>
+			  <a href="{{ corso.allegati_corso.url }}" download="Programma" class="redDiv pdf">
+				  Scheda PDF
+				  <img src="https://png.icons8.com/material/18/000000/download.png">
+			  </a>
+		    </div>{% endif %}
+		  </div>
+	   </div>{% endfor %}
+    </div>
+	</div> <!-- End Main -->	
+	</div> <!-- Container -->
+         <!--<button id="fixedBtn" onclick="searchCall()"><i class="fa fa-search"></i></button>
+		 <div id="search" >
+		 	  <div class="searchContent">
+			  	   <form>
+    			  	   <input type="text" placeholder="Cerca..." name="q" autocomplete="off">
+    				   <button type="submit"><i class="fa fa-search"></i></button>
+				   </form>
+			  </div>
+	     </div>-->
+	<script src="{% static 'script.js' %}">
+	</script>
+  </body>
+</html>

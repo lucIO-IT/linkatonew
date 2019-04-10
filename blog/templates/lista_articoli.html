@@ -1,0 +1,44 @@
+<!--
+********************************* ELENCO DI TUTTI GLI ARTICOLI PUBBLICATI NELLA SEZIONE BLOG
+-->
+
+
+{% extends 'base.html' %}
+{% block head_title %}{{ block.super }} | Blog {% endblock head_title %}
+{% block content %}
+{% load static %}
+
+		<div class="floatting widthDiv100 centerAllignment" > <!-- ************************ START cc-DIV -->
+			<hr/>
+			<h1>Articoli Recenti</h1>
+			<hr/>
+		</div> <!-- ************************ END CC-DIV -->
+
+		{% for articolo in object_list %} <!--Questo loop serve per dividere gli articoli in file da 4 -->
+
+			{% if forloop.first %} <!-- Se si tratta del primo articolo della fila, apro una riga da 4 -->
+				<div class="cardBoxContainer">
+			{% endif %}
+					<div class="cardWindowBox">
+						<div>
+							<h4>{{ articolo.title }}</h4>
+							<p>Pubblicato {{ articolo.published_date }}</p>
+						</div>
+						<div>
+							<hr/>
+							<a href="{% url 'articolo_view' title=articolo.title %}" class="button buttonColorBlue">VAI ALL'ARTICOLO</a>
+						</div>
+					</div>
+			{% if forloop.counter|divisibleby:"3" or forloop.last %} <!-- Se si tratta di un divisibile di 4 o dell'ultimo articolo inserito, chiudo la fila -->
+				</div>
+			{% endif %}
+
+			{% if forloop.counter|divisibleby:"3" and not forloop.last %} <!-- Se si tratta di un divisibile di 4 e non è l'ultimo articolo inserito, apro una nuova fila -->
+<div class="cardBoxContainer" >
+			{% endif %}
+
+		{% endfor %}
+
+		</div> <!-- ************************ START cc-DIV -->
+
+{% endblock content %}

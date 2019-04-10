@@ -1,0 +1,109 @@
+
+        /* ***** Mobile View ***** */
+
+        @media screen and (max-width: 600px){
+
+        /*1] Body */
+
+        body {padding: 0px;}
+        body p, body .button {font-size:12px;}
+        body h1 {font-size:39px;}
+        body h2 {font-size:33px;}
+        body h3 {font-size:29px;}
+        body h4 {font-size:25px;}
+        body h5 {font-size:19px;}
+        body h6, .button {font-size:15px;}
+        .didascalie {font-size: 9px;}
+
+        /*2] Hidden Elements */
+
+        #hiddenButton {display:block; }
+		ul#menuStyle, header span, #menu, #poster, #user_options {display:none;}
+
+		/*3] Width 100%  */
+
+        #container, footer,
+		main, #ccDiv, #dxDiv, #cardBoxContainer, #mailArea, #article, .cardWindowBox,
+		#menu, nav label,
+		aside, #corso_view,
+		#topNew  .button, #leftList, .imgImg {width:100%; }
+
+		#mailArea {padding:0px; margin: 0px;}
+
+		#corso_view .buttonColorRed {width: 50%; margin: 0px;}
+
+		/*4] Header */
+
+        header h1 {font-size: 72px;}
+        #userBanner { position:fixed; z-index:1; top:-7.5px;}
+		nav #menu a {float:left; width:100%; }
+		#top, nav {height: auto;}
+
+		/*5] Main-Footer */
+
+        main {padding-bottom:20px;}
+		main #ccDiv h1 {font-size:32px; }
+		#dxDiv {margin:0px;}
+		footer {justify-content:center; flex-direction:column;}
+
+		/*6] E-Learning View */
+
+		aside {background-color: white; position: fixed; left: 100%; top:25%; transition: 0.99s; border-radius: 0 5px 5px 0; box-shadow: 1px 1px 1px 1px rgb(185,185,185)}
+		aside:hover {left: 5px;}
+		#aside_button{display:block; position: relative; right:60px; z-index:20;}
+		#corso_view{padding:0px 5px 15px 5px; width: 100%;}
+		#list, #list div, #rightList {width: 100%;}
+		#list, #lessonDiv {margin-bottom: -20px;}
+		#list div {margin-top:0%;}
+		#list .imgDiv, #list .descDiv {width: 90%;}
+		#list .imgDiv img {width: 100%;}
+		#leftList {margin: 0%;}
+		#listTopMenu a {width: 33%;}
+        #listTopMenu #searchContainer {display: none;}
+        #list .flexBox {flex-direction: column;}
+        #list .flexBoxColumn .img{width: 100%;}
+        #detail, #detail div {position: static; width: 100%; }
+        #detail .flexBoxSpaceBetween {display: block;}
+        #detail .flexBoxSpaceBetween a, #detail .pdf {width: 100%;}
+        #detail .pdf {font-size: 12px;}
+        #detailImg {display: none;}
+        #rightList{margin-top:0px;}
+
+		/*7] Miscellaneus */
+
+		.textInputStyle {width:40%;}
+		.cardWindowBox {margin-bottom:7.5px;}
+		.descDiv span {display: inline-block;}
+		input[type=checkbox]:checked ~ #user_options {right: 0px;}
+
+        }
+
+        /* ------------------------------------------- [* 4 *] */
+
+        @media screen and (min-width: 601px) and (max-width: 768px){
+        ul#menuStyle, header span, #poster {display:none;}
+		nav #menu a {float:left; width:19%; font-size:14px; }
+		.textInputStyle {width:40%;}
+		.cardWindowBox {margin-bottom:7.5px;}
+		main, #cardBoxContainer, #ccDiv, #mailArea, #article, .cardWindowBox, #menu, aside, #leftList, #list, #rightList {width: 100%;}
+		main #ccDiv h1 {font-size:32px; }
+		#corso_view{padding:5px; width: 100%;}
+		footer {justify-content:center; flex-direction:column;}
+		#dxDiv { width:100%; margin:0px;}
+		#user_options {display:none;}
+		#leftList {margin: 0px;}
+        }
+
+        /* ------------------------------------------- [* 5 *] */
+
+        @media screen and (min-width: 769px) and (max-width: 1024px){
+        .cardWindowBox, #leftList, #list, #rightList {width:100%; }
+        #leftList {margin: 0px;}
+        #user_options {display:none;}
+        }
+
+        /* ------------------------------------------- [* 6 *] */
+
+        @media screen and (min-width: 1025px) and (max-width: 1200px){
+        #user_options {display:none;}
+		}
