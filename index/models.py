@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
-#from core.models import Corso
+from core.models import Corso
 
 
 # Create your models here.
@@ -41,6 +41,14 @@ class Utente(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def school_name(self):
+        scuola = Scuola.objects.filter(codice=self.scuola)
+        return scuola
+
+    def corsi(self):
+        corsi = Corso.objects.filter(docente_corso=self.user)
+        return corsi
 
     class Meta:
         verbose_name = "Utente"

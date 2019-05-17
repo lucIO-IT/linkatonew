@@ -1,54 +1,85 @@
-{% extends 'base.html' %}
-{% block head_title %}{{ block.super }} | Registrazione Scuola {% endblock head_title %}
-{% block content %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>{% load static %}{% load miei_filtri %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/accounts-layout.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/colors.css' %}" />
+    <title>Registrazione Scuola</title>
+  </head>
+  <body>
+   <div class="container">
+	   <div id="list" class="form-list" style="">
+		   <div class="form-card">
+			   {% if form.errors %}
+				<p class="centerAllignment goldLinkatoColor"><strong>Username e/o Password non risultano registrate. Si prega di riprovare</strong></p>
+				{% endif %}
 
-<div id=mailArea>
+				<div class="floatting widthDiv100 floatting textColorRed">
+				 {{ user_esiste }}
+				</div>
 
-    <div class="blackGround">
-        <h1 class="centerAllignment">REGISTRAZIONE SCUOLA</h1>
-    </div>
-    <div class="topNew floatting">
-        <form method="post" novalidate autocomplete="off">
+				<form action="{% url 'registrazione' %}" method="post" autocomplete="off" novalidate class="form">
 
-        {% csrf_token %}
+				{% csrf_token %}
+				<header class="card-header">
+					<h1 >REGISTRAZIONE SCUOLA</h1>
+				</header>
+				<div>
+				{% for field in form %}
+				<div>
+					{{ field.label_tag }}
+				</div>
+				<div>
+					{{ field }}
+				</div>
+				<div>
+					{{ field.errors }}
+				</div>
+			{% endfor %}
+			{% for field in form_utente %}
+				<div>
+					{{ field.label_tag }}
+				</div>
+				<div>
+					{{ field }}
+				</div>
+				<div>
+					{{ field.errors }}
+				</div>
+			{% endfor %}
+				{% for field in form_scuola %}
+				<div>
+					{{ field.label_tag }}
+				</div>
+				<div>
+					{{ field }}
+				</div>
+				<div>
+					{{ field.errors }}
+				</div>
+			{% endfor %}
 
-		<div class="floatting widthDiv100">
+			<!-- Da implementare registrandosi al sito: https://www.google.com/recaptcha/admin -->
+			<!--<script src='https://www.google.com/recaptcha/api.js'></script>
+			<div class="g-recaptcha widthDiv100 floatRight" data-sitekey="6LdRSRYUAAAAAFCqQ1aZnYfRGJIlAUMX3qkUWlcF"></div>-->
 
-         {% for field in form_scuola %}
-			<div class="labelStyle widthDiv100 floatting">
-				{{ field.label_tag }}
 			</div>
-			<div class="floatting widthDiv100 floatting">
-				{{ field }}
-			</div>
-			<div class="floatting widthDiv100 floatting">
-				{{ field.errors }}
-			</div>
-        {% endfor %}
+				<div class="floatting widthDiv100">
+					<button type="submit" class="button nuBtnYellow">INVIA</button>
+					<input type="hidden" name="next" value="{{ next }}"/>
+				</div>
 
-        {% for field in form %}
-			<div class="labelStyle widthDiv100 floatting">
-				{{ field.label_tag }}
-			</div>
-			<div class="floatting widthDiv100 floatting">
-				{{ field }}
-			</div>
-			<div class="floatting widthDiv100 floatting">
-				{{ field.errors }}
-			</div>
-        {% endfor %}
-
-		</div>
-            <div class="floatting widthDiv100">
-                <button type="submit" class="button buttonColorBlue widthDiv100">INVIA</button>
-                <input type="hidden" name="next" value="{{ next }}"/>
-            </div>
-        </form>
-	</div>
-</div>
-
-<script>
+				</form>
+			   </div>
+	   </div></div>
+	<script src="{% static 'script.js' %}">
+	</script>
+  	<script>
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
@@ -373,5 +404,5 @@ var cities = [
 autocomplete(document.getElementById("id_regione"), countries);
 autocomplete(document.getElementById("id_provincia"), cities);
 </script>
-
-{% endblock content %}
+  </body>
+</html>

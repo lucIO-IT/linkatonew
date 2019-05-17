@@ -1,16 +1,26 @@
        /******************************************************* colors */
-	   .linkYellow, .nuBtnYellow, .top, .menu li a:hover {
-	   background-color:rgb(245,205,5);
+       main {background: rgb(235,235,235);}
+       .section-title {background: white;}
+
+       .gray {
+       color: rgb(150,150,150);
+       }
+
+	   .linkYellow, .nuBtnYellow, .menu li a:hover {
+	   background-color: rgb(235, 185, 35);
 	   color: rgb(85,85,85);
 	   }
+	   .link {color: rgb(70, 95, 185); text-decoration: none;}
 	   .linkBlue, #fixedBtn, #search .searchContent button, #search .searchContent {
 	   background-color: rgb(70, 95, 185);
 	   color:white;
 	   border-color: rgb(70, 95, 185);
 	   }
-	   .linkRed {
-	   background-color:rgb(220,50,70);
-	   color:white;
+	   .red {
+	   color: rgb(220,50,70);
+	   }
+	   .gold {
+	   color: rgb(235, 185, 35);
 	   }
 
 	   #topPage {
@@ -28,14 +38,16 @@
 	   color: rgb(50, 75, 90);
 	   }
 
-	   .main *  {
+	   form label, main h1, main h2, main h3, main h4, main h5, main h6 {
 	   color: rgb(50, 75, 90);
+	   font-weight: bold;
+	   }
+	   form label {
+	   font-size: 18px;
 	   }
 
 	   #actionFormDiv h2 {
 	   color: white;
 	   }
 
-	   .nav * {
-	   color: white;
-	   }
+	   .dropdown {color: white;}

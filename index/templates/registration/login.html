@@ -1,68 +1,72 @@
-{% extends 'base.html' %}
-{% block head_title %}{{ block.super }} | Login {% endblock head_title %}
-{% block content %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>{% load static %}{% load miei_filtri %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/accounts-layout.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/colors.css' %}" />
+    <title>Login</title>
+  </head>
+  <body>
+   <div class="container">
+	   <div id="list" class="form-list" style="">
+		   <div class="form-card">
+			   {% if form.errors %}
+			<p class="centerAllignment goldLinkatoColor"><strong>Username e/o Password non risultano registrate. Si prega di riprovare</strong></p>
+			{% endif %}
 
-<div id="mailArea">
-    <div class="blackGround">
-        <h1 class="centerAllignment">LOGIN AREA</h1>
-    </div>
-    <div class="topNew">
-        {% if form.errors %}
-        <p class="centerAllignment goldLinkatoColor"><strong>Username e/o Password non risultano registrate. Si prega di riprovare</strong></p>
-        {% endif %}
+			{% if next %}
+				{% if user.is_authenticated %}
+				<p>L'Account non possiede i privilegi necessari per accedere a questa pagina. Contatta gli amministratori del sito</p>
+				{% else %}
+				<p>Accedi al tuo account per visionare questa pagina.</p>
+				{% endif %}
+			{% endif %}
 
-        {% if next %}
-            {% if user.is_authenticated %}
-            <p>L'Account non possiede i privilegi necessari per accedere a questa pagina. Contatta gli amministratori del sito</p>
-            {% else %}
-            <p>Accedi al tuo account per visionare questa pagina.</p>
-            {% endif %}
-        {% endif %}
+			<form action="{% url 'login' %}" method="post" autocomplete="off" novalidate class="form">
 
-        <form action="{% url 'login' %}" method="post" autocomplete="off" novalidate>
+			{% csrf_token %}
+			<header class="card-header padd">
+				<h1>Login</h1>
+			</header>
+			<div>
+			{% for field in form %}
+					<div class="padd">
+					   {{ field.label_tag }}
+					</div>
+					<div>
+					   {{ field }}
+					</div>
+					<div class="padd">
+					   {{ field.errors }}
+					</div>
+			{% endfor %}
+			</div>
 
-        {% csrf_token %}
+				<div class="padd">
+					<button type="submit" class="button nuBtnYellow">VAI AI CORSI</button>
+					<input type="hidden" name="next" value="{{ next }}"/>
+				</div>
 
-        <div class="floatting widthDiv100">
+			</form>
 
-            <p>
-                Come username inserire nome e cognome separati dal simbolo "underscore",
-                assicurandosi di aver digitato correttamente maiuscole e minuscole.
-            </p>
-            <p> EX: "Paola_Bianchi", "Mario_Rossi"</p>
-
-        {% for field in form %}
-
-                <div class="labelStyle widthDiv100 floatting">
-                   {{ field.label_tag }}
-                </div>
-                <div class="floatting widthDiv100 floatting">
-                   {{ field }}
-                </div>
-				<div class="floatting widthDiv100 floatting">
-                   {{ field.errors }}
-                </div>
-
-        {% endfor %}
-
-		</div>
-
-            <div class="floatting widthDiv100">
-                <button type="submit" class="button buttonColorBlue widthDiv100">VAI AI CORSI</button>
-                <input type="hidden" name="next" value="{{ next }}"/>
-            </div>
-
-        </form>
-
-        {# Assumes you setup the password_reset view in your URLconf #}
-        <p class="rightAllignment"><a href="{% url 'password_reset' %}">Hai dimenticato la password?</a></p>
-        <!-- <span class="centerAllignment">Registrandoti accetti i nostri <a href="#">Termini di utilizzo</a> e la <a href="#">Politica sulla Privacy</a></span> -->
-        <hr/>
-        <p>Se non sei ancora in possesso di un account:</p>
-        <a href="{% url 'registrazione' %}" class="button buttonColorRed widthDiv100">REGISTRATI</a>
-    </div>
-
-</div>
-
-{% endblock content %}
+			{# Assumes you setup the password_reset view in your URLconf #}
+			<!--<p><a class="link" href="{% url 'password_reset' %}">Hai dimenticato la password?</a></p>-->
+			<!-- <span class="centerAllignment">Registrandoti accetti i nostri <a href="#">Termini di utilizzo</a> e la <a href="#">Politica sulla Privacy</a></span> -->
+			<hr/>
+			<div class="padd">
+				<p>Se non sei ancora in possesso di un account:</p>
+			</div>
+			<div class="padd">
+				<a href="{% url 'registrazione' %}" class="button nuBtn">Registrati</a>
+			</div>
+		   </div>
+	   </div></div>
+	<script src="{% static 'script.js' %}">
+	</script>
+  </body>
+</html>

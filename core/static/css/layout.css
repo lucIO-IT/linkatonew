@@ -1,3 +1,5 @@
+       @import url('include/widget-menu.css');
+
        /******************************************************* Layout */
        * {
        -moz-box-sizing: border-box;
@@ -11,18 +13,7 @@
 	   margin: 0;
        scroll-behavior: smooth;
        }
-	   body {
-	   font-family: 'Helvetica neue', Helvetica, sans-serif;	   
-	   }
-	   /*body h3 {
-	   font-size: 19px;
-	   }
-	   body p, a {
-	   font-size: 15px;
-	   }
-	   body hr {
-	   margin-bottom: 1.5px;
-	   }*/
+
 	   .container { 
 	   width:100%;
 	   overflow:hidden;
@@ -30,30 +21,51 @@
        justify-content: space-around;
        float:left;
 	   }
-	   .nav, .top, .list, .listSide { 
+	   .listSide, .list {
 	   padding: 15px;	   
 	   margin:0;
 	   }
-       .nav { 
-	   width: 17.5%;
+       .aside {
+	   width: 15%;
        min-height:100vh;
-       background-color:rgb(85,85,85);
-	   color:white;   
-       position:fixed; 
+       background-color: rgb(85,85,85);
+	   color:white;
+       position:fixed;
        left:0;
+       z-index: 11;
+       padding-top: 11.25vh;
+       overflow: hidden;
 	   }
        .main { 
-       width: 82.5%;
-       margin-left: 17.5%;
+       width: 100%;
+       min-height: 100vh;
+       padding-left: 15%;
+       padding-top: 11.25vh;
        }
-       .top {        
+       .top {
 	   width:100%;
-       display: flex;
-       justify-content: flex-end;
+	   position: fixed;
+	   display: flex;
+	   justify-content: flex-end;
+	   z-index: 10;
+	   background: rgb(235, 185, 35);
+	   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
 	   }
-	   /*.top div { margin: 0 3%; }*/
        .list {
-	   width:95%;
+	   width:100%;
+	   height: auto;
+       position: relative;
+	   }
+	   .lessons-list {
+	   background: rgb(130,130,130);
+	   position: fixed;
+	   right: 0;
+	   top: 0;
+	   height: 100vh;
+	   overflow: auto;
+	   z-index: 9;
+	   padding-top: 11.25vh;
+	   width: 250px;
 	   }
 	   .footer { 
 	   width:100%;
@@ -72,17 +84,20 @@
        margin-top: 10px;
        }
 	   .menu {
-       list-style-type: none;
-       padding: 0;
+       padding: 0;
 	   margin: 0;
-	   } 
-	   .menu li a { 
-	   margin-left:-50px;
+	   }
+	   .menu li {
+	   list-style-type: none;
+	   padding: 0;
+	   margin: 0;
+	   }
+	   .menu li a {
 	   color:white;
-	   padding:10px;
-	   margin-bottom:5px;
 	   text-decoration: none;
 	   display:block;
+	   padding: 10px;
+	   transition: all 0.15s;
 	   }
        .hiddenMenu { 
        display: none;
@@ -119,6 +134,10 @@
 	   padding: 10px;*/
        }
 
+       .padd {
+       padding: 10px;
+       }
+
 
 	   .flexBox { 
 	   display:flex;
@@ -130,6 +149,16 @@
 	   display:flex;
 	   flex-wrap:nowrap;
 	   justify-content: space-around;
+	   align-items: center;
+	   }
+	   .flexEnd {
+	   display:flex;
+	   justify-content: flex-end;
+	   align-items: center;
+	   }
+	   .flexCenter {
+	   display:flex;
+	   justify-content: center;
 	   align-items: center;
 	   }
 	   .flDiv25 { 
@@ -161,23 +190,33 @@
        }
        .color-black input, .color-black a {color: black;}
 
+       /* --- Font */
+       * {
+	   font-family: 'Didact Gothic', sans-serif;
+	   }
+	   h1,h2,h3,h4,h5,h6 {
+
+	   }
+	   h1,h2,h3,h4,h5,h6, p, a {padding: 0; margin: 0;}
+	   h6, p, a {
+	   font-size: 15px;
+	   }
+	   h5 {font-size: 18px;}
+	   h4 {font-size: 21px;}
+	   h3 {font-size: 24px;}
+	   h2 {font-size: 27px;}
+	   h1 {font-size: 30px;}
+	   a {text-decoration: none; color: rgb(235, 185, 35);}
+       a:active{opacity: 0.5;}
+
 
        /******************************************************* @Media */
-	   @media only screen and (max-width: 600px) {
-      	   .nav, .main {
-           width:100%;
-           margin:0;
-           min-height: 0; 
-           float:left; 
-           position:relative;
-     	   }
-           .container, .hiddenMenu { 
-           display:block;
-           }
-    	   .list {
-    	   width:100%;
-    	   }
-      	   #responsiveMenu, .top {
-           display: none;
+	   @media only screen and (max-width: 900px) {
+      	   .aside {
+      	   width: 80vh;
       	   }
+
+      	   .list {
+           width:100%;
+     	   }
 	  }

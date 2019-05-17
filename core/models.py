@@ -73,14 +73,12 @@ class Corso(models.Model):
 class Lezione(models.Model):
 
     nome_lezione = models.CharField(max_length=80)
-    link_lezione = models.CharField(max_length=1000, validators=[embed_validator])
+    link_lezione = models.CharField(max_length=1000, blank=True, null=True) #validators=[embed_validator]
     allegato_lezione = models.FileField(blank=True, null=True, upload_to=percorso_cartella_lezioni)
     corso_lezione = models.ForeignKey(Corso, on_delete=models.CASCADE, related_name="lezioni")
     data_lezione = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    contenuto = models.ForeignKey(ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': (
-        'filepdf',
-        'linkvideo'
-    )})
+    link = models.URLField(blank=True, null=True, validators=[embed_validator])
+    file = models.FileField(blank=True, null=True, upload_to=percorso_cartella_lezioni, validators=[pdf_validator])
 
     def __str__(self):
         return self.nome_lezione
@@ -97,10 +95,10 @@ class Risorsa(models.Model):
     nome = models.CharField(max_length=100, blank=True, null=True)
     corso = models.ForeignKey(Corso, on_delete=models.CASCADE, related_name="corso")
     data = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    contenuto = models.ForeignKey(ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': (
-        'filepdf',
-        'linkvideo'
-    )})
+    #contenuto = models.ForeignKey(ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': (
+    #    'filepdf',
+    #    'linkvideo'
+    #)})
 
     def __str__(self):
         return self.nome

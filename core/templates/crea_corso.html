@@ -1,0 +1,30 @@
+{% extends 'platform.html' %}
+{% block head_title %}{{ block.super }} | Nuovo Corso {% endblock head_title %}
+{% block content %}
+{% load static %}
+	<div class="section-title padd" style="border-bottom: 1px solid white;">
+        <h1>Crea Corso</h1>
+	</div>
+	<div id="list" class="list">
+		<form method="post" enctype="multipart/form-data" novalidate style="max-width: 600px;">
+			{% csrf_token %}
+			<div class="flDiv100">
+				{% for field in form %}
+				<div class="flDiv100 padd">
+					{{ field.label_tag }}
+				</div>
+				<div class="flDiv100">
+					{{ field }}
+				</div>
+				<div class="flDiv100 padd">
+					{{ field.errors }}
+				</div>
+				{% endfor %}
+			</div>
+			<div class="flDiv100 padd">
+				<input type="submit" class="button nuBtn" value="Salva e continua">
+			</div>
+			<div style="clear: both;"></div>
+		</form>
+	</div>
+{% endblock content %}

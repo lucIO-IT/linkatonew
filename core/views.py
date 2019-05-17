@@ -10,6 +10,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count
 from datetime import datetime
 from django.forms import modelformset_factory
+from django.db.models import Q
 
 
 # Create your views here.
@@ -35,7 +36,7 @@ def accountProfileView(request):
         #return render(request, 'core/account_profile.html', context)
         return render(request, 'platform.html', context)
     if request.user.is_anonymous:
-        return redirect('homepage')
+        return redirect('login')
     #if request.user.is_authenticated and not Utente.objects.filter(user=request.user).filter(scuola__isnull=True):
      #   return redirect('registrazione_dati_utente')
 
@@ -49,14 +50,34 @@ class EliminaAccount(DeleteView):
 
 
 def cerca(request):
-    if "q" in request.GET:
+    if "q" in request.GET and "sec" in request.GET:
         querystring = request.GET.get("q")
-        print(querystring)
-        if len(querystring) == 0:
-            return redirect("../lista_corsi/")
         corsi = Corso.objects.filter(nome_corso__icontains=querystring)
-        context = {"object_list": corsi}
-        return render(request, 'core/lista_corsi.html', context)
+        query = request.GET.get("sec")
+        if query != "0":
+            corsi = corsi.all().filter(sezione_corso__icontains=query)
+        if len(querystring) == 0 and query == "0":
+            return redirect("/")
+        else:
+            context = {"object_list": corsi}
+            return render(request, 'platform.html', context)
+
+
+def docente_corsi(request):
+    if "doc" in request.GET:
+        query = request.GET.get("doc")
+        corsi = Corso.objects.filter(docente_corso=query)
+        user = User.objects.get(pk=query)
+        context = {"object_list": corsi, "nome_docente": user}
+        return render(request, 'platform.html', context)
+
+
+def lista_docenti(request):
+    docenti = [] #User.objects.all()
+    for corso in Corso.objects.all():
+        docenti.append(corso.docente_corso)
+    docenti = list(set(docenti))
+    return render(request, 'docenti.html', context = {'docenti': docenti})
 
 
 #*** 2) Filtri elenco Corsi (List View)
@@ -106,23 +127,17 @@ def filtraCorsoDigitale(request):
 def filtraCorsoPreferiti(request):
     utente = request.user
     preferiti = Corso.objects.filter(followers=utente)
-    paginator = Paginator(preferiti, 4)
-    page = request.GET.get('page')
-    object_list = paginator.get_page(page)
-
-    context = {"preferiti": preferiti, "object_list": object_list}
-    return render(request, "core/lista_corsi.html", context)
+    object_list = preferiti.all()
+    context = {"object_list": object_list}
+    return render(request, "platform.html", context)
 
 
 def visualizzaMieiMooc(request):
     autore = Corso.objects.filter(docente_corso=request.user)
-    paginator = Paginator(autore, 4)
-    page = request.GET.get('page')
-    object_list = paginator.get_page(page)
     instance = 'mooc_key'
-
+    object_list = autore.all()
     context = {"object_list": object_list, "mooc_key": instance}
-    return render(request, "core/lista_corsi.html", context)
+    return render(request, "platform.html", context)
 
 
 #*** 3) Preferiti Func
@@ -139,18 +154,18 @@ def controllaUserFollower(request, pk):
 def salvaPreferiti(request, pk):
 
     corso = get_object_or_404(Corso, pk=pk)
-    is_liked = False
+    #is_liked = False
     #if request.method == 'GET':
     if request.user in corso.followers.all():
         corso = corso
         corso.followers.remove(request.user)
-        is_liked = False
-        return redirect('account_profile')
+        #is_liked = False
+        #return redirect('account_profile')
     else:
         corso = corso
         corso.followers.add(request.user)
-        is_liked = True
-        return redirect('account_profile')
+        #is_liked = True
+    return redirect('account_profile')
 
 
 #*** 4) Detail View
@@ -163,17 +178,40 @@ def visualizzaCorso(request, pk):
     if request.user in corso.followers.all():
         is_liked = True
     context = {"corso": corso, "lista_lezioni": lista_lezioni, "prima_lezione": prima_lezione, "is_liked": is_liked}
-    return render(request, "core/detail_view.html", context)
+    return render(request, "detail.html", context)
 
 
 def visualizzaLezione(request, pk):
     lezione = get_object_or_404(Lezione, pk=pk)
     corso_lezione = lezione.corso_lezione
     lista_lezioni = Lezione.objects.filter(corso_lezione=corso_lezione).order_by('data_lezione')
-    paginator = Paginator(lista_lezioni, 1)
-    page = request.GET.get('page')
-    list = paginator.get_page(page)
-    context = {"lezione": lezione, "lista_lezioni": lista_lezioni, "lessons_list": list, "corso_lezione": corso_lezione}
+    prev_lista_lezioni = Lezione.objects.filter(corso_lezione=corso_lezione).order_by('-data_lezione')
+    next = lista_lezioni[0]
+    previous = prev_lista_lezioni[0]
+
+    for i in lista_lezioni:
+        if int(i.pk) <= pk:
+            continue
+        else:
+            next = i
+            break
+
+    for x in prev_lista_lezioni:
+        if int(x.pk) >= pk:
+            continue
+        else:
+            previous = x
+            break
+
+    context = {
+        "lezione": lezione,
+        "lista_lezioni": lista_lezioni,
+        "corso_lezione": corso_lezione,
+        "next": next,
+        "previous": previous,
+        "prev_lista_lezioni": prev_lista_lezioni,
+
+    }
     return render(request, "core/lezione.html", context)
 
 
@@ -192,14 +230,16 @@ def creaCorso(request):
     else:
         form = CorsoModelForm()
     context = {"form": form}
-    return render(request, "core/crea_corso.html", context)
+    return render(request, "crea_corso.html", context)
 
 
-def eliminaCorso(request, pk):
-    corso = get_object_or_404(Corso, pk=pk)
-    if request.method == "GET":
-        corso.delete()
-        return redirect('miei_mooc')
+class FormModificaCorso(UpdateView):
+    model = Corso
+    fields = ['sezione_corso', 'nome_corso', 'img_corso', 'allegati_corso', 'descrizione_corso', 'obiettivi_corso']
+    template_name = "crea_corso.html"
+
+    def get_success_url(self):
+        return reverse('preview_corso', kwargs={"pk": self.object.pk})
 
 
 def previewCorso(request, pk):
@@ -232,7 +272,7 @@ def previewCorso(request, pk):
         form_lezione = LezioneModelForm()
 
     context = {"corso": corso, "lista_lezioni": lista_lezioni, "form": form, "form_lezione": form_lezione}
-    return render(request, "core/preview.html", context)
+    return render(request, "preview.html", context)
 
 
 def eliminaLezione(request, pk):
@@ -251,13 +291,11 @@ class CorsiList(ListView):
     paginate_by = 3
 
 
-class FormModificaCorso(UpdateView):
-    model = Corso
-    fields = ['sezione_corso', 'nome_corso', 'img_corso', 'allegati_corso', 'descrizione_corso', 'obiettivi_corso']
-    template_name = "core/crea_corso.html"
-
-    def get_success_url(self):
-        return reverse('preview_corso', kwargs={"pk": self.object.pk})
+def eliminaCorso(request, pk):
+    corso = get_object_or_404(Corso, pk=pk)
+    if request.method == "GET":
+        corso.delete()
+        return redirect('miei_mooc')
 
 
 def cancellaPreferiti(request, pk):

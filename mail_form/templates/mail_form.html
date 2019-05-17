@@ -5,29 +5,29 @@
 -->
 
 
-{% extends 'base.html' %}
+{% extends 'platform.html' %}
 {% block head_title %}{{ block.super }} | Contattaci {% endblock head_title %}
 {% block content %}
 {% load static %}
 
 <div id="mailArea">
-    <div class="blackGround">
-        <h1 class="centerAllignment">CONTATTACI</h1>
-    </div>
-    <div class="topNew floatting">
+    <div class="section-title padd" style="border-bottom: 1px solid white;">
+        <h1>Contattaci</h1>
+	</div>
+	<div id="list" class="list">
 
-        <form action="{% url 'homepage' %}" method="post">
+        <form action="{% url 'homepage' %}" method="post" style="max-width: 600px;">
 
             {% csrf_token %}
 
-            <div class="floatting widthDiv100">
+            <div class="flDiv100">
 
             {% for field in form %}
 
-                    <div class="labelStyle widthDiv100 floatting">
+                    <div class="flDiv100 padd">
                        {{ field.label_tag }}
                     </div>
-                    <div class="floatting widthDiv100 floatting">
+                    <div class="flDiv100">
                        {{ field }}
                     </div>
 
@@ -35,9 +35,10 @@
 
 		    </div>
 
-            <div class="floatting widthDiv100">
-                <input type="submit" class="button buttonColorBlue widthDiv100" value="INVIA"/>
+            <div class="flDiv100 padd">
+                <input type="submit" class="button nuBtn" value="Invia"/>
             </div>
+            <div style="clear: both;"></div>
 
         </form>
 

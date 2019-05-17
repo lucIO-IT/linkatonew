@@ -1,0 +1,79 @@
+       .form-list {
+       position: relative;
+       width: 100%;
+       padding: 15px;
+	   margin:0;
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   min-height: 100vh;
+       }
+	   .form-list::before {
+	   content: "";
+	   position: absolute;
+	   top: 0;
+       left: 0;
+       bottom: 0;
+       right: 0;
+	   background: rgba(0,0,0,0.25) url("../img/main-banner.jpg") no-repeat; background-size: cover;
+	   opacity: 0.6;
+	   z-index: -1;
+	   }
+
+	   * {font-family: 'Arial';}
+       .form-card p, .form-card label, .form-card .input {color: rgb(50, 75, 90);}
+       .form-card a {color: rgb(70, 95, 185); text-decoration: none;}
+       .form-card a:hover {opacity: 0.75;}
+       .form-card a:active{opacity: 0.5;}
+       .nuBtnYellow {
+	   display: block;
+       }
+
+       /******************************************************* Cards */
+
+       .form-card {
+       float: left;
+	   width: 31%;
+	   min-width: 350px;
+	   min-height:350px;
+	   margin: 1%;
+       padding: 10px;
+	   border: 1px solid gray;
+       border-radius: 15px;
+       -webkit-border-radius: 15px;
+       -moz-border-radius: 15px;
+       background:rgb(255,255,255);
+	   transition: transform 3s;
+	   margin-bottom: 50px;
+	   }
+	   .card-header {
+	   text-align: center;
+	   }
+	   .close {
+	   display:none;
+	   text-align:right;
+       margin-bottom:5px;
+	   }
+       .close * {
+       font-size:36px;
+       color:rgb(245,205,5);
+       }
+	   .contentList {
+	   display:none;
+	   transition: display 3s;
+	   }
+	   input, textarea {
+       width: 100%;
+       font-size: 16px;
+       padding: 12px;
+       border: 1px solid #ddd;
+       border-radius:10px;
+	   -webkit-border-radius: 10px;
+       -moz-border-radius: 10px;
+       margin-bottom: 12px;
+       }
+	   /******************************************************* @Media */
+	   @media only screen and (max-width: 600px) {
+      	  .form-card {width: 100%; min-width: 0; position: relative;}
+      	  .form-list {width: 100%;}
+	   }

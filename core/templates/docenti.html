@@ -1,0 +1,55 @@
+{% extends 'platform.html' %}
+{% block head_title %}{{ block.super }} | {{ corso.nome_corso }} {% endblock head_title %}
+{% block content %}
+{% load static %}
+    <div class="section-title padd" style="border-bottom: 1px solid white;">
+		<h1>Docenti e Partner</h1>
+	</div>
+	<div id="list" class="list">
+		{% for docente in docenti %}
+            <article id="docente{{ corso.pk }}" class="card" style="position: relative;">
+              <div class="flDiv100 padd">
+                  <div class="portrait" style="display: inline-block; width: 120px; height: 120px;">
+                      <img src="{% static 'img/profile.png' %}"/>
+                  </div>
+              </div>
+              <div class="padd flDiv100">
+                  <h5>{{ docente.first_name }} {{ docente.last_name }}</h5>
+              </div>
+              <div class="padd flDiv100">
+                  <span class="gray">
+                      {% if docente.utente.school_name|length > 0 %}
+                        {{ docente.utente.school_name.0.nome_scuola }}
+                      {% else %}Linkato{% endif %}
+                  </span>
+              </div>
+              <!--
+              <div class="padd flDiv100">
+                  <span class="gray">
+                      Numero di corsi pubblicati: {{ docente.utente.corsi.all|length }}
+                  </span>
+              </div>
+              -->
+              <div class="gold" style="position: absolute; top: 0; right: 0; margin: 10px;">
+                  {% if docente.utente.corsi|length < 2 %}
+                    <i class="fa fa-star"></i>
+                  {% endif %}
+                  {% if docente.utente.corsi|length >= 2 and docente.utente.corsi|length < 4 %}
+                    <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                  {% endif %}
+                  {% if docente.utente.corsi|length > 3 %}
+                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                  {% endif %}
+              </div>
+              <div class="padd flDiv100">
+                  <form method="get" action="{% url 'corsi_docente' %}">
+                      <button name="doc" type="submit" value="{{docente.pk}}" class="gold input-link">
+                          Elenco corsi
+                      </button>
+                  </form>
+              </div>
+              <div style="clear: both;"></div>
+            </article>
+        {% endfor %}
+    </div>
+{% endblock content %}

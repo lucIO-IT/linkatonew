@@ -3,7 +3,7 @@
 -->
 
 
-{% extends 'core_user.html' %}
+{% extends '../platform.html' %}
 {% block head_title %}{{ block.super }} | {{ corso_lezione.nome_corso }} {% endblock head_title %}
 {% block content %}
 {% load static %}
@@ -13,38 +13,57 @@
          visibilità piena quando hanno il cursore sopra
          margine rispetto all'iframe
     ************************************************* -->
-
-    {% for lezione in lessons_list %}
-        <div id="lessonDiv">
-            <h1 class="widthDiv100 centerAllignment">Corso: "{{ corso_lezione }}"</h1>
-            <div>
-                {% if lessons_list and lessons_list.has_previous %}
-                    <a title="Lezione precedente" href="?page={{ lessons_list.previous_page_number }}" class="lessonNextPrevButton">
-                        <img alt="Lezione precedente" src="https://png.icons8.com/flat_round/100/000000/wide-left-arrow.png">
+    <div class="section-title padd" style="border-bottom: 1px solid white;">
+        <h1>
+            Lezione: "{{ lezione }}"
+        </h1>
+        {% if lezione.allegato_lezione %}
+        <a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato">
+            Scarica Allegato <i class="fas fa-paperclip"></i>
+        </a>
+        {% endif %}
+	</div>
+	<div id="list" class="list" style="padding: 0;">
+        <div id="lessonDiv" class="flDiv75">
+            <div class="flDiv100 padd flexCenter">
+                {% if previous %}
+                    <a title="Lezione precedente" href="{% url 'finestra_lezione' pk=previous.pk %}" class="lessonNextPrevButton" style="font-size: 32px; margin: 25px;">
+                        <i class="fas fa-arrow-circle-left"></i>
                     </a>
-                    {% else %}
-                        <img alt="hidden" src="https://png.icons8.com/flat_round/100/000000/wide-left-arrow.png" class="hiddenElement">
                 {% endif %}
+                {% if lezione.link_lezione %}
                 {{ lezione.link_lezione|safe }}
-                {% if lessons_list and lessons_list.has_next %}
-                    <a title="Lezione successiva" href="?page={{ lessons_list.next_page_number }}" class="lessonNextPrevButton">
-                        <img alt="Lezione successiva" src="https://png.icons8.com/flat_round/100/000000/wide-right-arrow.png">
+                {% elif lezione.file %}
+                <object data="{{ lezione.file.url }}" type="application/pdf" width="100%" height="450px"></object>
+                {% endif %}
+                {% if next %}
+                    <a title="Lezione successiva" href="{% url 'finestra_lezione' pk=next.pk %}" class="lessonNextPrevButton" style="font-size: 32px; margin: 25px;">
+                        <i class="fas fa-arrow-circle-right"></i>
                     </a>
-                    {% else %}
-                        <img alt="hidden" src="https://png.icons8.com/flat_round/100/000000/wide-left-arrow.png" class="hiddenElement">
                 {% endif %}
             </div>
-            <h5 class="widthDiv100 lessonDiv">Lezione: "{{ lezione.nome_lezione }}"</h5>
-            <a href="{% url 'corsi_list' %}" class="button buttonColorDarkBlue widthDiv25"> Torna ai corsi</a>
-            {% if lezione.allegato_lezione %}
-                <a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato">
-                    <img alt="Scarica Allegato" src="https://png.icons8.com/material/18/000000/attach.png" class="button buttonColorRed play">
-                </a>
-            {% endif %}
+            <div class="flDiv100 padd">
+                <span>Lezione: "<lesson>{{ lezione.nome_lezione }}</lesson>"</span>
+
+            </div>
+            <div style="clear: both;"></div>
         </div>
-    {% endfor %}
-
-
-
-
+        <div class="lessons-list" style="">
+            <div class="padd" style="border-bottom: 1px solid white;">
+                <a href="{{ corso_lezione.get_absolute_url }}" style="color: white;">
+                    <h1 style="color: white;">{{ lezione.corso_lezione }}</h1>
+                </a>
+            </div>
+            <ul>
+                {% for lesson in lista_lezioni %}
+                    {% if lesson.pk == lezione.pk %}
+                    <li>
+                        <a href="{{ lesson.get_absolute_url }}" style="background: rgb(235, 185, 35);">{{ lesson.nome_lezione }}</a>
+                    </li>{% else %}
+                    <li><a href="{{ lesson.get_absolute_url }}">{{ lesson.nome_lezione }}</a></li>{% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
 {% endblock content %}

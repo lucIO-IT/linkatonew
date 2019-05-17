@@ -10,8 +10,8 @@ from .models import Scuola, Utente
 # Create your views here.
 
 def indexView(request):
-
-    return render(request, 'index.html')
+    return redirect('account_profile')
+    #return render(request, 'index.html')
 
 def registrazioneUtente(request):
     if request.method == "POST":
@@ -41,12 +41,15 @@ def registrazioneUtente(request):
                 utente = form_utente.save(commit=False)
                 utente.user = request.user
                 utente.save()
+                return redirect('account_profile')
+                """
                 if Scuola.objects.filter(codice=utente.scuola).exists():
                     scuola = Scuola.objects.get(codice=utente.scuola)
                     scuola.docenti_scuola.add(request.user)
                     return HttpResponseRedirect("../../core/profilo_utente/")
                 else:
                     return HttpResponseRedirect("/registrazione/dati_scuola/")
+                """
             else:
                 form = FormRegistrazioneUtente()
                 form_utente = FormDatiUtente()

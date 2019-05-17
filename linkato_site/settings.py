@@ -131,6 +131,7 @@ EMAIL_HOST_PASSWORD = 'yourpassword'
 EMAIL_PORT = 587
 
 LOGIN_REDIRECT_URL = "../../core/profilo_utente/"
+LOGOUT_REDIRECT_URL = "../../accounts/login/"
 
 
 # Static files (CSS, JavaScript, Images)

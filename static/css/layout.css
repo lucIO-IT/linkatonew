@@ -1,0 +1,190 @@
+       /******************************************************* Layout */
+       * {
+       -moz-box-sizing: border-box;
+       -webkit-box-sizing: border-box;
+	   box-sizing: border-box;
+	   }
+	   html, body {
+       height:100%;
+       height:100%;
+       padding: 0;
+	   margin: 0;
+       scroll-behavior: smooth;
+       }
+	   body {
+	   font-family: 'Helvetica neue', Helvetica, sans-serif;
+	   }
+	   /*body h3 {
+	   font-size: 19px;
+	   }
+	   body p, a {
+	   font-size: 15px;
+	   }
+	   body hr {
+	   margin-bottom: 1.5px;
+	   }*/
+	   .container {
+	   width:100%;
+	   overflow:hidden;
+       display:flex;
+       justify-content: space-around;
+       float:left;
+	   }
+	   .nav, .top, .list, .listSide {
+	   padding: 15px;
+	   margin:0;
+	   }
+       .nav {
+	   width: 17.5%;
+       min-height:100vh;
+       background-color:rgb(85,85,85);
+	   color:white;
+       position:fixed;
+       left:0;
+	   }
+       .main {
+       width: 82.5%;
+       margin-left: 17.5%;
+       }
+       .top {
+	   width:100%;
+       display: flex;
+       justify-content: flex-end;
+	   }
+	   /*.top div { margin: 0 3%; }*/
+       .list {
+	   width:100%;
+	   }
+	   .footer {
+	   width:100%;
+	   background-color:rgb(185,185,185);
+       float:left;
+	   }
+	   .footer div {
+	   width:40%;
+	   margin: 5%;
+	   float:left;
+	   }
+	   #lessonDiv p {display: none;}
+
+       /******************************************************* Menu */
+       #responsiveMenu {
+       float: left;
+       margin-top: 10px;
+       }
+	   .menu {
+       list-style-type: none;
+       padding: 0;
+	   margin: 0;
+	   }
+	   .menu li a {
+	   margin-left:-5px;
+	   color:white;
+	   padding:10px;
+	   margin-bottom:5px;
+	   text-decoration: none;
+	   display:block;
+	   }
+       .hiddenMenu {
+       display: none;
+	   }
+       .hiddenMenu a {
+  	   display: block;
+  	   text-decoration: none;
+  	   color: white;
+  	   padding:10px;
+	   margin-bottom:5px;
+  	   margin-left:-10px;
+	   }
+
+
+	   /******************************************************* Generic */
+	   .logo {
+       height:40px;
+       width:120px;
+       border-radius:40px;
+       -webkit-border-radius: 40px;
+       -moz-border-radius: 40px;
+       border:5px solid white;
+       background:white;
+       margin-right: 5%;
+       font-family:Calibri;
+       font-size:27px;
+       text-align: center;
+       margin: 0;
+       }
+       .gridContainer {
+	   /*display: grid;
+	   grid-template-columns: auto auto auto auto;
+	   grid-gap: 10px;
+	   padding: 10px;*/
+       }
+
+
+	   .flexCenter {
+        display:flex;
+	   flex-wrap:nowrap;
+	   justify-content: center;
+	   align-items: center;
+        }
+        .flexBox {
+	   display:flex;
+	   flex-wrap:nowrap;
+	   justify-content: space-between;
+	   align-items: center;
+	   }
+	   .flexTable {
+	   display:flex;
+	   flex-wrap:nowrap;
+	   justify-content: space-around;
+	   align-items: center;
+	   }
+	   .flDiv25 {
+	   width:25%;
+	   float:left;
+	   }
+       .flDiv50 {
+	   width:50%;
+	   float:left;
+	   }
+	   .flDiv75 {
+	   width:75%;
+	   float:left;
+	   }
+       .flDiv100 {
+       width:100%;
+       float:left;
+       }
+       .img {
+       width:100%;
+       height:100%;
+       }
+       .floatL {
+       float:left;
+       width: 100%;
+       }
+       .floatR {
+       float:right;
+       }
+       .color-black input, .color-black a {color: black;}
+
+
+       /******************************************************* @Media */
+	   @media only screen and (max-width: 600px) {
+      	   .nav, .main {
+           width:100%;
+           margin:0;
+           min-height: 0;
+           float:left;
+           position:relative;
+     	   }
+           .container, .hiddenMenu {
+           display:block;
+           }
+    	   .list {
+    	   width:100%;
+    	   }
+      	   #responsiveMenu, .top {
+           display: none;
+      	   }
+	  }

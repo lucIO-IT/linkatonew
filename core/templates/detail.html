@@ -1,0 +1,71 @@
+{% extends 'platform.html' %}
+{% block head_title %}{{ block.super }} | {{ corso.nome_corso }} {% endblock head_title %}
+{% block content %}
+{% load static %}
+    <div class="section-title padd" style="border-bottom: 1px solid white;">
+		<h1>Corso: "{{ corso.nome_corso }}"</h1>
+	</div>
+	<div id="list" class="list">
+		<div style="position: absolute; top: 0; left: 0; width: 100%;">{% if corso.img_corso %}
+			<img alt="{{ corso.nome_corso }}" src="{{ corso.img_corso.url }}" class="img"/>{% endif %}
+		</div>
+        <article id="post{{ corso.pk }}" class="card sezione1" style="width: 90%;">
+	      <div class="flDiv75">
+			  <div class="padd">
+				  <h5>Sezione</h5>
+			  </div>
+			  <div class="padd" style="width: 100%;">
+				  <div class="flDiv25">
+					  <span class="gray">#{{ corso.get_sezione_corso_display }}</span>
+				  </div>
+			  </div>
+		  </div>
+		  <div class="flDiv25 linkYellow">
+			  <div class="padd">
+				  <h5>Allegati</h5>
+			  </div>
+			  <div class="padd">
+				  {% if corso.allegati_corso %}
+				  <a href="{{ corso.allegati_corso.url }}" download="Programma" class="redDiv pdf">
+					  <i class="fas fa-file-download"></i> Scheda PDF
+				  </a>
+				  {% else %}
+				  <span>Nessun allegato</span>
+				  {% endif %}
+			  </div>
+		  </div>
+		  <div class="flDiv100">
+			  <div class="padd">
+				 <h5>Descrizione</h5>
+			  </div>
+			  <div class="padd">
+				  {{ corso.descrizione_corso|linebreaks }}
+			  </div>
+			  <div class="padd">
+				 <h5>Obiettivi</h5>
+			  </div>
+			  <div class="padd">
+				 {{ corso.obiettivi_corso|linebreaks }}
+			  </div>
+			  <div class="padd">
+				  <h5>Contenuti</h5>
+			  </div>
+			  <div class="padd">
+				  {% if request.user in corso.followers.all %}
+				  <ol>{% for lezione in corso.get_lessons %}
+					<li>
+						<a href="{{ lezione.get_absolute_url }}?page={{ forloop.counter }}" class="gray">
+							{{ lezione.nome_lezione }}</a>
+					</li>{% endfor %}
+				  </ol>
+				  {% else %}
+				  <p>Per accedere ai contenuti è necessario iscriversi al corso</p>
+				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti"  class="nuBtnYellow button" style="width: 160px;">
+					  Salva tra i preferiti
+				  </a>	{% endif %}
+			  </div>
+		  </div>
+		  <div style="clear: both;"></div>
+	   </article>
+    </div>
+{% endblock content %}

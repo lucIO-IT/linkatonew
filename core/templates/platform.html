@@ -5,110 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/colors.css' %}" />
-    <title>Prova</title>	
+    <title>Linkato</title>
   </head>
   <body>
    <div class="container">
-    <div class="nav">
-	   <div>
-	     <div class="flDiv100">
-			 <div class="flexBox">
-				 <button title="Apri Menu" onclick="javascript:displayMenu()" class="circle">
-					 <i class="fas fa-caret-down"></i>
-				 </button>
-			 	<h2 class="">Nome Account</h2>
-			 </div>
-		 </div>
-		 <div class="flDiv100 color-black">
-			 <input type="text" id="myInput" onkeyup="searchFilerElements()" placeholder="Cerca" title="Type in a name">
-		    <a href="{% url 'crea_corso' %}" class="nuBtnYellow">Nuovo Corso</a>
-		 </div>
-		 <div id="responsiveMenu">
-			 <hr />
-			 <h3>Menu</h3>
-			 <hr />
-    		  <ul class="menu">
-    		    <!--<li>
-    			  <a href="#">Notifiche</a>
-    			</li>-->
-    			<li>
-    			  <a href="{% url 'password_change' %}">Modifica Password</a>
-    			</li>
-    			<li>
-    			  <a href="{% url 'elimina_account' pk=request.user.pk %}">Elimina Account</a>
-    			</li>
-    			<li>
-    			  <a href="{% url 'logout' %}">Logout</a>
-    			</li>
-    		  </ul>
-		 </div>
-	   </div>
-	</div>
-	<div class="main">
-	<div class="top">
-
+	<header class="top">
+		<div class="menu-item">
+			<div class="search-input">
+				<form action="{% url 'risultati_ricerca' %}" method="get" novalidate>
+					<input type="search" name="q" placeholder="Cerca">
+					<div>
+						<select name="sec">
+							<option value="0" selected>Scegli sezione</option>
+							<option value="1">Orientamento</option>
+							<option value="2">Impresa</option>
+							<option value="3">Digitale</option>
+						</select>
+						<button type="submit" class="action-card">
+							<i class="fas fa-search"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	    <div >
-			<h4 class="logo">Linkato</h4>
+			<ul class="user-menu">
+				<li class="menu-item">
+                  <a class="dropdown">
+					  <div class="portrait">
+					  	<img src="{% static 'img/profile.png' %}"/>
+					  </div>
+					  <span>{{ user.first_name }}</span>
+					  <div style="clear: both;"></div>
+				  </a>
+                  <ul class="dropdown-menu">
+                      <li class="menu-item">
+						  <a href="{% url 'password_change' %}">
+						  	<i class="fas fa-key"></i>
+							  Modifica Password
+						  </a>
+					  </li>
+                      <li class="menu-item">
+						  <a href="{% url 'logout' %}">
+						  	<i class="fas fa-sign-out-alt"></i>
+							  Logout
+						  </a>
+					  </li>
+                  </ul>
+              </li>
+			</ul>
         </div>
+	</header>
+    <aside class="aside">
+	   <a href="{% url 'account_profile' %}" class="top-logo"></a>
+	   <div style="position: relative;">
+		 <div class="flDiv100 padd" style="border-bottom: 1px solid white;">
+			 <h1>Menu</h1>
+		 </div>
+		 <nav id="responsiveMenu" class="flDiv100">
+			 <ul class="menu">
+				<li>
+    			  <a href="{% url 'crea_corso' %}">Crea Risorsa Didattica</a>
+    			</li>
+    		    <li>
+    			  <a href="{% url 'account_profile' %}">Bacheca</a>
+    			</li>
+                <li>
+    			  <a href="{% url 'corsi_preferiti' %}">Preferiti</a>
+    			</li>
+				<li>
+    			  <a href="{% url 'docenti' %}">Docenti e Partner</a>
+    			</li>
+    			<li>
+    			  <a href="{% url 'miei_mooc' %}">I Miei Corsi</a>
+    			</li>
+    			<li>
+    			  <a href="{% url 'mail_form' %}">Contattaci</a>
+    			</li>
+    		 </ul>
+		 </nav>
+		 <div style="clear: both;"></div>
+	   </div>
+	</aside>
+	<main id="main" class="main">{% block content %}
+	<div class="section-title padd" style="border-bottom: 1px solid white;">
+		{% if mooc_key %}
+		<h1>I Miei Corsi </h1>
+		{% else %}
+		<h1>
+			Risorse Didattiche
+			{% if nome_docente %}
+			 di {{ nome_docente.first_name }} {{ nome_docente.last_name }}
+			{% endif %}
+		</h1>
+
+		{% endif %}
 	</div>
 	<div id="list" class="list">
-		<h1>Risorse Didattiche</h1>
-		{% for corso in object_list %}
-	   <div id="post{{ corso.pk }}" class="card sezione1">
-	      <div class="close"><a href="javascript:closeWin()" title="Chiudi Finestra"><i class="fa fa-window-close" aria-hidden="true"></i></a></div>	   	  
-
-		  <div>
-		      <h3>{{ corso.nome_corso }}</h3>
-		      <img alt="Img" src="{{ corso.img_corso.url }}" class="img"/>
-    		  <br />
-			  <br />
-			  <div class="flexBox">
-				  <div>{% if request.user in corso.followers.all %}
-					  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti">
-						  <i class="fas fa-heart"></i>
-					  </a>
-					  {% else %}
-					  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Rimuovi dai preferiti">
-						  <i class="fas fa-user-slash"></i>
-					  </a>
-					  {% endif %}
+	   {% for corso in object_list %}
+	   <article id="post{{ corso.pk }}" class="card">
+	      <div>
+			  <div style="color: black; position: relative;">
+				  <div class="flDiv100" style="height: 160px; overflow: hidden;">{% if corso.img_corso %}
+					<img alt="{{ corso.nome_corso }}" src="{{ corso.img_corso.url }}" class="img"/>{% endif %}
 				  </div>
-				  <div><span>{{ corso.followers.count }} Followers</span> <i class="fa fas fa-user-friends"></i></div>
-    		  </div>
-    		  <hr />
-			  <a href="javascript:displayWindow('post{{ corso.pk }}')" class="nuBtnYellow">Mostra</a>
+				  <div class="padd flDiv100" style="padding-top: 25px;">
+					<h5>{{ corso.nome_corso|truncatechars:50 }}</h5>
+				  </div>
+				  <div class="portrait card-docente" title="{{ corso.docente_corso.full_name }}">
+					 <form method="get" action="{% url 'corsi_docente' %}">
+						  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="input-link">
+							  <img src="{% static 'img/profile.png' %}"/>
+						  </button>
+					  </form>
+				  </div>
+			  </div>
+			  <div class="padd flDiv100">
+				  <span class="gray">#{{ corso.get_sezione_corso_display }}</span>
+			  </div>
+			  <div class="padd flDiv50">
+				  <a href="{% url 'finestra_corso' pk=corso.pk %}" class="gold">
+					  Leggi tutto
+				  </a>
+			  </div>
+			  <div class="flDiv50 flexEnd">
+                  {% if mooc_key %}
+                  <a href="{% url 'modifica_corso' pk=corso.pk %}" title="Modifica Corso" class="action-card">
+					  <i class="fas fa-pen"></i>
+				  </a>
+                  {% else %}
+                  {% if request.user in corso.followers.all %}
+				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Rimuovi dai preferiti" class="action-card rRed">
+					  <i class="fas fa-heart red"></i>
+				  </a>
+				  {% else %}
+				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti" class="action-card">
+					  <i class="fas fa-heart"></i>
+				  </a> {% endif %}{% endif %}
+			  </div>
+			  <div style="clear: both;"></div>
 		  </div>
-		  <div class="contentList">
-		    <div>
-			 <h3>Descrizione</h3>
-			 {{ corso.descrizione_corso|linebreaks }}
-			</div>
-			<div>
-			 <h3>Obiettivi</h3>
-			 {{ corso.obiettivi_corso|linebreaks }}
-			</div>
-			<div>
-			  <h3>Contenuti</h3>
-			  <ol>{% for lezione in corso.get_lessons %}
-			    <li>
-					<a href="{{ lezione.get_absolute_url }}?page={{ forloop.counter }}">
-						{{ lezione.nome_lezione }}</a>
-				</li>{% endfor %}
-			  </ol>
-			</div>
-			{% if corso.allegati_corso %}<div>
-			  <a href="{{ corso.allegati_corso.url }}" download="Programma" class="redDiv pdf">
-				  Scheda PDF
-				  <img src="https://png.icons8.com/material/18/000000/download.png">
-			  </a>
-		    </div>{% endif %}
-		  </div>
-	   </div>{% endfor %}
-    </div>
-	</div> <!-- End Main -->	
+	   </article>
+	   {% empty %}
+	   <div class="padd">
+		   <span>Nessuna risorsa presente</span>
+	   </div>
+	   {% endfor %}
+    </div>{% endblock content %}
+	</main> <!-- End Main -->
 	</div> <!-- Container -->
          <!--<button id="fixedBtn" onclick="searchCall()"><i class="fa fa-search"></i></button>
 		 <div id="search" >

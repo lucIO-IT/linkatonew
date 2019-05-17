@@ -6,26 +6,36 @@
        4) Search Modal
        */
 
+       .right {
+       text-align: right;
+       }
+       .block {
+       display: block;
+       }
+
+
        /******************************************************* Cards */
 
        .card {
        float: left;
-	   width: 31%;
-	   min-height:350px;
 	   margin: 1%;
-       padding: 10px;
-	   border: 1px solid gray;
-       border-radius: 15px;
-       -webkit-border-radius: 15px;
-       -moz-border-radius: 15px;
-       background:rgb(255,255,255);
 	   transition: transform 3s;
+	   margin-bottom: 50px;
+	   width: 240px;
+	   min-height: 330px;
+       padding: 0;
+       border-radius: 6px;
+       -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+       background: white;
+       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+       overflow: hidden;
+       height: auto;
+       position: relative;
 	   }
-       .card:hover {
-       background: rgba(185,185,185,0.05);
-       box-shadow: 0px 3px 8px 2px rgb(185,185,185);
-       -webkit-box-shadow: 0px 3px 8px 2px rgb(185,185,185);
-       }
+	   .card-header {
+	   text-align: center;
+	   }
 	   .close {
 	   display:none;
 	   text-align:right;
@@ -39,47 +49,77 @@
 	   display:none;
 	   transition: display 3s;
 	   }
+
+	   .button-card {
+	   position: absolute;
+	   bottom: 0;
+	   width: 100%;
+	   }
+
+	   .action-card {
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   width: 40px;
+	   height: 40px;
+	   border-radius: 50%;
+	   -webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	   transition: background 0.2s;
+	   color: rgb(85,85,85);
+	   margin-right: 10px;
+	   border: 0;
+	   cursor: pointer;
+	   background: none;
+	   }
+
+	   .action-card:hover {
+	   background: rgb(235,235,235);
+	   }
+
+	   .open-card {
+	   position: absolute;
+	   top: 0;
+	   left: 0;
+	   margin: 20px;
+	   z-index: 9;
+	   width: 800px;
+	   height: 100vh;
+	   }
+
+	   .card-docente {position: absolute; top: 115px; right: 0; margin: 10px; box-shadow: 0px 0px 6px 3px rgba(50,50,50,0.25); width: 60px; height: 60px;}
+       .card-docente button {width: 60px; height: 60px;}
+
+
 	   /******************************************************* Forms */
 	   #myInput {
        background-image: url('/css/searchicon.png');
        background-position: 10px 10px;
        background-repeat: no-repeat;
+       }
+       form input, textarea {
        width: 100%;
        font-size: 16px;
-       padding: 12px 20px 12px 40px;
+       padding: 12px;
        border: 1px solid #ddd;
        border-radius:10px;
 	   -webkit-border-radius: 10px;
        -moz-border-radius: 10px;
-       margin-bottom: 12px;
-       }
-       #myInput:focus {
-       outline: none;
-       box-shadow: 0 0 15px rgb(185,185,185);
-	   -webkit-box-shadow: 0 0 15px rgb(185,185,185);
-	   -moz-box-shadow: 0 0 15px rgb(185,185,185);
-       }
-       /******************************************************* Buttons */
-       /* Da Implementare */
-       .nuBtn {
-       display: block;
-       padding: 10px;
-       border-radius:10px;
-	   -webkit-border-radius: 10px;
-       -moz-border-radius: 10px;
-       text-align:center;
-	   font-size:20px;
-	   font-weight:bold;
-	   cursor: pointer;
-	   transition: opacity 1s;
        }
 
-       .nuBtn:hover, .nuBtnYellow:hover {
-       opacity: 0.75;
-       box-shadow: 0 0 10px rgb(185,185,185);
-	   -webkit-box-shadow: 0 0 10px rgb(185,185,185);
-	   -moz-box-shadow: 0 0 10px rgb(185,185,185);
+       /******************************************************* Ombre */
+
+       /*
+       input:focus, .nuBtn:hover {
+       outline: none;
+       box-shadow: 0px 1.5px 3px 0px rgb(235,245,245);
+       -webkit-box-shadow: 0px 1.5px 3px 0px rgb(225,245,245);
+       -moz-box-shadow: 0px 1.5px 3px 0px rgb(225,245,245);
        }
+       */
+
+       /******************************************************* Buttons */
+       /* Da Implementare */
 
        .nuBtnGrid {
        display: flex;
@@ -93,27 +133,7 @@
        }
 
        /* Da Implementare */
-       button {
-       border: none;
-       cursor: pointer;
-       }
 
-	   .nuBtnYellow {
-	   padding:10px;
-	   border-radius:10px;
-	   -webkit-border-radius: 10px;
-       -moz-border-radius: 10px;
-	   text-decoration: none;
-	   display:block;
-	   text-align:center;
-	   font-size:20px;
-	   font-weight:bold;
-	   color: rgb(85,85,85);
-	   transition: opacity 1s;
-	   }
-	   a.nuBtnYellow:hover {
-	   background-color:rgb(255,255,5);
-	   }
        #fixedBtn {
 	   z-index: 1;
 	   cursor:pointer;
@@ -155,58 +175,72 @@
 	   color: rgb(85,85,85);
 	   font-size: 18px;
 	   }
+ /* --- Buttons ---*/
+       .button {
+       cursor: pointer;
+       display: inline-block;
+       padding: 7.5px;
+       transition: background 0.4s;
+       position: relative;
+       border: 1px solid rgb(205,205,205);
+       border-radius: 3px;
+       -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+       outline: none;
+       margin: auto;
+       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+       -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+       -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+       background: var(--second-color) radial-gradient(circle, transparent 1%, rgba(250,250,250,0.25) 1%) top/15000%;
+       color: white;
+       width: 100%;
+       text-align: center;
+       }
 
-       /******************************************************* Search Modal */
-	   #search {
-	   display:none;
-       position:fixed;
-       width:100%;
-       height:100%;
-	   background:rgba(0,0,0,0.8);
-       transition: opacity 1s;
-	   }
-	   #search .searchContent {
-       position:relative;
-	   top: 20%;
-       margin:auto;
-       width:80%;
-	   z-index: 1;
-	   overflow:hidden;
-	   border-width: 5px;
-	   border-style: solid;
-       border-radius: 5px;
-       -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-       overflow:auto;
-	   padding: 0;
-	   }
-	   #search .searchContent * {
-	   margin: 0;
-	   padding: 0;
-	   }
-	   #search .searchContent input {
-	   margin: 0px;
-	   font-size:32px;
-	   padding: 10px;
-	   width: 85%;
-	   height: 100%;
-	   float: left;
-	   border: none;
-	   }
-	   #search .searchContent button {
-	   border: none;
-	   margin: 0px;
-	   box-shadow: 0;
-	   -webkit-box-shadow: 0;
-	   font-size:32px;
-	   padding: 10px;
-	   width: 15%;
-	   height: 100%;
-	   float: left;
-	   }
+       .button:hover {
+
+       }
+
+        .button:active {
+        opacity: 0.5;
+        }
+
+       .input-link {
+       padding: 0;
+       margin: 0;
+       display: inline;
+       background: none;
+       border: 0;
+       text-align: left;
+       cursor: pointer;
+       font-size: 15px;
+       outline: none;
+
+       }
+
+       .lessons-list ul {
+       padding: 0;
+       margin: 0;
+       }
+
+       .lessons-list li {
+       list-style-type: none;
+       }
+
+       .lessons-list li a {
+       display: block;
+       color: rgb(45,45,45);
+       padding: 10px;
+       transition: background 0.2s;
+       }
+
+       .lessons-list li a:hover {
+       background: rgb(235,235,235);
+       }
+
+
+
 	   /******************************************************* @Media */
 	   @media only screen and (max-width: 600px) {
-      	   .card {
-    	   width:100%;
-    	   }
+
 	   }
