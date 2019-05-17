@@ -2,10 +2,6 @@ db.sqlite3
 /linkato_site/settings.py
 /linkato_site/__pycache__/*
 /blog/__pycache__/*
-/blog/migrations/*
 /core/__pycache__/*
-/core/migrations/*
 /index/__pycache__/*
-/index/migrations/*
 /mail_form/__pycache__/*
-/mail_form/migrations/*
