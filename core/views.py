@@ -1,4 +1,4 @@
-from .models import Corso, Lezione
+from .models import Corso, Lezione, CorsoProgress
 from .forms import CorsoModelForm, LezioneModelForm
 from django.contrib.auth.models import User
 from index.models import Utente
@@ -11,6 +11,7 @@ from django.db.models import Count
 from datetime import datetime
 from django.forms import modelformset_factory
 from django.db.models import Q
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -154,17 +155,19 @@ def controllaUserFollower(request, pk):
 def salvaPreferiti(request, pk):
 
     corso = get_object_or_404(Corso, pk=pk)
-    #is_liked = False
-    #if request.method == 'GET':
     if request.user in corso.followers.all():
         corso = corso
         corso.followers.remove(request.user)
-        #is_liked = False
-        #return redirect('account_profile')
     else:
         corso = corso
         corso.followers.add(request.user)
-        #is_liked = True
+        #cerca o crea la progressione corso
+        progress, created = CorsoProgress.objects.get_or_create(
+            studente =request.user,
+            corso =corso
+        )
+        progress.update_progression()
+
     return redirect('account_profile')
 
 
@@ -202,6 +205,10 @@ def visualizzaLezione(request, pk):
         else:
             previous = x
             break
+    if request.user in corso_lezione.followers.all():
+        progress = CorsoProgress.objects.get(studente=request.user, corso=corso_lezione)
+        progress.add_contents(lezione)
+        progress.update_progression()
 
     context = {
         "lezione": lezione,
@@ -261,6 +268,7 @@ def previewCorso(request, pk):
 
     lista_lezioni = Lezione.objects.filter(corso_lezione=corso).order_by('data_lezione')
 
+    """
     if request.method == "POST" and 'form_lezione' in request.POST:
         form_lezione = LezioneModelForm(request.POST, request.FILES)
         if form_lezione.is_valid():
@@ -270,7 +278,9 @@ def previewCorso(request, pk):
             return redirect('preview_corso', pk=corso.pk)
     else:
         form_lezione = LezioneModelForm()
+    """
 
+    form_lezione = LezioneModelForm()
     context = {"corso": corso, "lista_lezioni": lista_lezioni, "form": form, "form_lezione": form_lezione}
     return render(request, "preview.html", context)
 
@@ -307,3 +317,34 @@ def cancellaPreferiti(request, pk):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 ###########################################
+
+def ajax(request, user, course):
+    corso = get_object_or_404(Corso, pk=course)
+    if request.user in corso.followers.all():
+        corso.followers.remove(user)
+    else:
+        corso.followers.add(user)
+    data = {"followers": course}
+    return JsonResponse(data)
+
+
+def ajax_lesson_form(request):
+    #if request.method == 'POST':
+        #form = request.POST.get('form')
+
+    form = request.POST['data']
+    data = {'fkr': form}
+
+
+    """
+    if request.method == "POST" and 'form_lezione' in request.POST:
+        form_lezione = LezioneModelForm(request.POST, request.FILES)
+        if form_lezione.is_valid():
+            lezione = form_lezione.save(commit=False)
+            lezione.corso_lezione = corso
+            lezione.save()
+            return redirect('preview_corso', pk=corso.pk)
+    else:
+        form_lezione = LezioneModelForm()
+    """
+    return JsonResponse(data, safe=False)

@@ -50,6 +50,12 @@ class Utente(models.Model):
         corsi = Corso.objects.filter(docente_corso=self.user)
         return corsi
 
+    def corsi_progress(self, corso, progress):
+        corso = Corso.objects.get(pk=corso)
+        progress = progress
+        if progress == 1:
+            return corso
+
     class Meta:
         verbose_name = "Utente"
         verbose_name_plural = "Utenti"

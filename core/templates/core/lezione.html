@@ -43,7 +43,7 @@
                 {% endif %}
             </div>
             <div class="flDiv100 padd">
-                <span>Lezione: "<lesson>{{ lezione.nome_lezione }}</lesson>"</span>
+                <span>Lezione: "{{ lezione.nome_lezione }}"</span>
 
             </div>
             <div style="clear: both;"></div>
@@ -66,4 +66,7 @@
         </div>
         <div style="clear: both;"></div>
     </div>
+    <script>
+        document.getElementById('myVideo').addEventListener('ended',myHandler,false); function myHandler(e) { alert("finished");
+    </script>
 {% endblock content %}

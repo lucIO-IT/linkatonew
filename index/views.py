@@ -91,3 +91,5 @@ def cercaHome(request):
         context = {"articoli": articoli}
         return render(request, 'risultati_ricerca.html', context)
 
+
+

@@ -140,13 +140,23 @@
 				  </a>
                   {% else %}
                   {% if request.user in corso.followers.all %}
+				  <a href="javascript:likeFunc({{request.user.pk}}, {{corso.pk}}, 'heart{{corso.pk}}')" title="Rimuovi dai preferiti" class="action-card rRed">
+					  <i id="heart{{corso.pk}}" class="fas fa-heart red"></i>
+				  </a>
+				  {% else %}
+				  <a href="javascript:likeFunc({{request.user.pk}}, {{corso.pk}}, 'heart{{corso.pk}}')" title="Salva tra i preferiti" class="action-card rRed">
+					  <i id="heart{{corso.pk}}" class="fas fa-heart"></i>
+				  </a>
+
+				  <!--
 				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Rimuovi dai preferiti" class="action-card rRed">
 					  <i class="fas fa-heart red"></i>
 				  </a>
-				  {% else %}
+				  {# else #}
 				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti" class="action-card">
 					  <i class="fas fa-heart"></i>
-				  </a> {% endif %}{% endif %}
+				  </a> -->
+				  {% endif %}{% endif %}
 			  </div>
 			  <div style="clear: both;"></div>
 		  </div>
@@ -168,7 +178,45 @@
 				   </form>
 			  </div>
 	     </div>-->
-	<script src="{% static 'script.js' %}">
-	</script>
+	<script src="{% static 'script.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    	$(function () {
+			console.log("Hello!");
+		});
+		var user = 0;
+		$.ajaxSetup({
+				data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+			});
+
+
+    	function likeFunc(liker, course, id) {
+    		var user = liker;
+    		var course = course;
+			$.ajax({
+
+				url: '/core/ajax_request/' + user + "/"+course,
+				data: {
+					csrfmiddlewaretoken: '{{ csrf_token }}',
+				},
+				dataType: 'json',
+				type: 'post',
+				success: function(data) {
+					console.log(data);
+				}
+
+			});
+			var btn = document.getElementById(id);
+				if (btn.classList.contains('red')){
+			btn.classList.remove('red');
+			}
+			else {
+				btn.classList.add('red');
+			}
+
+
+
+    	}
+    </script>
   </body>
 </html>

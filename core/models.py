@@ -125,3 +125,38 @@ class FilePdf(ContenutoBase):
 
 class LinkVideo(ContenutoBase):
     link = models.URLField(blank=True, null=True, validators=[embed_validator])
+
+
+class CorsoProgress(models.Model):
+    studente = models.ForeignKey(User, on_delete=models.CASCADE, related_name="students")
+    corso = models.ForeignKey(Corso, on_delete=models.CASCADE, related_name="corsi")
+    contents = models.ManyToManyField(Lezione, related_name="contenuti", blank=True)
+    progress = models.FloatField(default=0)
+
+    class Meta:
+        verbose_name = "Progresso Studenti"
+        verbose_name_plural = "Progresso Studenti"
+
+    def __str__(self):
+        return self.corso.nome_corso + " - " + self.studente.first_name + " " + self.studente.last_name
+
+    #misura la percentuale di lezioni che sono state completate
+    def update_progression(self):
+        lezioni = Lezione.objects.filter(corso_lezione=self.corso)
+        if self.contents.count() == 0:
+            self.progress = 0
+        else:
+            self.progress = self.contents.count()/lezioni.count()
+        self.save()
+        return self.progress
+
+    #aggiunge elementi alla lista delle lezioni completate (contents)
+    def add_contents(self, lesson):
+        if lesson in self.contents.all():
+            pass
+        else:
+            self.contents.add(lesson)
+        return self.contents
+
+
+

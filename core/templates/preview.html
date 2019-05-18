@@ -11,47 +11,85 @@
         <h1>Crea Corso</h1>
 	</div>
 	<div id="list" class="list">
-        <h3>Aggiungi lezioni e contenuti a "{{ corso.nome_corso }}"</h3>
-        <div>
-            <p>NB: ricorda che il form accetta soltanto codice di incorporazione dalla piattaforma
-                <a title="Vimeo" href="https://www.vimeo.com" target="_blank">Vimeo</a>
-            </p>
+        <div class="flDiv50">
+            <div class="padd">
+                <h3>Aggiungi lezioni e contenuti a "{{ corso.nome_corso }}"</h3>
+            </div>
+            <!--
+            <div>
+                <p>NB: ricorda che il form accetta soltanto codice di incorporazione dalla piattaforma
+                    <a title="Vimeo" href="https://www.vimeo.com" target="_blank">Vimeo</a>
+                </p>
+            </div>
+            -->
+            <form action="{% url 'ajax_lesson_form' %}" id="lesson-form" method="post" enctype="multipart/form-data" novalidate style="max-width: 600px;">
+                {% csrf_token %}
+                {% for field in form_lezione %}
+                <div class="padd">
+                    {{ field.label_tag }}
+                </div>
+                <div class="padd">
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <div class="padd">
+                    <input name="form_lezione" type="submit" value="Salva Lezione" class="button nuBtnYellow" style="width: 160px;">
+                </div>
+            </form>
         </div>
-        <div>
-            <ul>{% for lezione in lista_lezioni %}
-                <li>
-                    <a href="{{lezione.get_absolute_url}}">{{lezione.nome_lezione}} </a>
-                    <a title="Elimina Lezione" href="{% url 'elimina_lezione' pk=lezione.pk %}" onclick="return confirm('Eliminare il contenuto?')">
-                       <i class="fas fa-trash"></i>
-                    </a>
-                    {% if lezione.allegato_lezione %}
-                        <a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato">
-                           <i class="fas fa-paperclip"></i>
-                        </a>
-                    {% endif %}
-                </li>
-                {%endfor%}{% if lista_lezioni.count == 0 %}<li>Nessuna Lezione Presente</li>{% endif %}
-            </ul>
-        </div>
-        <form method="post" enctype="multipart/form-data" novalidate style="max-width: 600px;">
-            {% csrf_token %}
-            {% for field in form_lezione %}
+        <div class="flDiv50" style="padding-left: 60px; position: relative;">
             <div class="padd">
-                {{ field.label_tag }}
+                <h3>Contenuti</h3>
             </div>
             <div class="padd">
-                {{ field }}
+                <ul>{% for lezione in lista_lezioni %}
+                        <li>
+                            <a href="{{lezione.get_absolute_url}}">{{lezione.nome_lezione}} </a>
+                            <a title="Elimina Lezione" href="{% url 'elimina_lezione' pk=lezione.pk %}" onclick="return confirm('Eliminare il contenuto?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            {% if lezione.allegato_lezione %}
+                            <a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato">
+                                <i class="fas fa-paperclip"></i>
+                            </a>
+                            {% endif %}
+                        </li>
+                        {% empty %}
+                        <li>Nessuna Lezione Presente</li>
+                        {%endfor%}
+                </ul>
             </div>
-            {% endfor %}
-            <div class="padd">
-                <input name="form_lezione" type="submit" value="Salva Lezione" class="button nuBtnYellow" style="width: 160px;">
+            <div id="prova"></div>
+            <div class="padd" style="position: absolute; top: 0; right: 0;">
+                <a href="{% url 'account_profile' %}" id="btnCorso" title="Salva Corso" type="button" class="button nuBtn" style="max-width: 600px;">
+                    Salva e continua
+                </a>
             </div>
-        </form>
-        <div class="padd">
-            <a href="{% url 'account_profile' %}" id="btnCorso" title="Salva Corso" type="button" class="button nuBtn" style="max-width: 600px;">
-                Salva e continua
-            </a>
         </div>
         <div style="clear: both;"></div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script language="JavaScript">
+        $.ajaxSetup({
+			data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+		});
+        $(document).ready(function() {
+            $('#lesson-form').submit(function() { // catch the form's submit event
+                event.preventDefault();
+
+                $.ajax({ // create an AJAX call...
+                    url: $(this).attr('action'), // the file to call
+                    type: 'post', // GET or POST
+                    data: {
+                        'form': 'ciaoo',
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    }, // get the form data
+                    dataType: 'json',
+                    success: function(response) { // on success..
+                        console.log('funziona?!');
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock content %}

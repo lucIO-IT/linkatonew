@@ -24,4 +24,6 @@ urlpatterns = [
     path('corso/<int:pk>/cancella_corso/', views.eliminaCorso, name='cancella_corso'),
     path('lezioni/<int:pk>', views.visualizzaLezione, name='finestra_lezione'),
     path('docenti/', views.lista_docenti, name='docenti'),
+    path('ajax_request/<int:user>/<int:course>', views.ajax, name='ajax'),
+    path('ajax_lezione/', views.ajax_lesson_form, name='ajax_lesson_form'),
 ]

@@ -26,7 +26,7 @@
 			  </div>
 			  <div class="padd">
 				  {% if corso.allegati_corso %}
-				  <a href="{{ corso.allegati_corso.url }}" download="Programma" class="redDiv pdf">
+				  <a href="{{ corso.allegati_corso.url }}" download="Programma {{ corso.nome_corso }}" class="redDiv pdf gray">
 					  <i class="fas fa-file-download"></i> Scheda PDF
 				  </a>
 				  {% else %}
@@ -50,12 +50,81 @@
 			  <div class="padd">
 				  <h5>Contenuti</h5>
 			  </div>
+			  <div class="padd">{% if request.user in corso.followers.all %}
+				  {% for lezione in corso.get_lessons %}
+				  		<article class="card">
+							<div class="iframe-card flDiv100" style="">
+							{{ lezione.link_lezione|safe }}
+							</div>
+							<div class="padd flDiv100">
+								<h5>{{ lezione.nome_lezione }}</h5>
+							</div>
+							<div class="flDiv50 padd">
+								<a href="{{ lezione.get_absolute_url }}" class="">
+									Vai alla lezione
+								</a>
+							</div>
+							<div class="flDiv50 flexEnd">
+								<a href="#" title="fork" class="action-card">
+									<i class="fas fa-code-branch"></i>
+								</a>
+							</div>
+							<div class="flDiv100 padd">
+								{% if lezione.allegato_lezione %}
+								<a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato" class="gray">
+									Allegato <i class="fas fa-paperclip"></i>
+								</a>
+								{% endif %}
+							</div>
+							<div style="clear: both;"></div>
+						</article>
+				  {% endfor %}
+				  <div style="clear: both;"></div>
+			  {% else %}
+				  <p>Per accedere ai contenuti è necessario iscriversi al corso</p>
+				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti"  class="nuBtnYellow button" style="width: 160px;">
+					  Salva tra i preferiti
+				  </a>
+			  {% endif %}</div>
+			  <div>
+				  <div class="flDiv75">
+					  <div class="padd">
+						  <h5>Autore</h5>
+					  </div>
+					  <div class="padd">
+						  <div style="float: left; width: auto;">
+							  <div class="portrait">
+								  <img src="{% static 'img/profile.png' %}"/>
+							  </div>
+						  </div>
+						  <div style="float: left; padding: 10px 0;">
+							  <form method="get" action="{% url 'corsi_docente' %}">
+								  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="gray input-link">
+									  {{ corso.docente_corso }}
+								  </button>
+							  </form>
+						  </div>
+						  <div style="clear: both;"></div>
+					  </div>
+				  </div>
+				  <div class="flDiv25">
+					  <div class="padd">
+						  <h5>Ultimo aggiornamento</h5>
+					  </div>
+					  <div class="flDiv25 padd">
+						  <span class="gray" style="display: block; padding: 10px 0;">{{ corso.data_corso|date:'y/m/d' }}</span>
+					  </div>
+				  </div>
+				  <div style="clear: both;"></div>
+			  </div>
+			  <!--
 			  <div class="padd">
 				  {% if request.user in corso.followers.all %}
 				  <ol>{% for lezione in corso.get_lessons %}
 					<li>
-						<a href="{{ lezione.get_absolute_url }}?page={{ forloop.counter }}" class="gray">
-							{{ lezione.nome_lezione }}</a>
+						<a href="{{ lezione.get_absolute_url }}" class="gray">
+							{{ lezione.nome_lezione }}
+						</a>
 					</li>{% endfor %}
 				  </ol>
 				  {% else %}
@@ -64,6 +133,7 @@
 					  Salva tra i preferiti
 				  </a>	{% endif %}
 			  </div>
+			  -->
 		  </div>
 		  <div style="clear: both;"></div>
 	   </article>
