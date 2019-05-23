@@ -212,11 +212,51 @@
 
        /******************************************************* @Media */
 	   @media only screen and (max-width: 900px) {
+      	   .nav-icon-container {
+      	   display: block;
+      	   }
+
+      	   .user-menu .menu-item .dropdown {
+      	   display: flex;
+      	   justify-content: flex-end;
+      	   }
+
       	   .aside {
-      	   width: 80vh;
+      	   width: 60vh;
+      	   max-width: 0;
+      	   transition: all 0.2s;
+      	   overflow: hidden;
+      	   z-index: 9;
+      	   }
+
+           .search-menu-responsive {display: block;}
+      	   .search-container-box {
+      	   position: fixed;
+      	   width: 100%;
+      	   max-height:0;
+      	   overflow: hidden;
+      	   top: 70px;
+      	   left: 0;
+      	   background: rgba(0,0,0,0.5);
+      	   transition: all 0.2s;
       	   }
 
       	   .list {
            width:100%;
+           display: flex;
+           align-items: center;
+           flex-direction: column;
+     	   }
+
+     	   .main {
+     	   padding-left: 0;
+     	   }
+
+     	   .lessons-list {
+     	   position: static;
+     	   padding-top: 0;
+     	   float: left;
+     	   width: 100%;
+     	   z-index: 0;
      	   }
 	  }

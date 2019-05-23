@@ -15,7 +15,7 @@
   <body>
    <div class="container">
 	<header class="top">
-		<div class="menu-item">
+		<div class="search-container-box">
 			<div class="search-input">
 				<form action="{% url 'risultati_ricerca' %}" method="get" novalidate>
 					<input type="search" name="q" placeholder="Cerca">
@@ -33,14 +33,22 @@
 				</form>
 			</div>
 		</div>
-	    <div >
+		<div class="menu-item nav-icon-container">
+			<div class="nav-icon" onclick="displayMenu();"><div></div></div>
+		</div>
+	    <div>
 			<ul class="user-menu">
 				<li class="menu-item">
-                  <a class="dropdown">
-					  <div class="portrait">
+				  <a class="dropdown">
+					  <div class="search-menu-responsive">
+						  <button class="action-card" onclick="openSearch();">
+							  <i class="fas fa-search"></i>
+						  </button>
+					  </div>
+                  	  <div class="portrait">
 					  	<img src="{% static 'img/profile.png' %}"/>
 					  </div>
-					  <span>{{ user.first_name }}</span>
+					  <span onclick="openUserMenu();">{{ user.first_name }}</span>
 					  <div style="clear: both;"></div>
 				  </a>
                   <ul class="dropdown-menu">
@@ -93,94 +101,76 @@
 	   </div>
 	</aside>
 	<main id="main" class="main">{% block content %}
-	<div class="section-title padd" style="border-bottom: 1px solid white;">
-		{% if mooc_key %}
-		<h1>I Miei Corsi </h1>
-		{% else %}
-		<h1>
-			Risorse Didattiche
-			{% if nome_docente %}
-			 di {{ nome_docente.first_name }} {{ nome_docente.last_name }}
+		<div class="section-title padd" style="border-bottom: 1px solid white;">
+			{% if mooc_key %}
+			<h1>I Miei Corsi </h1>
+			{% else %}
+			<h1>
+				Risorse Didattiche
+				{% if nome_docente %}
+				 di {{ nome_docente.first_name }} {{ nome_docente.last_name }}
+				{% endif %}
+			</h1>
 			{% endif %}
-		</h1>
+		</div>
+		<div id="list" class="list">
 
-		{% endif %}
-	</div>
-	<div id="list" class="list">
-	   {% for corso in object_list %}
-	   <article id="post{{ corso.pk }}" class="card">
-	      <div>
-			  <div style="color: black; position: relative;">
-				  <div class="flDiv100" style="height: 160px; overflow: hidden;">{% if corso.img_corso %}
-					<img alt="{{ corso.nome_corso }}" src="{{ corso.img_corso.url }}" class="img"/>{% endif %}
+		   {% for corso in object_list %}
+		   <article id="post{{ corso.pk }}" class="card">
+			  <div>
+				  <div style="color: black; position: relative;">
+					  <div class="flDiv100" style="height: 160px; overflow: hidden;">{% if corso.img_corso %}
+						<img alt="{{ corso.nome_corso }}" src="{{ corso.img_corso.url }}" class="img"/>{% endif %}
+					  </div>
+					  <div class="padd flDiv100" style="padding-top: 25px;">
+						<h5>{{ corso.nome_corso|truncatechars:50 }}</h5>
+					  </div>
+					  <div class="portrait card-docente" title="{{ corso.docente_corso.full_name }}">
+						 <form method="get" action="{% url 'corsi_docente' %}">
+							  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="input-link">
+								  <img src="{% static 'img/profile.png' %}"/>
+							  </button>
+						  </form>
+					  </div>
 				  </div>
-				  <div class="padd flDiv100" style="padding-top: 25px;">
-					<h5>{{ corso.nome_corso|truncatechars:50 }}</h5>
+				  <div class="padd flDiv100">
+					  <span class="gray">#{{ corso.get_sezione_corso_display }}</span>
 				  </div>
-				  <div class="portrait card-docente" title="{{ corso.docente_corso.full_name }}">
-					 <form method="get" action="{% url 'corsi_docente' %}">
-						  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="input-link">
-							  <img src="{% static 'img/profile.png' %}"/>
-						  </button>
-					  </form>
+				  <div class="padd flDiv50">
+					  <a href="{% url 'finestra_corso' pk=corso.pk %}" class="gold">
+						  Leggi tutto
+					  </a>
 				  </div>
+				  <div class="flDiv50 flexEnd">
+					  {% if mooc_key %}
+					  <a href="{% url 'modifica_corso' pk=corso.pk %}" title="Modifica Corso" class="action-card">
+						  <i class="fas fa-pen"></i>
+					  </a>
+					  {% else %}
+					  {% if request.user in corso.followers.all %}
+					  <a href="javascript:likeFunc({{request.user.pk}}, {{corso.pk}}, 'heart{{corso.pk}}')" title="Rimuovi dai preferiti" class="action-card">
+						  <i id="heart{{corso.pk}}" class="fas fa-heart red"></i> <!-- data-count="{{ corso.followers.count }}"-->
+					  </a>
+					  {% else %}
+					  <a href="javascript:likeFunc({{request.user.pk}}, {{corso.pk}}, 'heart{{corso.pk}}')" title="Salva tra i preferiti" class="action-card">
+						  <i id="heart{{corso.pk}}" class="fas fa-heart"></i>
+					  </a>
+					  {% endif %}{% endif %}
+				  </div>
+				  <div style="clear: both;"></div>
 			  </div>
-			  <div class="padd flDiv100">
-				  <span class="gray">#{{ corso.get_sezione_corso_display }}</span>
-			  </div>
-			  <div class="padd flDiv50">
-				  <a href="{% url 'finestra_corso' pk=corso.pk %}" class="gold">
-					  Leggi tutto
-				  </a>
-			  </div>
-			  <div class="flDiv50 flexEnd">
-                  {% if mooc_key %}
-                  <a href="{% url 'modifica_corso' pk=corso.pk %}" title="Modifica Corso" class="action-card">
-					  <i class="fas fa-pen"></i>
-				  </a>
-                  {% else %}
-                  {% if request.user in corso.followers.all %}
-				  <a href="javascript:likeFunc({{request.user.pk}}, {{corso.pk}}, 'heart{{corso.pk}}')" title="Rimuovi dai preferiti" class="action-card rRed">
-					  <i id="heart{{corso.pk}}" class="fas fa-heart red"></i>
-				  </a>
-				  {% else %}
-				  <a href="javascript:likeFunc({{request.user.pk}}, {{corso.pk}}, 'heart{{corso.pk}}')" title="Salva tra i preferiti" class="action-card rRed">
-					  <i id="heart{{corso.pk}}" class="fas fa-heart"></i>
-				  </a>
-
-				  <!--
-				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Rimuovi dai preferiti" class="action-card rRed">
-					  <i class="fas fa-heart red"></i>
-				  </a>
-				  {# else #}
-				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti" class="action-card">
-					  <i class="fas fa-heart"></i>
-				  </a> -->
-				  {% endif %}{% endif %}
-			  </div>
-			  <div style="clear: both;"></div>
-		  </div>
-	   </article>
-	   {% empty %}
-	   <div class="padd">
-		   <span>Nessuna risorsa presente</span>
-	   </div>
-	   {% endfor %}
-    </div>{% endblock content %}
+		   </article>
+		   {% empty %}
+		   <div class="padd">
+			   <span>Nessuna risorsa presente</span>
+		   </div>
+		   {% endfor %}
+		</div>{% endblock content %}
 	</main> <!-- End Main -->
 	</div> <!-- Container -->
-         <!--<button id="fixedBtn" onclick="searchCall()"><i class="fa fa-search"></i></button>
-		 <div id="search" >
-		 	  <div class="searchContent">
-			  	   <form>
-    			  	   <input type="text" placeholder="Cerca..." name="q" autocomplete="off">
-    				   <button type="submit"><i class="fa fa-search"></i></button>
-				   </form>
-			  </div>
-	     </div>-->
 	<script src="{% static 'script.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script type="text/javascript">
+    <script>
     	$(function () {
 			console.log("Hello!");
 		});

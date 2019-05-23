@@ -12,7 +12,7 @@ class CorsoModelAdmin(admin.ModelAdmin):
 
 class LezioneModelAdmin(admin.ModelAdmin):
     model = Lezione
-    list_display = ["nome_lezione", "link_lezione", "corso_lezione"]
+    #list_display = ["nome_lezione", "link_lezione", "corso_lezione"]
     search_fields = ["nome_lezione", "corso_lezione"]
     list_filter = ["corso_lezione"]
 

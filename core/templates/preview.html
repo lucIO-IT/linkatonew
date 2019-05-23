@@ -22,9 +22,9 @@
                 </p>
             </div>
             -->
-            <form action="{% url 'ajax_lesson_form' %}" id="lesson-form" method="post" enctype="multipart/form-data" novalidate style="max-width: 600px;">
+            <form method="post" enctype="multipart/form-data" novalidate style="max-width: 600px;">
                 {% csrf_token %}
-                {% for field in form_lezione %}
+                {% for field in form %}
                 <div class="padd">
                     {{ field.label_tag }}
                 </div>
@@ -68,28 +68,4 @@
         </div>
         <div style="clear: both;"></div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script language="JavaScript">
-        $.ajaxSetup({
-			data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-		});
-        $(document).ready(function() {
-            $('#lesson-form').submit(function() { // catch the form's submit event
-                event.preventDefault();
-
-                $.ajax({ // create an AJAX call...
-                    url: $(this).attr('action'), // the file to call
-                    type: 'post', // GET or POST
-                    data: {
-                        'form': 'ciaoo',
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
-                    }, // get the form data
-                    dataType: 'json',
-                    success: function(response) { // on success..
-                        console.log('funziona?!');
-                    }
-                });
-            });
-        });
-    </script>
 {% endblock content %}
