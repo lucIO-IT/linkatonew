@@ -41,41 +41,48 @@ def listView(request, token):
             context = {"object_list": object_list, "nome_docente": user}
             return render(request, 'platform.html', context)
 
+    elif token == 'user_page':
+        object_list = Corso.objects.filter(docente_corso=request.user).all()
+        token = 'I Miei Programmi'
+        instance = 'mooc_key'
+        context = {
+            "token": token,
+            "object_list": object_list,
+            "mooc_key": instance,
+        }
+        return render(request, 'platform.html', context)
+
+    elif token == 'favorite':
+        object_list = Corso.objects.filter(followers=request.user).all()
+        token = 'I Miei Preferiti'
+        context = {
+            "token": token,
+            "object_list": object_list,
+        }
+        return render(request, 'platform.html', context)
+
+    elif token == 'search':
+        if "q" in request.GET and "sec" in request.GET:
+            querystring = request.GET.get("q")
+            token = 'Risultati Ricerca'
+            corsi = Corso.objects.filter(nome_corso__icontains=querystring)
+            query = request.GET.get("sec")
+            if query != "0":
+                corsi = corsi.all().filter(sezione_corso__icontains=query)
+            if len(querystring) == 0 and query == "0":
+                return redirect("/")
+            else:
+                context = {"object_list": corsi, "token": token}
+                return render(request, 'platform.html', context)
     else:
+        object_list = Corso.objects.all()
+        token = 'Dashboard'
 
-        #token = 'dashboard'
-        #object_list = Corso.objects.all()
-
-        if token == 'dashboard':
-            object_list = Corso.objects.all()
-            token = 'Dashboard'
-
-            context = {
-                "token": token,
-                "object_list": object_list,
-            }
-            return render(request, 'platform.html', context)
-
-        if token == 'user_page':
-            object_list = Corso.objects.filter(docente_corso=request.user).all()
-            token = 'I Miei Programmi'
-
-            context = {
-                "token": token,
-                "object_list": object_list,
-            }
-            return render(request, 'platform.html', context)
-
-        if token == 'favorite':
-            object_list = Corso.objects.filter(followers=request.user).all()
-            token = 'I Miei Preferiti'
-
-            context = {
-                "token": token,
-                "object_list": object_list,
-            }
-            return render(request, 'platform.html', context)
-
+        context = {
+            "token": token,
+            "object_list": object_list,
+        }
+        return render(request, 'platform.html', context)
     #if request.user.is_authenticated and not Utente.objects.filter(user=request.user).filter(scuola__isnull=True):
      #   return redirect('registrazione_dati_utente')
 
@@ -84,6 +91,7 @@ def listView(request, token):
 def cerca(request):
     if "q" in request.GET and "sec" in request.GET:
         querystring = request.GET.get("q")
+        token = 'Risultati Ricerca'
         corsi = Corso.objects.filter(nome_corso__icontains=querystring)
         query = request.GET.get("sec")
         if query != "0":
@@ -91,7 +99,7 @@ def cerca(request):
         if len(querystring) == 0 and query == "0":
             return redirect("/")
         else:
-            context = {"object_list": corsi}
+            context = {"object_list": corsi, "token": token}
             return render(request, 'platform.html', context)
 
 #*** 2) Filtri pagine
@@ -243,12 +251,11 @@ def creaCorso(request):
 
 class FormModificaCorso(UpdateView):
     model = Corso
-    #fields = ['sezione_corso', 'nome_corso', 'img_corso', 'allegati_corso', 'descrizione_corso', 'obiettivi_corso']
     template_name = "crea_corso.html"
     form_class = CorsoModelForm
 
     def get_queryset(self):
-        return User.objects.filter(docente_corso=self.request.user)
+        return Corso.objects.filter(docente_corso=self.request.user)
 
     def get_success_url(self):
         return reverse('preview_corso', kwargs={"pk": self.object.pk})

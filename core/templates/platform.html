@@ -10,14 +10,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/colors.css' %}" />
-    <title>Linkato</title>
+    <title>{% block head_title %}Linkato{% endblock head_title %} {% if token %}| {{ token }} {% endif %}</title>
   </head>
   <body>
    <div class="container">
 	<header class="top">
 		<div class="search-container-box">
 			<div class="search-input">
-				<form action="{% url 'risultati_ricerca' %}" method="get" novalidate>
+				<form action="{% url 'list_view' token='search' %}" method="get" novalidate>
 					<input type="search" name="q" placeholder="Cerca">
 					<div>
 						<select name="sec">
@@ -122,10 +122,10 @@
 					  <div class="padd flDiv100" style="padding-top: 25px;">
 						<h5>{{ corso.nome_corso|truncatechars:50 }}</h5>
 					  </div>
-					  <div class="portrait card-docente" title="{{ corso.docente_corso.full_name }}">
-						 <form method="get" action="{% url 'list_view' token='docente' %}">
+					  <div class="portrait card-docente">
+						 <form method="get" action="{% url 'corsi_docente' %}">
 							  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="input-link">
-								  <img src="{% static 'img/profile.png' %}"/>
+								  <img src="{% static 'img/profile.png' %}" title="{{ corso.docente_corso.full_name }}"/>
 							  </button>
 						  </form>
 					  </div>

@@ -8,7 +8,7 @@
 {% block content %}
 {% load static %}
     <div class="section-title padd" style="border-bottom: 1px solid white;">
-        <h1>Crea Corso</h1>
+        <h1>Preview {{ corso.nome_corso }}</h1>
 	</div>
 	<div id="list" class="list">
         <div class="flDiv50">
@@ -37,7 +37,7 @@
                 </div>
             </form>
         </div>
-        <div class="flDiv50" style="padding-left: 60px; position: relative;">
+        <div id="lessons_div" class="flDiv50" style="position: relative;">
             <div class="padd">
                 <h3>Contenuti</h3>
             </div>

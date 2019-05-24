@@ -9,6 +9,13 @@ logr = logging.getLogger(__name__)
 
 # Create your models here.
 
+from django.core.exceptions import ValidationError
+
+def file_size(value): # add this to some file where you can import it from
+    limit = 2 * 1024 * 1024
+    if value.size > limit:
+        raise ValidationError('Il file è troppo grande: non può superare i 2 MiB.')
+
 #embed code validator
 embed_validator = RegexValidator(
     regex=r'^<iframe src="https://player.vimeo.com.[a-zA-Z"./:+=0-9>< -?!\n]+$',
@@ -51,7 +58,7 @@ class Risorsa(models.Model):
     nome_lezione = models.CharField(max_length=100, blank=True, null=True)
     data = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     link_lezione = models.CharField(max_length=1000, blank=True, null=True)  # validators=[embed_validator]
-    allegato_lezione = models.FileField(blank=True, null=True, upload_to=percorso_cartella_lezioni)
+    allegato_lezione = models.FileField(blank=True, null=True, upload_to=cartelle_risorse, validators=[file_size])
 
     def __str__(self):
         return self.nome_lezione
@@ -75,10 +82,18 @@ class Corso(models.Model):
     docente_corso = models.ForeignKey(User, on_delete=models.CASCADE, related_name="docenti")
     sezione_corso = models.CharField(max_length=1, choices=SEZIONE, blank=True, null=True)
     nome_corso = models.CharField(max_length=80)
-    img_corso = models.ImageField(blank=True, null=True, upload_to=percorso_cartella_corsi, verbose_name="Logo")
+    img_corso = models.ImageField(
+        blank=True, null=True, upload_to=percorso_cartella_corsi, verbose_name="Logo", validators=[file_size]
+    )
     descrizione_corso = models.TextField(max_length=2000, blank=True, null=True)
     obiettivi_corso = models.TextField(max_length=4000, blank=True, null=True)
-    allegati_corso = models.FileField(blank=True, null=True, upload_to=percorso_cartella_corsi, verbose_name="Scheda Tecnica", validators=[pdf_validator])
+    allegati_corso = models.FileField(
+        blank=True,
+        null=True,
+        upload_to=percorso_cartella_corsi,
+        verbose_name="Scheda Tecnica",
+        validators=[pdf_validator, file_size]
+    )
     data_corso = models.DateTimeField(auto_now_add=True)
     followers = models.ManyToManyField(User, related_name='followers')
 
