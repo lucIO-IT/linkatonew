@@ -10,7 +10,7 @@ from .models import Scuola, Utente
 # Create your views here.
 
 def indexView(request):
-    return redirect('account_profile')
+    return redirect('list_view', token='dashboard')
     #return render(request, 'index.html')
 
 def registrazioneUtente(request):

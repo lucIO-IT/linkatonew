@@ -3,6 +3,7 @@ from . import views
 
 
 urlpatterns = [
+    path('<token>/', views.listView, name='list_view'),
     path('profilo_utente/', views.accountProfileView, name='account_profile'),
     path('risultati_ricerca/', views.cerca, name='risultati_ricerca'),
     path('docente/', views.docente_corsi, name='corsi_docente'),
@@ -13,7 +14,7 @@ urlpatterns = [
     path('lista_corsi/preferiti/', views.filtraCorsoPreferiti, name='corsi_preferiti'),
     path('corso/<int:pk>', views.visualizzaCorso, name='finestra_corso'),
     path('corso/<int:pk>/salva_preferiti/', views.salvaPreferiti, name='salva_preferiti'),
-    path('user/corso/<int:pk>/modifca_corso/', views.FormModificaCorso.as_view(), name='modifica_corso'),
+    path('user/corso/<int:pk>/modifica_corso/', views.FormModificaCorso.as_view(), name='modifica_corso'),
     path('lezioni/<int:pk>', views.visualizzaLezione, name='finestra_lezione'),
     path('docenti/', views.lista_docenti, name='docenti'),
     path('ajax_request/<int:user>/<int:course>', views.ajax, name='ajax'),

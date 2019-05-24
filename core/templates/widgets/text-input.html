@@ -1,0 +1,22 @@
+<textarea name="{{ widget.name }}" id="id_{{ widget.name }}" onkeyup="{{ widget.name }}countWord(this);"
+          style="width: 100%; min-height: 250px; resize: none;">{% if widget.value %}{{ widget.value }}{% endif %}
+</textarea>
+<div id="{{ widget.name }}span-container" class="padd" style="text-align: right;">
+    <span id="{{ widget.name }}-count">{{ widget.value|length }}</span>/<span id="{{ widget.name }}-max">{{ widget.attrs.max_length }}</span>
+</div>
+<script>
+    function {{ widget.name }}countWord(input) {
+        document.getElementById("{{ widget.name }}-count").innerHTML = input.value.length;
+        var max = parseInt(document.getElementById("{{ widget.name }}-max").textContent);
+        if (input.value.length > max) {
+            document.getElementById('{{ widget.name }}span-container').style.color = 'red';
+        } else {
+            document.getElementById('{{ widget.name }}span-container').style.color = 'black';
+        }
+    }
+    /*
+    document.getElementById("{{ widget.name }}-textarea").keyup(function(){
+       = 500;
+    });
+    */
+</script>

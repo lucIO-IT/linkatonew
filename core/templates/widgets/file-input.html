@@ -1,0 +1,19 @@
+<div style="padding: 5px;">
+    <span>Attualmente:
+    <!--<object id="{{ widget.name}}-preview" data="{{ widget.value.url }}"
+            type="application/pdf" width="100%" height="300px;"></object>-->
+        <a id="{{ widget.name}}-preview" href="{{ widget.value.url }}" target="_blank" title="preview">
+            {% if widget.value %}{{ widget.value }}
+            {% else %} nessuno {% endif %}
+        </a>
+    </span>
+</div>
+<input type="file" id="file-{{ widget.name }}" name="{{ widget.name }}"
+       {% if widget.value %}{{ widget.value }}{% endif %} onchange="preview{{ widget.name }}(this);"/>
+<script>
+    function preview{{ widget.name }}(input) {
+        var anchor = document.getElementById('{{ widget.name }}-preview');
+                anchor.href = input.files[0].name;
+                anchor.innerHTML = input.value.replace(/^.*\\/, "");
+    }
+</script>

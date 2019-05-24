@@ -69,7 +69,8 @@
 			</ul>
         </div>
 	</header>
-    <aside class="aside">
+	{% include 'aside.html' %}
+    <!--<aside class="aside">
 	   <a href="{% url 'account_profile' %}" class="top-logo"></a>
 	   <div style="position: relative;">
 		 <div class="flDiv100 padd" style="border-bottom: 1px solid white;">
@@ -99,19 +100,15 @@
 		 </nav>
 		 <div style="clear: both;"></div>
 	   </div>
-	</aside>
+	</aside>-->
 	<main id="main" class="main">{% block content %}
 		<div class="section-title padd" style="border-bottom: 1px solid white;">
-			{% if mooc_key %}
-			<h1>I Miei Corsi </h1>
-			{% else %}
 			<h1>
-				Risorse Didattiche
 				{% if nome_docente %}
-				 di {{ nome_docente.first_name }} {{ nome_docente.last_name }}
+				Programmi di {{ nome_docente.first_name }} {{ nome_docente.last_name }}
+				{% else %}{{ token }}
 				{% endif %}
 			</h1>
-			{% endif %}
 		</div>
 		<div id="list" class="list">
 
@@ -126,7 +123,7 @@
 						<h5>{{ corso.nome_corso|truncatechars:50 }}</h5>
 					  </div>
 					  <div class="portrait card-docente" title="{{ corso.docente_corso.full_name }}">
-						 <form method="get" action="{% url 'corsi_docente' %}">
+						 <form method="get" action="{% url 'list_view' token='docente' %}">
 							  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="input-link">
 								  <img src="{% static 'img/profile.png' %}"/>
 							  </button>

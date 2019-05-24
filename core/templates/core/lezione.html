@@ -17,8 +17,8 @@
         <h1>
             Lezione: "{{ lezione }}"
         </h1>
-        {% if lezione.allegato_lezione %}
-        <a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato">
+        {% if contenuto.allegato_lezione %}
+        <a title="Allegato" href="{{ contenuto.allegato_lezione.url }}" download="Allegato">
             Scarica Allegato <i class="fas fa-paperclip"></i>
         </a>
         {% endif %}
@@ -31,10 +31,11 @@
                         <i class="fas fa-arrow-circle-left"></i>
                     </a>
                 {% endif %}
-                {% if lezione.link_lezione %}
-                {{ lezione.link_lezione|safe }}
-                {% elif lezione.file %}
-                <object data="{{ lezione.file.url }}" type="application/pdf" width="100%" height="450px"></object>
+                {% if lezione.nome_lezione.link_lezione %}
+                {{ lezione.nome_lezione.link_lezione|safe }}
+
+                {% elif lezione.nome_lezione.file %}
+                <object data="{{ lezione.nome_lezione.file.url }}" type="application/pdf" width="100%" height="450px"></object>
                 {% endif %}
                 {% if next %}
                     <a title="Lezione successiva" href="{% url 'finestra_lezione' pk=next.pk %}" class="lessonNextPrevButton" style="font-size: 32px; margin: 25px;">

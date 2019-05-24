@@ -1,0 +1,31 @@
+    <aside class="aside">
+	   <a href="{% url 'account_profile' %}" class="top-logo"></a>
+	   <div style="position: relative;">
+		 <div class="flDiv100 padd" style="border-bottom: 1px solid white;">
+			 <h1>Menu</h1>
+		 </div>
+		 <nav id="responsiveMenu" class="flDiv100">
+			 <ul class="menu">
+				<li>
+    			  <a href="{% url 'crea_corso' %}">Crea Risorsa Didattica</a>
+    			</li>
+    		    <li>
+    			  <a href="{% url 'list_view' token='dashboard' %}">Bacheca</a>
+    			</li>
+                <li>
+    			  <a href="{% url 'list_view' token='favorite' %}">Preferiti</a>
+    			</li>
+				<li>
+    			  <a href="{% url 'list_view' token='teachers' %}">Docenti e Partner</a>
+    			</li>
+    			<li>
+    			  <a href="{% url 'list_view' token='user_page' %}">I Miei Corsi</a>
+    			</li>
+    			<li>
+    			  <a href="{% url 'mail_form' %}">Contattaci</a>
+    			</li>
+    		 </ul>
+		 </nav>
+		 <div style="clear: both;"></div>
+	   </div>
+	</aside>

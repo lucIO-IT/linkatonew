@@ -109,7 +109,13 @@
        background-position: 10px 10px;
        background-repeat: no-repeat;
        }
-       form input, textarea {
+
+       form {
+       max-width: 600px;
+       width: 100%;
+       }
+
+       form input, form textarea, .select {
        width: 100%;
        font-size: 16px;
        padding: 12px;
@@ -118,6 +124,10 @@
 	   -webkit-border-radius: 10px;
        -moz-border-radius: 10px;
        outline: none;
+       }
+
+       .file-upload input[type=checkbox], .file-upload label {
+       display: none;
        }
 
        /******************************************************* Ombre */
@@ -268,8 +278,6 @@
        justify-content: center;
        align-items: center;
        }
-
-
 
 	   /******************************************************* @Media */
 	   @media only screen and (max-width: 600px) {

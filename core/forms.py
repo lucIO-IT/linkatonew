@@ -1,10 +1,20 @@
 from django import forms
 from .models import Corso, Risorsa
+from .widgets import emaCSSFileInput, emaCSSImageInput, emaCSSTextInput
 
 
 class CorsoModelForm(forms.ModelForm):
+    SEZIONE = (('0', 'Scegli Sezione'), ('1', 'Orientamento'), ('2', 'Impresa'), ('3', 'Digitale'))
 
-    allegati_corso = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    img_corso = forms.ImageField(widget=emaCSSImageInput())
+    allegati_corso = forms.FileField(widget=emaCSSFileInput())
+    descrizione_corso = forms.CharField(widget=emaCSSTextInput())
+    obiettivi_corso = forms.CharField(widget=emaCSSTextInput())
+    sezione_corso = forms.ChoiceField(choices=SEZIONE, widget=forms.Select(
+        attrs={
+            'class': 'select',
+        }
+    ))
 
     class Meta:
         model = Corso

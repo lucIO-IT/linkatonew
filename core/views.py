@@ -1,4 +1,4 @@
-from .models import Corso, Lezione, CorsoProgress
+from .models import Corso, Lezione, Risorsa, CorsoProgress
 from .forms import CorsoModelForm, LezioneModelForm
 from django.contrib.auth.models import User
 from index.models import Utente
@@ -12,25 +12,75 @@ from datetime import datetime
 from django.forms import modelformset_factory
 from django.db.models import Q
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
 #*** 1) Dashboard
-
+@login_required
 def accountProfileView(request):
-    if request.user.is_authenticated:
-        object_list = Corso.objects.all()
-        context = {
-            "object_list": object_list
-        }
-        return render(request, 'platform.html', context)
-    if request.user.is_anonymous:
-        return redirect('login')
+    return redirect('list_view', token='dashboard')
+
+
+@login_required
+def listView(request, token):
+
+    if token == 'teachers':
+        docenti = []  # User.objects.all()
+        for corso in Corso.objects.all():
+            docenti.append(corso.docente_corso)
+        docenti = list(set(docenti))
+        return render(request, 'docenti.html', context={'docenti': docenti})
+
+    elif token == 'docente':
+        if "doc" in request.GET:
+            query = request.GET.get("doc")
+            object_list = Corso.objects.filter(docente_corso=query)
+            user = User.objects.get(pk=query)
+            context = {"object_list": object_list, "nome_docente": user}
+            return render(request, 'platform.html', context)
+
+    else:
+
+        #token = 'dashboard'
+        #object_list = Corso.objects.all()
+
+        if token == 'dashboard':
+            object_list = Corso.objects.all()
+            token = 'Dashboard'
+
+            context = {
+                "token": token,
+                "object_list": object_list,
+            }
+            return render(request, 'platform.html', context)
+
+        if token == 'user_page':
+            object_list = Corso.objects.filter(docente_corso=request.user).all()
+            token = 'I Miei Programmi'
+
+            context = {
+                "token": token,
+                "object_list": object_list,
+            }
+            return render(request, 'platform.html', context)
+
+        if token == 'favorite':
+            object_list = Corso.objects.filter(followers=request.user).all()
+            token = 'I Miei Preferiti'
+
+            context = {
+                "token": token,
+                "object_list": object_list,
+            }
+            return render(request, 'platform.html', context)
+
     #if request.user.is_authenticated and not Utente.objects.filter(user=request.user).filter(scuola__isnull=True):
      #   return redirect('registrazione_dati_utente')
 
 
+@login_required
 def cerca(request):
     if "q" in request.GET and "sec" in request.GET:
         querystring = request.GET.get("q")
@@ -65,9 +115,9 @@ def visualizzaMieiMooc(request):
 def docente_corsi(request):
     if "doc" in request.GET:
         query = request.GET.get("doc")
-        corsi = Corso.objects.filter(docente_corso=query)
+        object_list = Corso.objects.filter(docente_corso=query)
         user = User.objects.get(pk=query)
-        context = {"object_list": corsi, "nome_docente": user}
+        context = {"object_list": object_list, "nome_docente": user}
         return render(request, 'platform.html', context)
 
 
@@ -80,7 +130,7 @@ def lista_docenti(request):
 
 
 #*** 3) Salvataggio corso tra i preferiti dell'utente (con ajax)
-
+@login_required
 def salvaPreferiti(request, pk):
 
     corso = get_object_or_404(Corso, pk=pk)
@@ -100,6 +150,7 @@ def salvaPreferiti(request, pk):
     return redirect('account_profile')
 
 
+@login_required
 def ajax(request, user, course):
     corso = get_object_or_404(Corso, pk=course)
     if request.user in corso.followers.all():
@@ -117,7 +168,7 @@ def ajax(request, user, course):
 
 
 #*** 4) Detail View
-
+@login_required
 def visualizzaCorso(request, pk):
     corso = get_object_or_404(Corso, pk=pk)
     lista_lezioni = Lezione.objects.filter(corso_lezione=corso).order_by('data_lezione')
@@ -129,6 +180,7 @@ def visualizzaCorso(request, pk):
     return render(request, "detail.html", context)
 
 
+@login_required
 def visualizzaLezione(request, pk):
     lezione = get_object_or_404(Lezione, pk=pk)
     corso_lezione = lezione.corso_lezione
@@ -162,13 +214,12 @@ def visualizzaLezione(request, pk):
         "next": next,
         "previous": previous,
         "prev_lista_lezioni": prev_lista_lezioni,
-
     }
     return render(request, "core/lezione.html", context)
 
 
 #*** 5) Creazione contenuti
-
+@login_required
 def creaCorso(request):
 
     if request.method == "POST":
@@ -178,6 +229,11 @@ def creaCorso(request):
             corso.docente_corso = request.user
             corso.save()
             corso.followers.add(request.user)
+            progress, created = CorsoProgress.objects.get_or_create(
+                studente=request.user,
+                corso=corso
+            )
+            progress.update_progression()
             return redirect('preview_corso', pk=corso.pk)
     else:
         form = CorsoModelForm()
@@ -187,13 +243,18 @@ def creaCorso(request):
 
 class FormModificaCorso(UpdateView):
     model = Corso
-    fields = ['sezione_corso', 'nome_corso', 'img_corso', 'allegati_corso', 'descrizione_corso', 'obiettivi_corso']
+    #fields = ['sezione_corso', 'nome_corso', 'img_corso', 'allegati_corso', 'descrizione_corso', 'obiettivi_corso']
     template_name = "crea_corso.html"
+    form_class = CorsoModelForm
+
+    def get_queryset(self):
+        return User.objects.filter(docente_corso=self.request.user)
 
     def get_success_url(self):
         return reverse('preview_corso', kwargs={"pk": self.object.pk})
 
 
+@login_required
 def previewCorso(request, pk):
     corso = get_object_or_404(Corso, pk=pk)
 
@@ -213,6 +274,7 @@ def previewCorso(request, pk):
     return render(request, "preview.html", context)
 
 
+@login_required
 def eliminaLezione(request, pk):
     lezione = get_object_or_404(Lezione, pk=pk)
     lezione_corso = lezione.corso_lezione
