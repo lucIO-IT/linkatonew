@@ -14,93 +14,8 @@
   </head>
   <body>
    <div class="container">
-	<header class="top">
-		<div class="search-container-box">
-			<div class="search-input">
-				<form action="{% url 'list_view' token='search' %}" method="get" novalidate>
-					<input type="search" name="q" placeholder="Cerca">
-					<div>
-						<select name="sec">
-							<option value="0" selected>Scegli sezione</option>
-							<option value="1">Orientamento</option>
-							<option value="2">Impresa</option>
-							<option value="3">Digitale</option>
-						</select>
-						<button type="submit" class="action-card">
-							<i class="fas fa-search"></i>
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="menu-item nav-icon-container">
-			<div class="nav-icon" onclick="displayMenu();"><div></div></div>
-		</div>
-	    <div>
-			<ul class="user-menu">
-				<li class="menu-item">
-				  <a class="dropdown">
-					  <div class="search-menu-responsive">
-						  <button class="action-card" onclick="openSearch();">
-							  <i class="fas fa-search"></i>
-						  </button>
-					  </div>
-                  	  <div class="portrait">
-					  	<img src="{% static 'img/profile.png' %}"/>
-					  </div>
-					  <span onclick="openUserMenu();">{{ user.first_name }}</span>
-					  <div style="clear: both;"></div>
-				  </a>
-                  <ul class="dropdown-menu">
-                      <li class="menu-item">
-						  <a href="{% url 'password_change' %}">
-						  	<i class="fas fa-key"></i>
-							  Modifica Password
-						  </a>
-					  </li>
-                      <li class="menu-item">
-						  <a href="{% url 'logout' %}">
-						  	<i class="fas fa-sign-out-alt"></i>
-							  Logout
-						  </a>
-					  </li>
-                  </ul>
-              </li>
-			</ul>
-        </div>
-	</header>
-	{% include 'aside.html' %}
-    <!--<aside class="aside">
-	   <a href="{% url 'account_profile' %}" class="top-logo"></a>
-	   <div style="position: relative;">
-		 <div class="flDiv100 padd" style="border-bottom: 1px solid white;">
-			 <h1>Menu</h1>
-		 </div>
-		 <nav id="responsiveMenu" class="flDiv100">
-			 <ul class="menu">
-				<li>
-    			  <a href="{% url 'crea_corso' %}">Crea Risorsa Didattica</a>
-    			</li>
-    		    <li>
-    			  <a href="{% url 'account_profile' %}">Bacheca</a>
-    			</li>
-                <li>
-    			  <a href="{% url 'corsi_preferiti' %}">Preferiti</a>
-    			</li>
-				<li>
-    			  <a href="{% url 'docenti' %}">Docenti e Partner</a>
-    			</li>
-    			<li>
-    			  <a href="{% url 'miei_mooc' %}">I Miei Corsi</a>
-    			</li>
-    			<li>
-    			  <a href="{% url 'mail_form' %}">Contattaci</a>
-    			</li>
-    		 </ul>
-		 </nav>
-		 <div style="clear: both;"></div>
-	   </div>
-	</aside>-->
+	{% include 'include/header.html' %}
+	{% include 'include/aside.html' %}
 	<main id="main" class="main">{% block content %}
 		<div class="section-title padd" style="border-bottom: 1px solid white;">
 			<h1>
@@ -116,7 +31,7 @@
 		   <article id="post{{ corso.pk }}" class="card">
 			  <div>
 				  <div style="color: black; position: relative;">
-					  <div class="flDiv100" style="height: 160px; overflow: hidden;">{% if corso.img_corso %}
+					  <div class="flDiv100 img-card-wrapper">{% if corso.img_corso %}
 						<img alt="{{ corso.nome_corso }}" src="{{ corso.img_corso.url }}" class="img"/>{% endif %}
 					  </div>
 					  <div class="padd flDiv100" style="padding-top: 25px;">
@@ -168,16 +83,9 @@
 	<script src="{% static 'script.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script>
-    	$(function () {
-			console.log("Hello!");
-		});
-		var user = 0;
-		$.ajaxSetup({
-				data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-			});
 
-
-    	function likeFunc(liker, course, id) {
+    	//This function add user to course followers list
+		function likeFunc(liker, course, id) {
     		var user = liker;
     		var course = course;
 			$.ajax({
@@ -200,8 +108,25 @@
 			else {
 				btn.classList.add('red');
 			}
+    	}
 
+		//This function add lesson to selected course
+    	function copyLesson(lesson, course) {
+    		var lesson = lesson;
+    		var course = course;
+			$.ajax({
+				url: '/core/ajax_copy_lesson/' + lesson + "/"+course,
+				data: {
+					csrfmiddlewaretoken: '{{ csrf_token }}',
+				},
+				dataType: 'json',
+				type: 'post',
+				success: function(data) {
+					console.log(data);
+					alert('risorsa inserita con successo');
+				}
 
+			});
 
     	}
     </script>

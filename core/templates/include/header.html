@@ -1,0 +1,56 @@
+    {% load static %}
+    <header class="top">
+		<div class="search-container-box">
+			<div class="search-input">
+				<form action="{% url 'list_view' token='search' %}" method="get" novalidate>
+					<input type="search" name="q" placeholder="Cerca">
+					<div>
+						<select name="sec">
+							<option value="0" selected>Scegli sezione</option>
+							<option value="1">Orientamento</option>
+							<option value="2">Impresa</option>
+							<option value="3">Digitale</option>
+						</select>
+						<button type="submit" class="action-card">
+							<i class="fas fa-search"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="menu-item nav-icon-container">
+			<div id="nav-opener" class="nav-icon"><div></div></div>
+		</div>
+	    <div>
+			<ul class="user-menu">
+				<li class="menu-item">
+				  <a class="dropdown">
+					  <div class="search-menu-responsive">
+						  <button id="search-opener" class="action-card">
+							  <i class="fas fa-search"></i>
+						  </button>
+					  </div>
+                  	  <div class="portrait">
+					  	<img src="{% static 'img/profile.png' %}"/>
+					  </div>
+					  <span id="dropdown-opener">{{ user.first_name }}</span>
+					  <div style="clear: both;"></div>
+				  </a>
+                  <ul class="dropdown-menu">
+                      <li class="menu-item">
+						  <a href="{% url 'password_change' %}">
+						  	<i class="fas fa-key"></i>
+							  Modifica Password
+						  </a>
+					  </li>
+                      <li class="menu-item">
+						  <a href="{% url 'logout' %}">
+						  	<i class="fas fa-sign-out-alt"></i>
+							  Logout
+						  </a>
+					  </li>
+                  </ul>
+              </li>
+			</ul>
+        </div>
+	</header>

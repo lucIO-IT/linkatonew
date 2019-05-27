@@ -29,13 +29,22 @@
        -moz-border-radius: 6px;
        background: white;
        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
-       overflow: hidden;
        height: auto;
        position: relative;
 	   }
+
 	   .card-header {
 	   text-align: center;
 	   }
+
+	   .img-card-wrapper {
+	   height: 160px;
+	   border-radius: 6px 6px 0 0;
+       -webkit-border-radius: 6px 6px 0 0;
+       -moz-border-radius: 6px 6px 0 0;
+	   overflow: hidden;
+	   }
+
 	   .close {
 	   display:none;
 	   text-align:right;
@@ -74,8 +83,63 @@
 	   background: none;
 	   }
 
-	   .action-card:hover {
+	   .create-file {
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   flex-direction: row;
+	   padding: 5px;
+	   border-radius: 3px;
+	   -webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+	   transition: background 0.2s;
+	   color: rgb(85,85,85);
+	   }
+
+	   .action-card:hover, .create-file:hover  {
 	   background: rgb(235,235,235);
+	   }
+
+	   .dialog-box {
+	   position: absolute;
+	   border: 0.5px solid rgb(185,185,185);
+	   top: 45px;
+	   right: 30px;
+	   border-radius: 6px;
+	   -webkit-border-radius: 6px;
+	   -moz-border-radius: 6px;
+	   overflow: hidden;
+	   background: white;
+	   z-index: 1;
+	   -webkit-transition: all 0.1s ease;
+	   transition: all 0.5s ease;
+	   -webkit-transform: scale(0);
+	   transform: scale(0);
+	   -webkit-transform-origin: 100% 0;
+	   transform-origin: 100% 0;
+	   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+	   }
+
+	   .dialog-box-open {
+	   -webkit-transform: scale(1);
+	   transform: scale(1);
+	   width: 200px;
+	   }
+
+	   .dialog-box header {
+	   background: rgb(225,225,225);
+	   }
+
+	   .dialog-box span {
+	   padding: 5px 10px;
+	   }
+
+	   .dialog-box span.lesson-link:hover {
+	   background: rgb(235,235,235);
+	   }
+
+	   .dialog-box footer {
+	   border-top: 0.5px solid rgb(185,185,185);
 	   }
 
 	   .open-card {

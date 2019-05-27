@@ -228,8 +228,7 @@ def visualizzaLezione(request, pk):
 
 #*** 5) Creazione contenuti
 @login_required
-def creaCorso(request):
-
+def creaCorso(request, token):
     if request.method == "POST":
         form = CorsoModelForm(request.POST, request.FILES)
         if form.is_valid():
@@ -242,7 +241,12 @@ def creaCorso(request):
                 corso=corso
             )
             progress.update_progression()
-            return redirect('preview_corso', pk=corso.pk)
+            if token == 0:
+                return redirect('preview_corso', pk=corso.pk)
+            else:
+                risorsa = get_object_or_404(Risorsa, pk=token)
+                Lezione.objects.create(nome_lezione=risorsa, corso_lezione=corso)
+                return redirect('preview_corso', pk=corso.pk)
     else:
         form = CorsoModelForm()
     context = {"form": form}
@@ -288,6 +292,20 @@ def eliminaLezione(request, pk):
     if request.method == "GET":
         lezione.delete()
         return redirect('preview_corso', pk=lezione_corso.pk)
+
+#copia la lezione in un corso esistente
+@login_required
+def copyLesson(request, lesson, course):
+    risorsa = get_object_or_404(Risorsa, pk=lesson)
+    corso = get_object_or_404(Corso, pk=course)
+    lezione, created = Lezione.objects.get_or_create(
+        nome_lezione = risorsa,
+        corso_lezione = corso,
+    )
+
+    data = {"corso": course, "risorsa": lesson}
+    return JsonResponse(data)
+
 
 #Da implementare: ajax form per aggiunta lezioni
 

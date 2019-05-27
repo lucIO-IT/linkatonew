@@ -9,131 +9,150 @@
 		<div style="position: absolute; top: 0; left: 0; width: 100%;">{% if corso.img_corso %}
 			<img alt="{{ corso.nome_corso }}" src="{{ corso.img_corso.url }}" class="img"/>{% endif %}
 		</div>
-        <article id="post{{ corso.pk }}" class="card sezione1" style="width: 90%;">
-	      <div class="flDiv75">
-			  <div class="padd">
-				  <h5>Sezione</h5>
+        <article id="post{{ corso.pk }}" class="card sezione1" style="width: 95%; margin-top: 150px;">
+		  <div class="flDiv100">
+			  <div class="flDiv25 box-list padd" data-target="detail">
+				  <div class="padd">
+					  <h5>Corso</h5>
+				  </div>
 			  </div>
-			  <div class="padd" style="width: 100%;">
-				  <div class="flDiv25">
+			  <div class="flDiv25 box-list padd unactive" data-target="contents">
+				  <div class="padd">
+					  <h5>Contenuti</h5>
+				  </div>
+			  </div>
+			  <div class="flDiv25 box-list padd unactive" data-target="author">
+				  <div class="padd">
+					  <h5>Autore</h5>
+				  </div>
+			  </div>
+			  <div class="flDiv25 box-list padd linkYellow">
+				  <div class="padd">
+					  {% if corso.allegati_corso %}
+						  <a href="{{ corso.allegati_corso.url }}" download="Programma {{ corso.nome_corso }}" class="block redDiv pdf gray" style="font-size: 18px;">
+							  <i class="fas fa-file-download"></i> Allegati
+						  </a>
+						  {% else %}
+						  <span>Nessun allegato</span>
+					  {% endif %}
+				  </div>
+			  </div>
+			  <div style="clear: both;"></div>
+		  </div>
+		  <div id="detail" class="flDiv100 detail-section" style="display: block;">
+			  <div class="flDiv75 padd">
+				  <div class="padd">
+					  <h5>Sezione</h5>
+				  </div>
+				  <div class="padd">
 					  <span class="gray">#{{ corso.get_sezione_corso_display }}</span>
 				  </div>
+				  <div class="padd">
+					 <h5>Descrizione</h5>
+				  </div>
+				  <div class="padd">
+					  {{ corso.descrizione_corso|linebreaks }}
+				  </div>
+				  <div class="padd">
+					 <h5>Obiettivi</h5>
+				  </div>
+				  <div class="padd">
+					 {{ corso.obiettivi_corso|linebreaks }}
+				  </div>
 			  </div>
 		  </div>
-		  <div class="flDiv25 linkYellow">
-			  <div class="padd">
-				  <h5>Allegati</h5>
-			  </div>
-			  <div class="padd">
-				  {% if corso.allegati_corso %}
-				  <a href="{{ corso.allegati_corso.url }}" download="Programma {{ corso.nome_corso }}" class="redDiv pdf gray">
-					  <i class="fas fa-file-download"></i> Scheda PDF
-				  </a>
+		  <div id="contents" class="flDiv100 detail-section" style="display: none;">
+			  <div class="flDiv75 padd">
+				  <div class="padd">
+					  <h5>Contenuti</h5>
+				  </div>
+				  <div class="padd">{% if request.user in corso.followers.all %}
+					  {% for lezione in corso.get_lessons %}
+							<article class="card">
+								<div class="iframe-card flDiv100">
+								{{ lezione.link_lezione|safe }}
+								</div>
+								<div class="padd flDiv100">
+									<h5>{{ lezione.nome_lezione }}</h5>
+								</div>
+								<div class="flDiv50 padd">
+									<a href="{{ lezione.get_absolute_url }}" class="">
+										Vai alla lezione
+									</a>
+								</div>
+								<div class="flDiv50 flexEnd" style="position: relative;">
+									<div class="action-card fork-lesson">
+										<div class="dialog-box">
+											<header class="padd dim100">
+												<h6>Scegli Cartella</h6>
+											</header>
+											<div class="dim100" style=" max-height: 100px; overflow: auto;">
+												{% for corso in request.user.docenti.all %}
+												<span onclick="copyLesson({{lezione.nome_lezione.pk}}, {{ corso.pk }});" class="lesson-link block">
+													{{ corso.nome_corso }}
+												</span>
+												{% empty%}
+												<span class="block">Nessuna cartella presente</span>{% endfor %}
+											</div>
+											<footer class="padd dim100 flexEnd">
+												<a href="{% url 'crea_corso' token=lezione.nome_lezione.pk %}" title="crea nuovo corso" class="create-file">
+													<i class="fas fa-folder-plus"></i>
+												</a>
+											</footer>
+										</div>
+										<i class="fas fa-code-branch"></i>
+									</div>
+								</div>
+								<div class="flDiv100 padd">
+									{% if lezione.allegato_lezione %}
+									<a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato" class="gray">
+										Allegato <i class="fas fa-paperclip"></i>
+									</a>
+									{% endif %}
+								</div>
+								<div style="clear: both;"></div>
+							</article>
+					  {% endfor %}
+					  <div style="clear: both;"></div>
 				  {% else %}
-				  <span>Nessun allegato</span>
+					  <p>Per accedere ai contenuti è necessario iscriversi al corso</p>
+					  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti"  class="nuBtnYellow button" style="width: 160px;">
+						  Salva tra i preferiti
+					  </a>
 				  {% endif %}
+				  </div>
 			  </div>
 		  </div>
-		  <div class="flDiv100">
-			  <div class="padd">
-				 <h5>Descrizione</h5>
-			  </div>
-			  <div class="padd">
-				  {{ corso.descrizione_corso|linebreaks }}
-			  </div>
-			  <div class="padd">
-				 <h5>Obiettivi</h5>
-			  </div>
-			  <div class="padd">
-				 {{ corso.obiettivi_corso|linebreaks }}
-			  </div>
-			  <div class="padd">
-				  <h5>Contenuti</h5>
-			  </div>
-			  <div class="padd">{% if request.user in corso.followers.all %}
-				  {% for lezione in corso.get_lessons %}
-				  		<article class="card">
-							<div class="iframe-card flDiv100" style="">
-							{{ lezione.link_lezione|safe }}
-							</div>
-							<div class="padd flDiv100">
-								<h5>{{ lezione.nome_lezione }}</h5>
-							</div>
-							<div class="flDiv50 padd">
-								<a href="{{ lezione.get_absolute_url }}" class="">
-									Vai alla lezione
-								</a>
-							</div>
-							<div class="flDiv50 flexEnd">
-								<a href="#" title="fork" class="action-card">
-									<i class="fas fa-code-branch"></i>
-								</a>
-							</div>
-							<div class="flDiv100 padd">
-								{% if lezione.allegato_lezione %}
-								<a title="Allegato" href="{{ lezione.allegato_lezione.url }}" download="Allegato" class="gray">
-									Allegato <i class="fas fa-paperclip"></i>
-								</a>
-								{% endif %}
-							</div>
-							<div style="clear: both;"></div>
-						</article>
-				  {% endfor %}
-				  <div style="clear: both;"></div>
-			  {% else %}
-				  <p>Per accedere ai contenuti è necessario iscriversi al corso</p>
-				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti"  class="nuBtnYellow button" style="width: 160px;">
-					  Salva tra i preferiti
-				  </a>
-			  {% endif %}</div>
-			  <div>
-				  <div class="flDiv75">
-					  <div class="padd">
-						  <h5>Autore</h5>
-					  </div>
-					  <div class="padd">
-						  <div style="float: left; width: auto;">
-							  <div class="portrait">
-								  <img src="{% static 'img/profile.png' %}"/>
-							  </div>
-						  </div>
-						  <div style="float: left; padding: 10px 0;">
-							  <form method="get" action="{% url 'corsi_docente' %}">
-								  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="gray input-link">
-									  {{ corso.docente_corso }}
-								  </button>
-							  </form>
-						  </div>
-						  <div style="clear: both;"></div>
-					  </div>
+	      <div id="author" class="flDiv100 detail-section" style="display: none;">
+			  <div class="flDiv75 padd">
+				  <div class="padd">
+					  <h5>Autore</h5>
 				  </div>
-				  <div class="flDiv25">
-					  <div class="padd">
-						  <h5>Ultimo aggiornamento</h5>
+				  <div class="padd">
+					  <div style="float: left; width: auto;">
+						  <div class="portrait">
+							  <img src="{% static 'img/profile.png' %}"/>
+						  </div>
 					  </div>
-					  <div class="flDiv25 padd">
-						  <span class="gray" style="display: block; padding: 10px 0;">{{ corso.data_corso|date:'y/m/d' }}</span>
+					  <div style="float: left; padding: 10px 0;">
+						  <form method="get" action="{% url 'corsi_docente' %}">
+							  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="gray input-link">
+								  {{ corso.docente_corso.first_name }} {{ corso.docente_corso.last_name }}
+							  </button>
+						  </form>
 					  </div>
+					  <div style="clear: both;"></div>
 				  </div>
-				  <div style="clear: both;"></div>
 			  </div>
-			  <!--
+		  </div>
+		  <div class="flDiv100 padd">
 			  <div class="padd">
-				  {% if request.user in corso.followers.all %}
-				  <ol>{% for lezione in corso.get_lessons %}
-					<li>
-						<a href="{{ lezione.get_absolute_url }}" class="gray">
-							{{ lezione.nome_lezione }}
-						</a>
-					</li>{% endfor %}
-				  </ol>
-				  {% else %}
-				  <p>Per accedere ai contenuti è necessario iscriversi al corso</p>
-				  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti"  class="nuBtnYellow button" style="width: 160px;">
-					  Salva tra i preferiti
-				  </a>	{% endif %}
+				  <h5>Ultimo aggiornamento</h5>
 			  </div>
-			  -->
+			  <div class="flDiv25 padd">
+				  <span class="gray" style="display: block; padding: 10px 0;">{{ corso.data_corso|date:'y/m/d' }}</span>
+			  </div>
+			  <div style="clear: both;"></div>
 		  </div>
 		  <div style="clear: both;"></div>
 	   </article>

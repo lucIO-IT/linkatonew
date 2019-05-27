@@ -1,0 +1,15 @@
+       .unactive {
+       background: rgb(225,225,225);
+       }
+
+       .unactive h5 {
+       color: rgb(150,150,150);
+       }
+
+       .box-list {
+       cursor: pointer;
+       }
+
+       .detail-section {
+       min-height: 300px;
+       }
