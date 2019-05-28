@@ -31,6 +31,9 @@
                 <div class="padd">
                     {{ field }}
                 </div>
+                <div class="padd red">
+                    {{ field.errors }}
+                </div>
                 {% endfor %}
                 <div class="padd">
                     <input name="form_lezione" type="submit" value="Salva Lezione" class="button nuBtnYellow" style="width: 160px;">

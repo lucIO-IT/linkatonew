@@ -3,7 +3,7 @@ from django.forms import TextInput
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Utente, Scuola
+from .models import Utente, Scuola, Avatar
 
 class FormRegistrazioneUtente(UserCreationForm):
     #username = forms.CharField(required=False)
@@ -33,6 +33,14 @@ class FormDatiUtente(forms.ModelForm):
     class Meta:
         model = Utente
         widgets = {
-            'scuola': TextInput(attrs={'max_lenght': '8'})
+            'scuola': TextInput(attrs={'max_lenght': '8'}),
+            'data_nascita': forms.DateInput(attrs={'placeholder': 'gg/mm/aaaa'}),
         }
         fields = ['genere', 'data_nascita', 'scuola']
+
+
+class FormAvatar(forms.ModelForm):
+
+    class Meta:
+        model = Avatar
+        fields = ['picture']

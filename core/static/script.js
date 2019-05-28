@@ -84,6 +84,20 @@
 	    detailBtns[i].addEventListener('click', showSection, false);
 	  }
 
+	  function message(text){
+	    var message = document.createElement('div');
+	    message.classList.add('message-success');
+	    message.innerHTML = text;
+	    document.getElementById("main").appendChild(message);
+	    setTimeout(function(){
+	        message.style.opacity = '0';
+	        setTimeout(function(){
+	            document.getElementById("main").removeChild(message);
+	        }, 4000);
+	    }, 1000);
+	  }
+
+
 
 
 

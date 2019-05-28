@@ -1,5 +1,6 @@
        @import url('include/widget-menu.css');
        @import url('include/detail.css');
+       @import url('include/message.css');
 
        /******************************************************* Layout */
        * {
@@ -40,8 +41,10 @@
        .main { 
        width: 100%;
        min-height: 100vh;
+       height: auto;
        padding-left: 15%;
        padding-top: 11.25vh;
+       position: relative;
        }
        .top {
 	   width:100%;

@@ -160,8 +160,10 @@
        align-items: center;
        float: left;
        margin-right: 5px;
-       background: rgb(245,245,245);
+       /*background: rgb(245,245,245);*/
        padding: 3px;
+       overflow: hidden;
+       background: white;
        }
        .portrait img {
        display: block;

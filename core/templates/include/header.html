@@ -31,12 +31,19 @@
 						  </button>
 					  </div>
                   	  <div class="portrait">
-					  	<img src="{% static 'img/profile.png' %}"/>
+					  	<img src="{{ request.user.avatar.picture.url }}"/>
 					  </div>
 					  <span id="dropdown-opener">{{ user.first_name }}</span>
 					  <div style="clear: both;"></div>
 				  </a>
                   <ul class="dropdown-menu">
+					  <li class="menu-item">{% if request.user.avatar %}
+						  <a href="{% url 'update_avatar' pk=request.user.avatar.pk %}">{% else %}
+					      <a href="{% url 'avatar' %}">{% endif %}
+						  	<i class="fas fa-portrait"></i>
+							  Aggiorna Foto
+						  </a>
+					  </li>
                       <li class="menu-item">
 						  <a href="{% url 'password_change' %}">
 						  	<i class="fas fa-key"></i>

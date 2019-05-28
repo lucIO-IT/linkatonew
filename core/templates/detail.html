@@ -81,7 +81,7 @@
 									</a>
 								</div>
 								<div class="flDiv50 flexEnd" style="position: relative;">
-									<div class="action-card fork-lesson">
+									<div class="action-card fork-lesson" title="copia lezione">
 										<div class="dialog-box">
 											<header class="padd dim100">
 												<h6>Scegli Cartella</h6>
@@ -100,7 +100,7 @@
 												</a>
 											</footer>
 										</div>
-										<i class="fas fa-code-branch"></i>
+										<i class="fas fa-plus-circle"></i>
 									</div>
 								</div>
 								<div class="flDiv100 padd">
@@ -131,7 +131,7 @@
 				  <div class="padd">
 					  <div style="float: left; width: auto;">
 						  <div class="portrait">
-							  <img src="{% static 'img/profile.png' %}"/>
+							  <img src="{{ corso.docente_corso.avatar.url }}"/>
 						  </div>
 					  </div>
 					  <div style="float: left; padding: 10px 0;">

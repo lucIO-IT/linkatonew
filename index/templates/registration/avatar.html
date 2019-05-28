@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>{% load static %}{% load miei_filtri %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/accounts-layout.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/colors.css' %}" />
+    <title>Foto Profilo</title>
+  </head>
+  <body>
+   <div class="container">
+	   <div id="list" class="form-list">
+		   <div class="form-card">
+               <form method="post" autocomplete="off" novalidate enctype="multipart/form-data" class="form">
+                   {% csrf_token %}
+                    <header class="card-header">
+                        <h1 >Immagine Profilo</h1>
+                    </header>
+                    <div class="flex-center" style="width: 250px; height: 250px; overflow: hidden; margin: auto; background: rgb(225,225,225);">
+                       <img id="picture-preview" src="{% static 'img/profile-placeholder.jpg' %}" style="width: 100%;"/>
+                   </div>
+                    <div>
+                    {% for field in form %}
+                        <div class="padd">
+                            {{ field.label_tag }}
+                        </div>
+                        <div id="picture-field" class="padd">
+                            {{ field }}
+                        </div>
+                        <div class="padd red">
+                            {{ field.errors }}
+                        </div>
+                    {% endfor %}
+                    {{ form.errors }}
+			        </div>
+                    <div class="floatting widthDiv100">
+                        <button type="submit" class="button nuBtnYellow">Salva</button>
+                        <input type="hidden" name="next" value="{{ next }}"/>
+                    </div>
+				</form>
+           </div>
+	   </div>
+   </div>
+	<script src="{% static 'script.js' %}"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script>
+        //This function change image preview
+      var input = document.getElementById('id_picture');
+      function picturePreview() {
+            if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#picture-preview').attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+            }
+      }
+      input.addEventListener('change', picturePreview, false);
+      var updatePic = document.getElementById('picture-field').querySelectorAll('a');
+      function prevUpdatePic(){
+          document.getElementById('picture-preview').src = updatePic[0].href;
+
+      }
+      if(updatePic.length>0){
+
+      prevUpdatePic();}
+    </script>
+  </body>
+</html>

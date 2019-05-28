@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Scuola, Utente
+from .models import Scuola, Utente, Avatar
 
 # Register your models here.
 
@@ -14,3 +14,4 @@ class ScuolaModelAdmin(admin.ModelAdmin):
 
 admin.site.register(Utente)
 admin.site.register(Scuola, ScuolaModelAdmin)
+admin.site.register(Avatar)

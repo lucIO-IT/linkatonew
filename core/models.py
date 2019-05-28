@@ -55,9 +55,9 @@ def cartelle_risorse(instance, filename):
 
 
 class Risorsa(models.Model):
-    nome_lezione = models.CharField(max_length=100, blank=True, null=True)
+    nome_lezione = models.CharField(max_length=100)
     data = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    link_lezione = models.CharField(max_length=1000, blank=True, null=True)  # validators=[embed_validator]
+    link_lezione = models.CharField(max_length=1000)  # validators=[embed_validator]
     allegato_lezione = models.FileField(blank=True, null=True, upload_to=cartelle_risorse, validators=[file_size])
 
     def __str__(self):

@@ -2,10 +2,11 @@ from django import forms
 from django.shortcuts import render, HttpResponseRedirect, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from .forms import FormRegistrazioneUtente, FormDatiUtente, FormDatiScuola
+from .forms import FormRegistrazioneUtente, FormDatiUtente, FormDatiScuola, FormAvatar
 from django.core.mail import send_mail
 from blog.models import Articolo
-from .models import Scuola, Utente
+from .models import Scuola, Utente, Avatar
+from django.views.generic.edit import UpdateView, DeleteView
 
 # Create your views here.
 
@@ -41,7 +42,7 @@ def registrazioneUtente(request):
                 utente = form_utente.save(commit=False)
                 utente.user = request.user
                 utente.save()
-                return redirect('account_profile')
+                return redirect('avatar')
                 """
                 if Scuola.objects.filter(codice=utente.scuola).exists():
                     scuola = Scuola.objects.get(codice=utente.scuola)
@@ -60,6 +61,34 @@ def registrazioneUtente(request):
         form_utente = FormDatiUtente()
     context = {"form": form, "form_utente": form_utente}
     return render(request, "registration/registrazione.html", context)
+
+
+def avatar(request):
+    if request.method == 'POST':
+        form = FormAvatar(request.POST, request.FILES)
+        if form.is_valid():
+            avatar = form.save(commit=False)
+            avatar.user = request.user
+            avatar.save()
+            return redirect('account_profile')
+        else:
+            form = FormAvatar()
+            return render(request, 'registration/avatar.html', context={'form': form})
+    else:
+        form = FormAvatar()
+    return render(request, 'registration/avatar.html', context={'form': form})
+
+
+class UpdateAvatar(UpdateView):
+    model = Avatar
+    template_name = "registration/avatar.html"
+    form_class = FormAvatar
+
+    def get_queryset(self):
+        return Avatar.objects.filter(pk=self.request.user.avatar.pk)
+
+    def get_success_url(self):
+        return reverse('account_profile')
 
 
 def datiScuola(request):

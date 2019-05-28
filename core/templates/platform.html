@@ -40,7 +40,7 @@
 					  <div class="portrait card-docente">
 						 <form method="get" action="{% url 'corsi_docente' %}">
 							  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="input-link">
-								  <img src="{% static 'img/profile.png' %}" title="{{ corso.docente_corso.full_name }}"/>
+								  <img src="{{ corso.docente_corso.avatar.url }}" title="{{ corso.docente_corso.full_name }}"/>
 							  </button>
 						  </form>
 					  </div>
@@ -78,6 +78,7 @@
 		   </div>
 		   {% endfor %}
 		</div>{% endblock content %}
+		<div style="clear:both;"></div>
 	</main> <!-- End Main -->
 	</div> <!-- Container -->
 	<script src="{% static 'script.js' %}"></script>
@@ -98,6 +99,7 @@
 				type: 'post',
 				success: function(data) {
 					console.log(data);
+					message('modifiche salvate');
 				}
 
 			});
@@ -123,7 +125,7 @@
 				type: 'post',
 				success: function(data) {
 					console.log(data);
-					alert('risorsa inserita con successo');
+					message('risorsa aggiunta con successo');
 				}
 
 			});
