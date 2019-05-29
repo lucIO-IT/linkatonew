@@ -40,7 +40,7 @@
 					  <div class="portrait card-docente">
 						 <form method="get" action="{% url 'corsi_docente' %}">
 							  <button name="doc" type="submit" value="{{corso.docente_corso.pk}}" class="input-link">
-								  <img src="{{ corso.docente_corso.avatar.url }}" title="{{ corso.docente_corso.full_name }}"/>
+								  <img src="{{ corso.docente_corso.avatar.picture.url }}" title="{{ corso.docente_corso.full_name }}"/>
 							  </button>
 						  </form>
 					  </div>
