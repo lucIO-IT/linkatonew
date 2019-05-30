@@ -9,31 +9,31 @@
 		<div style="position: absolute; top: 0; left: 0; width: 100%;">{% if corso.img_corso %}
 			<img alt="{{ corso.nome_corso }}" src="{{ corso.img_corso.url }}" class="img"/>{% endif %}
 		</div>
-        <article id="post{{ corso.pk }}" class="card sezione1" style="width: 95%; margin-top: 150px;">
+        <article id="post{{ corso.pk }}" class="detail-box">
 		  <div class="flDiv100">
 			  <div class="flDiv25 box-list padd" data-target="detail">
 				  <div class="padd">
-					  <h5>Corso</h5>
+					  <h5><i class="fas fa-folder"></i><span style="margin-left: 10px;">Corso</span></h5>
 				  </div>
 			  </div>
 			  <div class="flDiv25 box-list padd unactive" data-target="contents">
 				  <div class="padd">
-					  <h5>Contenuti</h5>
+					  <h5><i class="fas fa-file"></i><span style="margin-left: 10px;">Contenuti</span></h5>
 				  </div>
 			  </div>
 			  <div class="flDiv25 box-list padd unactive" data-target="author">
 				  <div class="padd">
-					  <h5>Autore</h5>
+					  <h5><i class="fas fa-user"></i><span style="margin-left: 10px;">Autore</span></h5>
 				  </div>
 			  </div>
-			  <div class="flDiv25 box-list padd linkYellow">
+			  <div class="flDiv25 padd linkYellow special-box-list">
 				  <div class="padd">
 					  {% if corso.allegati_corso %}
 						  <a href="{{ corso.allegati_corso.url }}" download="Programma {{ corso.nome_corso }}" class="block redDiv pdf gray" style="font-size: 18px;">
-							  <i class="fas fa-file-download"></i> Allegati
+							  <i class="fas fa-file-download"></i><span style="margin-left: 10px;">Allegati</span>
 						  </a>
 						  {% else %}
-						  <span>Nessun allegato</span>
+						  <a>Nessun allegato</a>
 					  {% endif %}
 				  </div>
 			  </div>
@@ -67,6 +67,46 @@
 					  <h5>Contenuti</h5>
 				  </div>
 				  <div class="padd">{% if request.user in corso.followers.all %}
+					  <ul class="lesson-container">
+						  {% for lezione in corso.get_lessons %}
+						  	<li class="lesson-list">
+								<span class="lesson-number">{{ forloop.counter }}</span>
+								<a href="{{ lezione.get_absolute_url }}" class="lesson-anchor">{{ lezione.nome_lezione }}</a>
+								<div class="lesson-action flexCenter">
+									<div class="fork-lesson" title="copia lezione">
+										<div class="dialog-box">
+											<header class="padd dim100">
+												<h6>Scegli Cartella</h6>
+											</header>
+											<div class="dim100" style=" max-height: 100px; overflow: auto;">
+												{% for corso in request.user.docenti.all %}
+												<span onclick="copyLesson({{lezione.nome_lezione.pk}}, {{ corso.pk }});" class="lesson-link block">
+													{{ corso.nome_corso }}
+												</span>
+												{% empty%}
+												<span class="block">Nessuna cartella presente</span>{% endfor %}
+											</div>
+											<footer class="padd dim100 flexEnd">
+												<a href="{% url 'crea_corso' token=lezione.nome_lezione.pk %}" title="crea nuovo corso" class="create-file">
+													<i class="fas fa-folder-plus"></i>
+												</a>
+											</footer>
+										</div>
+										<i class="fas fa-plus-circle"></i>
+									</div>
+								</div>
+								<div style="clear: both;"></div>
+							</li>
+						  {% if forloop.counter|divisibleby:5 %}
+					  </ul>
+					  <ul class="lesson-container">
+						  {% else %}
+						  {% endif %}
+						  {% empty %}
+						  <li class="lesson-list">Nessuna risorsa presente</li>
+						  {% endfor %}
+					  </ul>
+					  <!--
 					  {% for lezione in corso.get_lessons %}
 							<article class="card">
 								<div class="iframe-card flDiv100">
@@ -114,6 +154,7 @@
 							</article>
 					  {% endfor %}
 					  <div style="clear: both;"></div>
+					  -->
 				  {% else %}
 					  <p>Per accedere ai contenuti è necessario iscriversi al corso</p>
 					  <a href="{% url 'salva_preferiti' pk=corso.pk %}" title="Salva tra i preferiti"  class="nuBtnYellow button" style="width: 160px;">
@@ -131,7 +172,7 @@
 				  <div class="padd">
 					  <div style="float: left; width: auto;">
 						  <div class="portrait">
-							  <img src="{{ corso.docente_corso.avatar.url }}"/>
+							  <img src="{{ corso.docente_corso.avatar.picture.url }}"/>
 						  </div>
 					  </div>
 					  <div style="float: left; padding: 10px 0;">
@@ -156,5 +197,6 @@
 		  </div>
 		  <div style="clear: both;"></div>
 	   </article>
+	   <div style="clear: both;"></div>
     </div>
 {% endblock content %}

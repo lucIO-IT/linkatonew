@@ -136,6 +136,7 @@
 
 	   .dialog-box span.lesson-link:hover {
 	   background: rgb(235,235,235);
+	   cursor: pointer;
 	   }
 
 	   .dialog-box footer {

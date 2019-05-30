@@ -6,7 +6,7 @@
        color: rgb(150,150,150);
        }
 
-	   .linkYellow, .nuBtnYellow, .menu li a:hover {
+	   .linkYellow, .nuBtnYellow, .menu li a:hover, .lesson-anchor:hover {
 	   background-color: rgb(235, 185, 35);
 	   color: rgb(85,85,85);
 	   }

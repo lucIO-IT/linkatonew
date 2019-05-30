@@ -13,3 +13,69 @@
        .detail-section {
        min-height: 300px;
        }
+
+       .detail-box {
+           width: 98%;
+           margin: 5% 1%;
+           float: left;
+           min-height: 330px;
+           padding: 0;
+           border-radius: 6px;
+           -webkit-border-radius: 6px;
+           -moz-border-radius: 6px;
+           background: white;
+           box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+           height: auto;
+           position: relative;
+       }
+
+       .lesson-container {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            float: left;
+       }
+
+       .lesson-list {
+           list-style: none;
+           border-bottom: 0.5px solid rgb(180,180,180);
+           width: 100%;
+           max-width: 200px;
+           padding-bottom: 0.5px;
+       }
+
+       .lesson-number, a.lesson-anchor, .lesson-action {
+            display: inline-block;
+            float: left;
+            padding: 10px;
+       }
+
+       .lesson-list a.lesson-anchor {
+            width: 130px;
+       }
+
+       .lesson-number, .lesson-action {
+            width: 35px;
+       }
+
+       .lesson-action .fork-lesson {
+            color: rgb(85,85,85);
+            position: relative;
+            cursor: pointer;
+       }
+
+       .lesson-action:hover {
+            background: rgb(235,235,235);
+       }
+
+       .lesson-action .dialog-box {
+            right: 0;
+       }
+
+       .lesson-number {
+            color: rgb(85,85,85);
+       }
+
+       @media only screen and (max-width: 900px) {
+            .box-list span, .special-box-list span {display: none;}
+       }
