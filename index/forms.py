@@ -4,6 +4,7 @@ from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Utente, Scuola, Avatar
+import json
 
 class FormRegistrazioneUtente(UserCreationForm):
     #username = forms.CharField(required=False)
@@ -13,16 +14,13 @@ class FormRegistrazioneUtente(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
 
-    """""""""""""""""
-
     def checkUsername(self):
-        username = self.cleaned_data['email']
+        cleaned_data = super().clean()
+        username = cleaned_data.get("email")
         if User.objects.filter(username=username).all():
             raise forms.ValidationError("Esiste già un utente iscritto con questa email.\n"
                                             "Si prega di accedere con un altro indirizzo di posta")
         return username
-        
-    """""""""""""""
 
 class FormDatiScuola(forms.ModelForm):
     class Meta:
@@ -33,10 +31,28 @@ class FormDatiUtente(forms.ModelForm):
     class Meta:
         model = Utente
         widgets = {
-            'scuola': TextInput(attrs={'max_lenght': '8'}),
+            'scuola': TextInput(attrs={'max_lenght': '16'}),
             'data_nascita': forms.DateInput(attrs={'placeholder': 'gg/mm/aaaa'}),
         }
         fields = ['genere', 'data_nascita', 'scuola']
+
+    def check_scuola(self):
+        cleaned_data = super().clean()
+        code = cleaned_data.get("scuola")
+        json_data = open('index/scuole.json')
+        json_str = json_data.read()
+        data = json.loads(json_str)
+        scuole = data["@graph"]
+        list = []
+        for var in scuole:
+            list.append(var["miur:CODICEISTITUTORIFERIMENTO"])
+            
+        #Attenzione: il loop verifica solo se la stringa è contenuta tra gli elementi dell'array
+        #bisogna verificare il match esatto - DA SISTEMARE!
+        if code not in list:
+            raise forms.ValidationError("Attenzione: il codice meccanografico inserito non esiste \n"
+                                        "Verificare che le cifre siano corrette e quindi riprovare")
+        return code
 
 
 class FormAvatar(forms.ModelForm):

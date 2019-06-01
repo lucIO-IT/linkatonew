@@ -222,11 +222,6 @@
       	   display: block;
       	   }
 
-      	   .user-menu .menu-item .dropdown {
-      	   display: flex;
-      	   justify-content: flex-end;
-      	   }
-
       	   .aside {
       	   width: 100vh;
       	   max-width: 0;

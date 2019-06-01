@@ -47,7 +47,7 @@ class Utente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     genere = models.CharField(max_length=1, choices=GENERE, blank=True, null=True)
     data_nascita = models.DateField(blank=True, null=True)
-    scuola = models.CharField("Codice Meccanografico", max_length=8, blank=True, null=True,
+    scuola = models.CharField("Codice Meccanografico", max_length=16, blank=True, null=True,
                               validators=[codice_meccanografico_validator])
 
     def __str__(self):

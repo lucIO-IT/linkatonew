@@ -24,7 +24,7 @@
 	    <div>
 			<ul class="user-menu">
 				<li class="menu-item">
-				  <a class="dropdown">
+				  <div class="dropdown item">
 					  <div class="search-menu-responsive">
 						  <button id="search-opener" class="action-card">
 							  <i class="fas fa-search"></i>
@@ -33,13 +33,13 @@
                   	  <div class="portrait">
 					  	<img src="{{ request.user.avatar.picture.url }}"/>
 					  </div>
-					  <span id="dropdown-opener">{{ user.first_name }}</span>
+					  <span id="dropdown-opener">{{ user.first_name }} {{ user.last_name }}</span>
 					  <div style="clear: both;"></div>
-				  </a>
+				  </div>
                   <ul class="dropdown-menu">
 					  <li class="menu-item">{% if request.user.avatar %}
 						  <a href="{% url 'update_avatar' pk=request.user.avatar.pk %}">{% else %}
-					      <a href="{% url 'avatar' %}">{% endif %}
+					      <a href="{% url 'avatar' %}" >{% endif %}
 						  	<i class="fas fa-portrait"></i>
 							  Aggiorna Foto
 						  </a>

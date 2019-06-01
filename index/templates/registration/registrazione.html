@@ -25,6 +25,11 @@
 				 {{ user_esiste }}
 				</div>
 
+			   <div class="padd">
+				   {{ form_utente.errors }}
+				   {{ form_utente.non_form_errors }}
+			   </div>
+
 				<form action="{% url 'registrazione' %}" method="post" autocomplete="off" novalidate class="form">
 
 				{% csrf_token %}
