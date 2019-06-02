@@ -40,6 +40,7 @@ class Scuola(models.Model):
         verbose_name_plural = "Scuole"
 
 
+import json
 class Utente(models.Model):
 
     GENERE=(('f', 'femmina'), ('m', 'maschio'))
@@ -54,8 +55,29 @@ class Utente(models.Model):
         return self.user.first_name + self.user.last_name
 
     def school_name(self):
-        scuola = Scuola.objects.filter(codice=self.scuola)
-        return scuola
+        code = self.scuola
+        json_data = open('index/scuole.json')
+        json_str = json_data.read()
+        data = json.loads(json_str)
+        scuole = data["@graph"]
+        for var in scuole:
+            foo = var["miur:CODICEISTITUTORIFERIMENTO"]
+            if foo == code:
+                scuola = var["miur:DENOMINAZIONESCUOLA"]
+                #scuola = Scuola.objects.filter(codice=self.scuola)
+                return scuola
+
+    def check_scuola(self):
+        code = self.scuola
+        json_data = open('index/scuole.json')
+        json_str = json_data.read()
+        data = json.loads(json_str)
+        scuole = data["@graph"]
+        list = []
+        for var in scuole:
+            list.append(var["miur:CODICEISTITUTORIFERIMENTO"])
+        if code not in list:
+            return 'ciao'
 
     def corsi(self):
         corsi = Corso.objects.filter(docente_corso=self.user)

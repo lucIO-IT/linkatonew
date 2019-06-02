@@ -15,75 +15,68 @@
    <div class="container">
 	   <div id="list" class="form-list" style="">
 		   <div class="form-card">
-			   {% if form.errors %}
-				<div class="padd">
-					<strong>Username e/o Password non risultano registrate. Si prega di riprovare</strong>
-				</div>
-				{% endif %}
-
-				<div class="padd">
-				 {{ user_esiste }}
-				</div>
-
-			   <div class="padd">
-				   {{ form_utente.errors }}
-				   {{ form_utente.non_form_errors }}
-			   </div>
-
 				<form action="{% url 'registrazione' %}" method="post" autocomplete="off" novalidate class="form">
 
 				{% csrf_token %}
-				<header class="card-header padd">
-					<h1 >Registrazione Utente</h1>
-				</header>
-				<div>
-				{% for field in form %}
-					<div class="padd">
-					   {{ field.label_tag }}
-					</div>
-					<div>
-					   {{ field }}
-					</div>
-					<div class="padd">
-					   {{ field.errors }}
-					</div>
-				{% endfor %}
-				{% for field in form_utente %}
-					<div class="padd">
-					   {{ field.label_tag }}
-					</div>
-					<div>
-					   {{ field }}
-					</div>
-					<div class="padd">
-					   {{ field.errors }}
-					</div>
-				{% endfor %}
-				{% for field in form_scuola %}
-					<div class="padd">
-					   {{ field.label_tag }}
-					</div>
-					<div>
-					   {{ field }}
-					</div>
-					<div class="padd">
-					   {{ field.errors }}
-					</div>
-				{% endfor %}
+					<header class="card-header padd">
+						<h1>Registrazione Utente</h1>
+					</header>
+					<!--
+					{% if form.errors %}
+						<div class="padd red">
+						   {{ form.errors }}
+						   {{ form.non_field_errors }}
+						   {{ form.non_form_errors }}
+						</div>{% endif %}
 
-			<!-- Da implementare registrandosi al sito: https://www.google.com/recaptcha/admin -->
-			<!--<script src='https://www.google.com/recaptcha/api.js'></script>
-			<div class="g-recaptcha widthDiv100 floatRight" data-sitekey="6LdRSRYUAAAAAFCqQ1aZnYfRGJIlAUMX3qkUWlcF"></div>-->
+					{% if form_utente.errors %}
+						<div class="padd red">
+						   {{ form_utente.errors }}
+						   {{ form_utente.non_field_errors }}
+						   {{ form_utente.non_form_errors }}
+						</div>{% endif %}
 
-			</div>
-				<div class="padd">
-					<hr/>
-					<span>Registrandoti accetti i nostri <a href="#">Termini di utilizzo</a> e la <a href="#">Politica sulla Privacy</a></span>
-					<hr/>
-				</div>
-				<div class="padd">
-					<button type="submit" class="button nuBtnYellow">Accetta e registrati</button>
-				</div>
+						<div class="padd red">
+						   {{ form.email.errors }}
+						   {{ form_utente.scuola.errors }}
+						</div>
+					-->
+
+					{% for field in form %}
+						<div class="padd">
+						   {{ field.label_tag }}
+						</div>
+						<div>
+						   {{ field }}
+						</div>
+						<div class="padd red">
+						   {{ field.errors }}
+						</div>
+					{% endfor %}
+					{% for field in form_utente %}
+						<div class="padd">
+						   {{ field.label_tag }}
+						</div>
+						<div>
+						   {{ field }}
+						</div>
+						<div class="padd red">
+						   {{ field.errors }}
+						</div>
+					{% endfor %}
+
+					<!-- Da implementare registrandosi al sito: https://www.google.com/recaptcha/admin -->
+					<!--<script src='https://www.google.com/recaptcha/api.js'></script>
+					<div class="g-recaptcha widthDiv100 floatRight" data-sitekey="6LdRSRYUAAAAAFCqQ1aZnYfRGJIlAUMX3qkUWlcF"></div>-->
+
+					<div class="padd">
+						<hr/>
+						<span>Registrandoti accetti i nostri <a href="#">Termini di utilizzo</a> e la <a href="#">Politica sulla Privacy</a></span>
+						<hr/>
+					</div>
+					<div class="padd">
+						<button type="submit" class="button nuBtnYellow">Accetta e registrati</button>
+					</div>
 
 				</form>
 			   </div>

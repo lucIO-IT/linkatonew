@@ -18,9 +18,7 @@
               </div>
               <div class="padd flDiv100">
                   <span class="gray">
-                      {% if docente.utente.school_name|length > 0 %}
-                        {{ docente.utente.school_name.0.nome_scuola }}
-                      {% else %}Linkato{% endif %}
+                      {{ docente.utente.school_name }}
                   </span>
               </div>
               <!--
